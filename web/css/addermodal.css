@@ -1,0 +1,81 @@
+.nom div, .cpVille div, .adderBtn div, .nbType div{
+    display: inline-block;
+}
+
+.adresse, .detailComm, .detailAffaire{
+    display: block;
+    padding-top: 30px;
+}
+
+.modal-content input[type="text"], input[type="number"], input[type="date"], input[type="tel"]{
+    width: 50%;
+    height: 20px;
+    padding-left: 6px;
+}
+
+.modal-content #form_DevisType, #form_Provenance, #form_Commercial, #form_SystemType{
+    width: 51.5%;
+    height: 25px;
+    padding-left: 6px;
+}
+
+.modal-content #form_Civilite{
+    height: 25px;
+    padding-left: 6px;
+}
+div #nomField{
+    width: 20.5%;
+}
+#form_Nom{
+    width: 90%;
+}
+div #prenomField{
+    width: 20.5%;
+}
+#form_Prenom{
+    width: 90%;
+}
+
+
+
+.adress input{
+    display: block;
+}
+#cp{
+    width: 53%;
+}
+#form_CP{
+    width: 35%;
+}
+#form_Ville{
+    width: 98.8%;
+}
+
+#form_NbController{
+    width: 56%;
+}
+
+#sysType{
+    width:65%;
+}
+
+.modal-content textarea {
+    width: 48.45%;
+    height: 130px;
+    padding: 7px 10px;
+    resize: none;
+}
+
+
+/* Button */
+
+.adderBtn{
+    position: relative;
+    left: 32%;
+}
+
+
+
+#delModalNom, #delModalSociete{
+    font-weight: bold;
+}

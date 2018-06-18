@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/commTab.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
+
+{% endblock %}
+
+
+{% block title %}Lecture{% endblock %}  
+
+
+{% block body %}
+
+<table id='commTab' class="hover stripe">
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Acronyme</th>
+			<th>Couleur</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for commercial in commercialTab %}
+			<tr>
+				<td>{{ commercial.nom }}</td>
+				<td>{{ commercial.acronyme }}</td>
+				<td>{{ commercial.couleur }}</td>
+			</tr>
+		{% endfor %}
+		
+	</tbody>
+</table>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

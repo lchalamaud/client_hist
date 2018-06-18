@@ -1,0 +1,21 @@
+#commTab thead{
+    border: 1px solid #ddd;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    color: white;
+    background-color: #fe8e1e;
+}
+
+thead tr th:hover {
+    background-color: #ffa254;
+}
+
+#commTab tbody{
+    background-color: white;
+}
+
+#commTab td , #commTab th{
+    border: 1px solid #ddd;
+    padding: 8px;
+}

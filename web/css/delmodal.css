@@ -1,0 +1,14 @@
+.deleteBtn div{
+    display: inline-block;
+}
+
+.clearfix {
+    overflow: auto;
+}
+.deleteBtn{
+    float:right;
+}
+
+#delResponse{
+    position: absolute;
+}

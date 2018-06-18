@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>{% block title %}{% endblock %}</title>
+
+		<link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+        {% block stylesheets %}{% endblock %}
+
+		<link rel="icon" type="image/jpg" href="{{ asset('img/favicon.jpeg') }}" />
+
+        <script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.dataTables.min.js') }}"></script>
+    </head>
+    <body>
+        {% block header %}{% endblock %}
+
+
+        {% block body %}{% endblock %}
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
