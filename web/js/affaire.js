@@ -1,6 +1,12 @@
 var commercialPref = 'Tous';
-var timeStepPref = 1;
+var timeStepPref = '';
 var etatPref = '';
+var enCours = true;
+var oublie = true;
+var suspendu = false;
+var fin = false;
+var signe = false;
+var etatFilter = 'En Cours|Oublié';
 
 var delay = (function(){
     var timer = 0;
@@ -20,7 +26,7 @@ function tacheFormat ( id, debut ) {
                 '<tr>'+
                     '<th>Type</th>'+
                     '<th>Date</th>'+
-                    '<th>Commercial</th>'+
+                    '<th class="spHide" colspan=2>Commercial</th>'+
                     '<th></th>'+
                 '</tr>'+
             '</thead>'+
@@ -28,6 +34,7 @@ function tacheFormat ( id, debut ) {
                 '<tr>'+
                     '<td>Début</td>'+
                     '<td class="centerCol">'+ reorderDate(debut) +'</td>'+
+                    '<td class="spHide"></td>'+
                     '<td></td>'+
                     '<td></td>'+
                 '</tr>'+
@@ -43,9 +50,9 @@ function tacheFormat ( id, debut ) {
                         '<option value=\'Fin\'>Fin</option>'+
                     '</select></td>'+
                     '<td class="centerCol"><input type=\'date\' id=\'dateTache'+ id +'\'></td>'+
-                    '<td class="centerCol"><select id=\'selectComm'+ id +'\'>'+
+                    '<td class="centerCol spHide" colspan=2><select id=\'selectComm'+ id +'\'>'+
                     '</select></td>'+
-                    '<td class="centerCol"> <span class="plus">+</span>'+
+                    '<td class="centerCol clickPlus"> <span class="plus">+</span>'+
                 '</form></tr>'+
             '</tbody>'+
         '</table>';
@@ -53,7 +60,7 @@ function tacheFormat ( id, debut ) {
 
 function infoFormat ( table ) {
 
-    return '<table class="infoTab">'+
+    return '<table class="infoTab spHide">'+
             '<tr>'+
                 '<td>'+table.Civilite+'</td>'+
             '</tr>'+
@@ -96,9 +103,16 @@ function formatDate( date ){
     return date.getFullYear()+'-'+(month<10?'0':'')+month+'-'+(day<10?'0':'')+day;
 }
 
-function setTableInfo(selector, table, info){
+function setTableInfo( selector, table, info ){
     table.cell(selector, 20).data(info)
 }
+
+
+function delstrpart ( str, part ){
+    var index = str.indexOf(part);
+    if(index == 0){index++}
+    return str.substring(0, (index - 1)) + str.substring( index + part.length );
+};
 
 
 $(document).ready( function () {
@@ -109,17 +123,15 @@ $(document).ready( function () {
     disable("#modifAffaireBtn");
 
     $.fn.dataTable.ext.search.push( function( settings, data, dataIndex ) {
-            var date = data[17];
-            if ( ( min == '' && max == '' ) ||
-                 ( min == '' && date <= max ) ||
-                 ( min <= date   && max == '' ) ||
-                 ( min <= date   && date <= max ) )
-            {return true;}
-            return false;
+        var date = data[17];
+        if ( ( min == '' && max == '' ) ||
+             ( min == '' && date <= max ) ||
+             ( min <= date   && max == '' ) ||
+             ( min <= date   && date <= max ) ){
+            return true;
         }
-    );
-
-
+        return false;
+    });
 
     /*  Table des affaires  */
 	var table = $('.client_Tab').DataTable({
@@ -157,12 +169,15 @@ $(document).ready( function () {
                 width:"15px"
             },
             { 
-                "className":      'etat',
+                "data":      'etat',
                 "orderable":      false,
                 "render": function ( data, type, row, meta ){
                     switch (data){
                         case 'En Cours':
                             img = '<img src="/img/blue.jpg">'
+                            break;
+                        case 'Oublié':
+                            img = '<img src="/img/maroon.jpg">'
                             break;
                         case 'Signé':
                             img = '<img src="/img/green.jpg">'
@@ -193,17 +208,18 @@ $(document).ready( function () {
             { "data": "Devi_Type" },        //12
             { "data": "System_Type" },      //13
             { "data": "Provenance" },       //14
-            { "data": "Debut" },            //15
+            { "data": "Debut" ,},            //15
             { "data": "Etat" },             //16
-            { "data": "Rappel"},            //17
+            { "data": "Rappel" },            //17
             { "data": "Commercial" },       //18
             { "data": "Commentaire" },      //19
             { "data": "Info" },             //20
             { "data": "Id" },               //21
         ],
         "order": [[17, 'desc']],
-        "pageLength": 10,
+        "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/40),
         "dom": 'tpr',
+        "autoWidth": false,
         "initComplete": function () {
             this.api().columns(18).every( function () {
                 var column = this;
@@ -223,26 +239,13 @@ $(document).ready( function () {
                 column.search( initComm ).draw();
 
             });
-           this.api().columns(16).every( function () {
-                var column = this;
-                var select = $('<select class="selector"><option value=""></option></select>')
-                    .appendTo( "#etatSelect" ).on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                        
-                        column.search( val ? '^'+val+'$' : '', true, false ).draw();
-                    });
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                });
-                var initEtat = etatPref;
-
-                select.val( initEtat );
-                column.search( initEtat ).draw();
-            });
         },
-	});
+	});   
 
+    
+
+    $('#waiter').remove();
+    $('#affaireDetail').show();
 
     /*   Date   */
 
@@ -252,6 +255,8 @@ $(document).ready( function () {
     timePref = setTimeStep( timeStepPref );
     min = timePref.min;
     max = timePref.max;
+    setInitStateConfig();
+    table.column( 16 ).search(etatFilter, true, false);
     table.draw();
 
 
@@ -273,48 +278,98 @@ $(document).ready( function () {
         delAffaire(table.cell('.selected' ,21).data(), table);
     });
 
-    $('#twoCloseWeek').on('click', function(){
+    $('#cbEnCours').click(function(){
         if($(this).is(":checked")){
-            timePref = setTimeStep( 1 );
-            min = timePref.min;
-            max = timePref.max;
+            if (etatFilter != ''){
+                etatFilter += '|';
+            }
+            etatFilter += 'En Cours';
         }else{
-            min = '';
-            max = '';
+            etatFilter = delstrpart(etatFilter, 'En Cours');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+    $('#cbOublie').click(function(){
+        if($(this).is(":checked")){
+            if (etatFilter != ''){
+                etatFilter += '|';
+            }
+            etatFilter += 'Oublié';
+        }else{
+            etatFilter = delstrpart(etatFilter, 'Oublié');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+    $('#cbFin').click(function(){
+        if($(this).is(":checked")){
+            if (etatFilter != ''){
+                etatFilter += '|';
+            }
+            etatFilter += 'Fin';
+        }else{
+            etatFilter = delstrpart(etatFilter, 'Fin');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+    $('#cbSuspendu').click(function(){
+        if($(this).is(":checked")){
+            if (etatFilter != ''){
+                etatFilter += '|';
+            }
+            etatFilter += 'Suspendu';
+        }else{
+            etatFilter = delstrpart(etatFilter, 'Suspendu');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+    $('#cbSigne').click(function(){
+        if($(this).is(":checked")){
+            if (etatFilter != ''){
+                etatFilter += '|';
+            }
+            etatFilter += 'Signé';
+        }else{
+            etatFilter = delstrpart(etatFilter, 'Signé');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+
+    $('#timeSelect').change(function(){
+        switch ($(this).val()){
+            case 'twoCloseWeek':
+                timePref = setTimeStep( 'twoCloseWeek' );
+                min = timePref.min;
+                max = timePref.max;
+                break;
+            case 'onMonth':
+                timePref = setTimeStep( 'onMonth' );
+                min = timePref.min;
+                max = timePref.max;
+                break;
+            case 'nextMonth':
+                timePref = setTimeStep( 'nextMonth' );
+                min = timePref.min;
+                max = timePref.max;
+                break;
+            default:
+                min = '';
+                max = '';
+                break;
         }
         table.draw();
-        setConfig(getTimeConf(), $('#commercialSelect select option:selected').val(), $('#etatSelect select option:selected').val());
-    });
-    $('#onMonth').on('click', function(){
-        if($(this).is(":checked")){
-            timePref = setTimeStep( 2 );
-            min = timePref.min;
-            max = timePref.max;
-        }else{
-            min = '';
-            max = '';
-        }
-        table.draw();
-        setConfig(getTimeConf(), $('#commercialSelect select option:selected').val(), $('#etatSelect select option:selected').val());
-    });
-    $('#nextMonth').on('click', function(){
-        if($(this).is(":checked")){
-            timePref = setTimeStep( 3 );
-            min = timePref.min;
-            max = timePref.max;
-        }else{
-            min = '';
-            max = '';
-        }
-        table.draw();
-        setConfig(getTimeConf(), $('#commercialSelect select option:selected').val(), $('#etatSelect select option:selected').val());
+        setConfig();
     });
 
     $('#searchbox').keyup(function(){
         table.search($(this).val()).draw() ;
     })
     $('#commercialSelect select, #etatSelect select').change( function() {
-        setConfig(getTimeConf(), $('#commercialSelect select option:selected').val(), $('#etatSelect select option:selected').val());
+        setConfig();
     });
 
 
@@ -366,42 +421,52 @@ $(document).ready( function () {
             $('div.slider', row.child()).slideDown();
             var textareaWidth = $('#infoArea'+ idAffaire).width();
             //tr.nextUntil('.'+tr.attr('class').split(' ')[0])
-            var infolineHeight = tr.nextUntil('.'+tr.attr('class').split(' ')[0]).height();
-            console.log(tr.height()+', infoLine Taille : '+infolineHeight);
+            //var infolineHeight = tr.nextUntil('.'+tr.attr('class').split(' ')[0]).height();
 
             $('#infoArea'+idAffaire).css({
                 right: - (textareaWidth + 10) + 'px',
             })
-
-
-
         }   
     });
 
 
-    /*  Ajouter une tache   */
 
-    $(document).on( "click", ".plus", function(){
-        idAffaire =  table.cell($(this).closest('tr.infoLine').prev(), 21).data();
+    /*  Gestionnaire de tache   */
+
+    $(document).on( "click", ".clickPlus", function(){
+        var trData = $(this).closest('tr.infoLine').prev();
+        var idAffaire =  table.cell(trData, 21).data();
         if($('#dateTache'+idAffaire).val()){
-            addTache( idAffaire );
+            addTache( idAffaire, trData, table );
         }else{
             alert('Veuillez rentrer une date');
         }
-    }); 
+    });
+
+    $('.client_Tab').on( "click", ".fa-times-circle", function(){
+        var idTache = event.target.id.slice(5);
+        var tacheRow = event.target.parentElement.parentElement;
+        var trData = $(this).closest('tr.infoLine').prev();
+
+        delTache( idTache, tacheRow, table, trData );
+    })
 
 
-
-    
 
     $('#testBtn').on('click', function(){
         var i=0;
         var today = new Date();
         var todayDateToken = formatDate(today).split('-');
         table.rows().every(function(){
-            if( table.cell(this, 17).data() == (todayDateToken[0]+'-'+todayDateToken[1]+'-'+todayDateToken[2])){
-                alert('L\'affaire '+table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' nécessite une opération.')
-                i++;
+            var comSelect = $('#commercialSelect select option:selected').val();
+            var etat = table.cell(this, 16).data();
+            if( table.cell(this, 18).data() == comSelect || comSelect == ''){
+                if ( etat == 'En Cours' || etat == 'Oublié'){
+                    if( table.cell(this, 17).data() < (todayDateToken[0]+'-'+todayDateToken[1]+'-'+todayDateToken[2])){
+                        alert('L\'affaire '+table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' nécessite une opération.')
+                        i++;
+                    }
+                }
             }
         })
 

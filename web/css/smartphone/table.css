@@ -1,0 +1,83 @@
+#affaireDetail{
+	font-size: 13px;
+	width: 100%;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.spHide{
+	display: none;
+}
+
+.centerCol{
+    text-align: center;
+}
+
+.client_Tab thead{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    color: #fff;
+    background-color: #fe8e1e;
+}
+
+.dataTable td , .dataTable th{
+    padding: 8px;
+    border-bottom: 1px solid #848484;
+}
+
+
+div.slider {
+    display: none;
+}
+
+.odd{
+    background-color: #bdbfc1;
+}
+.even{
+    background-color: #e5e7ea;
+}
+.infoLine{
+	background-color: #282a3d;
+}
+
+.tacheTabClass{
+	margin-bottom: 25px;
+	margin-left:auto; 
+    margin-right:auto;
+    background-color: #fff;
+}
+
+.fa-times-circle{
+    color: #aaa;
+}
+.fa-times-circle:hover{
+    cursor: pointer;
+    color: #5b5b5b;
+}
+
+.plus{
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.plus:hover, .plus:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.infoText{
+	text-align: center;
+	height: 200px;
+}
+.infoText textarea{
+	width: 80%;
+	height: 90%;
+	resize: none;
+}
+
+#affaireDetail div div{
+    width:100%;
+}

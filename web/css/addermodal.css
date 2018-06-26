@@ -3,11 +3,13 @@
 }
 
 .adresse, .detailComm, .detailAffaire{
-    display: block;
     padding-top: 30px;
 }
 
-.modal-content input[type="text"], input[type="number"], input[type="date"], input[type="tel"]{
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="date"],
+.modal-content input[type="tel"]{
     width: 50%;
     height: 20px;
     padding-left: 6px;

@@ -1,22 +1,4 @@
 
-function setConfig(timeStep, commercial, etat){
-    var url = '/pref/save/';
-    prefConfig  = {
-        'timeStep' : timeStep,
-        'commercial': commercial,
-        'etat': etat,
-    }
-    $.ajax({
-        type: "post",
-        url: url,
-        success: function(){
-        },
-        error: function(){
-        },
-        data: prefConfig
-    });
-
-}
 
 function delAffaire(idAffaire, table){
     var url = '/del/affaire/'+idAffaire+'/';
@@ -67,28 +49,30 @@ function getTacheCommercial(idAffaire, commercial){
             })
 
             data.taches.sort(sortDateTab);
+
             $.each(data.taches, function(i, item) {
                 $('#tacheTab'+ idAffaire).prepend(
                     '<tr>'+
                         '<td>'+ item.type +'</td>'+
                         '<td class="centerCol">'+ reorderDate(item.date) +'</td>'+
-                        '<td class="centerCol">'+ item.commercial +'</td>'+
+                        '<td class="centerCol spHide">'+ item.commercial +'</td>'+
                         '<td class="centerCol tdColor">'+ item.couleur +'</td>'+
+                        '<td class="centerCol"><i class="far fa-times-circle" id="cross'+ item.id +'"></i></td>'+
                     '</td>'
-                )
+                );
             });
 
         },
         error: function(){
             $('html').css( 'cursor' , 'default');
             $('#tacheTab'+ idAffaire).prepend(
-                    '<tr><td colspan=4 style="color : red">Erreur de lecture... Fermez et réouvrez l\'affaire</td></tr>'
+                    '<tr><td colspan=5 style="color : red">Erreur de lecture... Fermez et réouvrez l\'affaire</td></tr>'
             )
         }
     });  
 }
 
-function addTache( idAffaire ){
+function addTache( idAffaire, trData, table ){
 
     type = $("#type"+idAffaire).val();
     date = $("#dateTache"+idAffaire).val();
@@ -116,38 +100,84 @@ function addTache( idAffaire ){
                 '<tr>'+
                     '<td>'+type+'</td>'+
                     '<td class="centerCol">'+reorderDate(date)+'</td>'+
-                    '<td class="centerCol">'+commercial+'</td>'+
+                    '<td class="centerCol spHide">'+commercial+'</td>'+
                     '<td class="centerCol tdColor">'+ data.couleur +'</td>'+
+                    '<td class="centerCol"><i class="far fa-times-circle" id="cross'+ data.id +'"></i></td>'+
                 '</tr>'
             )
             var actualTextArea = $('#infoArea' + idAffaire +' textarea').val();
             $('#infoArea' + idAffaire +' textarea').val(type+', '+reorderDate(date)+' ('+commercial+'):\n\n'+actualTextArea);
 
+            var todayDate = new Date();
+            var todayToken = formatDate(todayDate).split('-');
+
             switch(type){
                 case 'Signature':
-                    debug('Waow it is signed');
+                    table.cell(trData, 1).data('Signé');
                     break;
                 case 'Suspension':
-                    debug('Wait and see');
+                    table.cell(trData, 1).data('Suspendu');
                     break;
                 case 'Fin':
-                    debug('This is the end');
+                    table.cell(trData, 1).data('Fin');
+                    break;
+                case 'Rappel':
+                    if( date > table.cell(trData, 17).data() ){
+                        table.cell(trData, 17).data(date);
+                    }
+                    if( date < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                        table.cell(trData, 1).data('Oublié');
+                    }else{
+                        table.cell(trData, 1).data('En Cours');
+                    }
                     break;
                 default:
-                    debug('Still in progress');
+                    if( date < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                        table.cell(trData, 1).data('Oublié');
+                    }else{
+                        table.cell(trData, 1).data('En Cours');
+                    }
                     break;
             }
+            table.draw();
 
         },
         error: function(){
             $('#debug').css('color', 'red');
-            debug('Erreur dans l\'envoie de la tache');
         },
         data: tache
     });
 }
 
-function modifAffaireBtn( id ){
+function delTache( idTache, tacheRow, table, trData ){
+
+    var url = '/del/tache/';
+    $.ajax({
+        type: "post",
+        url: url,
+        beforeSend: function(){
+            for(i=0; i<3; i++){
+                $(tacheRow).fadeTo(400, 0.33).fadeTo(400, 1);
+            }
+
+        },
+        success: function(){
+            if($(tacheRow).prev().prop('nodeName') != 'TR'){
+                prevDate = reorderDate($(tacheRow).next().find('.spHide').prev().text());
+                table.cell(trData, 17).data(prevDate);
+            }
+            $(tacheRow).remove();
+            table.draw();
+
+        },
+        error: function(){
+
+        },
+        data: { 'idTache' : idTache }
+    });
+}
+
+function modifAffaire( id ){
     
     jsonAffaire = getFormVal( id );
     

@@ -65,18 +65,6 @@
     cursor: pointer;
 }
 
-.plus{
-    color: #aaa;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.plus:hover, .plus:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 .modal-content .button {
     width: 125px;
 }

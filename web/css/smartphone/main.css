@@ -1,0 +1,82 @@
+body {
+    background-color: #e5e7ea;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.button{
+	display: none;
+}
+
+::placeholder{
+    font-style: italic;
+}
+
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    margin:0;
+}
+
+#header{
+    padding-bottom: 10px;
+    border: none;
+    width: 100%;
+    background-color: #282a3d;
+    color: white;
+    overflow: auto;
+  	text-align: center;
+
+}
+
+.txtBanner{
+    color: #fe8e1e;
+    text-decoration: none;
+    font-size: 35px;
+    font-weight: bold;
+    display: block;
+    margin: 20px 0;
+
+}
+.txtBanner div{
+    display: inline-block;
+}
+
+#qbBanner{
+    font-size: 35px;
+}
+#affaireBanner{
+    font-size: 15px;
+}
+
+.checkboxFilter{
+    margin: 15px 0;
+}
+.checkboxFilter table{
+    display: inline-block;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+.rightBanner span, .rightBanner input{
+	display: inline-block;
+	margin: 3px;
+	padding-left: 5px;
+}
+
+#waiter{
+    font-size: 25px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-style: bold;
+    color: #fe8e1e;
+    text-align: center;
+    margin: 150px 0;
+}
+#waiter div{
+    display: inline-block;
+}
