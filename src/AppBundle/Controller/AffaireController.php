@@ -27,7 +27,6 @@ class AffaireController extends Controller
     public function Affaire(Request $request)
     {
 
-
         $em = $this->getDoctrine()->getManager();
 
 

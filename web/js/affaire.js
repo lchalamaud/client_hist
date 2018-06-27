@@ -485,4 +485,6 @@ $(document).ready( function () {
         setAffaireInfo(idAffaire, trData, table, $('#infoArea'+idAffaire+' textarea').val());
     });
 
+
+
 });
