@@ -463,7 +463,9 @@ $(document).ready( function () {
             if( table.cell(this, 18).data() == comSelect || comSelect == ''){
                 if ( etat == 'En Cours' || etat == 'Oublié'){
                     if( table.cell(this, 17).data() < (todayDateToken[0]+'-'+todayDateToken[1]+'-'+todayDateToken[2])){
-                        alert('L\'affaire '+table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' nécessite une opération.')
+                        alert('L\'affaire ' + table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' n\'est pas actualisée...\n'+
+                            'Tel : ' + table.cell(this, 10).data() + '\n'+
+                            'Mail : ' + table.cell(this, 9).data())
                         i++;
                     }
                 }

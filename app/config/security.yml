@@ -12,6 +12,7 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
+
         main:
             pattern: ^/
             form_login:
@@ -23,4 +24,5 @@ security:
     access_control:
         - { path: ^/profile$, roles: ROLE_USER }
         - { path: ^/admin$, roles: ROLE_ADMIN }
+        - { path: ^/register, roles: ROLE_ADMIN }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

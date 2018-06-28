@@ -5,8 +5,10 @@
 
         <title>{% block title %}{% endblock %}</title>
 
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+		<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/main.css') }}"/>
+        <link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/header.css') }}">
+        <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/main.css') }}">
+        <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/header.css') }}">
         {% block stylesheets %}{% endblock %}
 
 		<link rel="icon" type="image/jpg" href="{{ asset('img/favicon.jpeg') }}" />
@@ -18,10 +20,14 @@
         <div id="header">
             <div class="navigation">
                 <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaire</div></a>
-                <div class="subMenu">
+                <div class="subMenu spHide">
                     <a href="/"><h1>Acceuil</h1></a>
+                    <a href="/commercial/"><h1>Commercial</h1></a>
                     <a href="/login"><h1>Login</h1></a>
                     <a href="/profile"><h1>Profile</h1></a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="/admin/manager/"><h1>Utilisateur</h1></a>
+                    {% endif %}
                     <a href="/logout"><h1>Déconnexion</h1></a>
                 </div>
             </div>
