@@ -1,14 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/form.css') }}">
 {% endblock %}
 
-{% block body %}
-	<h3>Ajouter un commercial</h3>
+{% block title %}Commerciaux{% endblock %}
 
-	<div class="well">
-		{{ form(form) }}
+{% block body %}
+	<div id="content">
+		<h1>Ajouter un commercial</h1>
+
+		<div class="well">
+			{{ form_start(form) }}
+
+			    {{ form_errors(form) }}
+			    {{ form_row(form._token) }}
+			    {{ form_row(form.Nom, { 'attr' : {'placeholder' : 'Nom' }}) }}
+			    {{ form_row(form.Acronyme, { 'attr' : {'placeholder' : 'Acronyme' }}) }}
+			    {{ form_row(form.Couleur, { 'attr' : {'placeholder' : 'Couleur' }}) }}
+
+			   	{{ form_row(form.Ajouter, { 'attr' : {'class' : 'button' }}) }}
+			{{ form_start(form) }}
+		</div>
 	</div>
 {% endblock %}
 

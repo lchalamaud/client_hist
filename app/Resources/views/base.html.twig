@@ -19,14 +19,14 @@
     <body>
         <div id="header">
             <div class="navigation">
-                <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaire</div></a>
+                <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaires</div></a>
                 <div class="subMenu spHide">
                     <a href="/"><h1>Acceuil</h1></a>
-                    <a href="/commercial/"><h1>Commercial</h1></a>
+                    <a href="/commercial/"><h1>Commerciaux</h1></a>
                     <a href="/login"><h1>Login</h1></a>
                     <a href="/profile"><h1>Profile</h1></a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/admin/manager/"><h1>Utilisateur</h1></a>
+                        <a href="/admin/manager/"><h1>Utilisateurs</h1></a>
                     {% endif %}
                     <a href="/logout"><h1>Déconnexion</h1></a>
                 </div>

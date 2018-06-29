@@ -11,7 +11,7 @@
 
 {% endblock %}
 
-{% block title %}Client QB{% endblock %}
+{% block title %}Affaire QB{% endblock %}
 
 {% block header %}
 	<div class="filterHeader">
@@ -29,21 +29,21 @@
 					</td>
 					<td>
 						<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-						<label for="cbOublie">Oublié</label>
+						<label for="cbOublie">Oubliées</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-						<label for="cbSuspendu">Suspendu</label>
+						<label for="cbSuspendu">Suspendues</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-						<label for="cbFin">Fin</label>
+						<label for="cbFin">Finies</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-						<label for="cbSigne">Signé</label>
+						<label for="cbSigne">Signées</label>
 					</td>
 				</tr>
 			</table>
@@ -51,10 +51,22 @@
 
 		<div class="rightBanner">
 			<select id="timeSelect" class="selector">
-				<option value=""></option>
-				<option value="twoCloseWeek">Passé + En cours</option>
-				<option value="onMonth">Mois</option>
-				<option value="nextMonth">Prochain Mois</option>
+				<option value="">Tous</option>
+					<optgroup label="Jours">
+						<option value="prevDay">J-1</option>
+						<option value="onDay">J</option>
+						<option value="nextDay">J+1</option>
+					</optgroup>
+					<optgroup label="Semaine">
+						<option value="prevWeek">S-1</option>
+						<option value="onWeek">S</option>
+						<option value="nextWeek">S+1</option>
+					</optgroup>
+					<optgroup label="Mois">
+						<option value="prevMonth">M-1</option>
+						<option value="onMonth">M</option>
+						<option value="nextMonth">M+1</option>
+					</optgroup>
 			</select>
 			<input type="text" id="searchbox" placeholder="Recherche">
 			<span id="commercialSelect"></span>

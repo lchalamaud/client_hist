@@ -1,10 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% block stylesheet %}
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/profile.css') }}">
-{% endblock %}
-
-<div class="fos_user_user_show">
+<div class="fos_user_user_show" id="content">
 		<h1>Profile</h1>
 	    <p>{{ 'Nom'|trans }} : {{ user.username }}</p>
 	    <p>{{ 'Mail'|trans }} : {{ user.email }}</p>

@@ -39,4 +39,18 @@ class UserManagerController extends Controller
 
     }
 
+    /**
+     * @Route("/admin/manager/del/", name="manage_dels")
+     */
+    public function delUser(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(array('username'=>$request->get('username')));
+        $em->remove($user);
+        $em->flush();
+
+        return new JsonResponse();
+
+    }
+
 }

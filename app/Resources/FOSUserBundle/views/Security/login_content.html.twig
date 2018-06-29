@@ -1,24 +1,29 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    {% if csrf_token %}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+<div id='content'>
+    <h1>Conexion</h1>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    <div id="username">
-        <label for="username">{{ 'Nom'|trans }}</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Nom" />
-    </div>
-    <div>
-        <label for="password">{{ 'Mot de passe'|trans }}</label>
-        <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe" />
-    </div>
-    <div class='checkSubmit'>
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me" id="remember_me_label">{{ 'security.login.remember_me'|trans }}</label>
+
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+        <div class="username">
+            <label for="username">{{ 'Nom'|trans }}</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Nom" />
+        </div>
+        <div class="password">
+            <label for="password">{{ 'Mot de passe'|trans }}</label>
+            <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe" />
+        </div>
+        <div class='remember_me'>
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <h3>{{ 'Se souvenir de moi'|trans }}</h3>
+        </div>
         <input type="submit" id="_submit" name="_submit" value="{{ 'Se Connecter'|trans }}" class="button"/>
-    </div>
-</form>
+        
+    </form>
+</div>
