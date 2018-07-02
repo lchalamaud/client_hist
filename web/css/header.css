@@ -1,0 +1,88 @@
+
+#header{
+    padding-top: 7px;
+    padding-left: 0;
+    border: none;
+    width: 100%;
+    background-color: #282a3d;
+    color: white;
+    overflow: auto;
+}
+
+.subMenu{
+    display: none;
+    padding: 0;
+    width: 200px;
+    position: absolute;
+}
+.subMenu a{
+    text-decoration: none;
+}
+.subMenu h1{
+    margin: 0;
+    border-bottom: 1px solid #fe8e1e;
+    padding: 10px 25px;
+    font-size: 17px;
+    color: #fe8e1e;
+}
+.subMenu h1:hover{
+    background-color: #c3c6dd;
+}
+.navigation:hover .subMenu{
+    display: block;
+    z-index: 1;
+    background-color: #282a3d;
+}
+
+.txtBanner{
+    float: left;
+    color: #fe8e1e;
+    text-decoration: none;
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 4px;
+    padding-left: 20px;
+    padding-bottom: 15px;
+}
+
+.txtBanner div{
+    display: inline-block;
+}
+#qbBanner{
+    font-size: 35px;
+}
+#affaireBanner{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.leftBanner{
+    float: left;
+    margin-top: 6px;
+    margin-left: 35px;
+}
+
+.leftBanner .button{
+    margin-left: 8px;
+}
+
+.checkboxFilter{
+    margin-left: 50px;
+    display: inline-block;
+}
+
+.rightBanner{
+    float: right;
+    margin-top: 18px;
+    margin-right: 20px;
+}
+.selector{
+
+    height: 25px;
+}
+
+#searchbox{
+    height: 16px;
+    margin: 0 10px;
+    padding-left: 7px;
+}

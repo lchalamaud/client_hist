@@ -22,33 +22,6 @@ class TacheController extends Controller
 {
 
     /**
-     *@Route("/tache/detail/", name="tache_detail")
-     */
-    public function viewTache()
-    {
-        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Tache');
-
-        $listTaches = $repository->findAll();
-
-        $tacheTab = array();
-
-        foreach ($listTaches as $tache) {
-            $tmp = array(
-                'commercial' => $tache->getCommercial(),
-                'type' => $tache->getType(),
-                'date' => $tache->getDate()->format('d-m-Y'),
-                'affaire' => $tache->getAffaire(),
-            );
-
-            $tacheTab[] = $tmp;
-        }
-
-        $table = [ 'taches' => $tacheTab];
-
-        return $this->render('Default/tacheTable.html.twig', $table);
-    }
-
-    /**
      *@Route("/tache/affaire/nom/{id}/", name="tache_affaire_nom")
      */
     public function getTacheAndComm($id)

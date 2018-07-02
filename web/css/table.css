@@ -1,5 +1,5 @@
 #affaireDetail{
-    width: 80%;
+    width: 75%;
     margin-top: 30px;
     margin-left: 12px;
     display: none;
@@ -121,7 +121,7 @@ div.slider {
 .infoText{
     position: absolute;
     right: 0;
-    width: 20%;
+    width: 28%;
     height: 320px;
 }
 .infoText textarea{

@@ -11,58 +11,71 @@
 
 {% endblock %}
 
-{% block title %}Client QB{% endblock %}
+{% block title %}Affaire QB{% endblock %}
+
+{% block header %}
+	<div class="filterHeader">
+		<div class="leftBanner">
+			<button id="addAffaireBtn", class='button'>Ajouter</button>
+			<button id="modifAffaireBtn", class='button'>Modifier</button>
+			<button id="delAffaireBtn", class='button'>Supprimer</button>
+		</div>
+		<div class="checkboxFilter">
+			<table>
+				<tr>
+					<td>
+						<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
+						<label for="cbEnCours">En Cours</label>
+					</td>
+					<td>
+						<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
+						<label for="cbOublie">Oubliées</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
+						<label for="cbSuspendu">Suspendues</label>
+					</td>
+					<td>
+						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
+						<label for="cbFin">Finies</label>
+					</td>
+					<td>
+						<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
+						<label for="cbSigne">Signées</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="rightBanner">
+			<select id="timeSelect" class="selector">
+				<option value="">Tous</option>
+					<optgroup label="Jours">
+						<option value="prevDay">J-1</option>
+						<option value="onDay">J</option>
+						<option value="nextDay">J+1</option>
+					</optgroup>
+					<optgroup label="Semaine">
+						<option value="prevWeek">S-1</option>
+						<option value="onWeek">S</option>
+						<option value="nextWeek">S+1</option>
+					</optgroup>
+					<optgroup label="Mois">
+						<option value="prevMonth">M-1</option>
+						<option value="onMonth">M</option>
+						<option value="nextMonth">M+1</option>
+					</optgroup>
+			</select>
+			<input type="text" id="searchbox" placeholder="Recherche">
+			<span id="commercialSelect"></span>
+		</div>
+	</div>
+{% endblock %}
 
 {% block body %}
 <div id="config" style="display:none;">{{ config.timeStep }}-{{ config.commercialPref }}-{{ config.enCours }}-{{ config.oublie }}-{{ config.suspendu }}-{{ config.fin }}-{{ config.signe }}</div>
-
-<div id="header">
-	<a href="/affaire/table" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaire</div></a>
-	<div class="leftBanner">
-		<button id="addAffaireBtn", class='button'>Ajouter</button>
-		<button id="modifAffaireBtn", class='button'>Modifier</button>
-		<button id="delAffaireBtn", class='button'>Supprimer</button>
-	</div>
-	<div class="checkboxFilter">
-		<table>
-			<tr>
-				<td>
-					<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-					<label for="cbEnCours">En Cours</label>
-				</td>
-				<td>
-					<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-					<label for="cbOublie">Oublié</label>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-					<label for="cbSuspendu">Suspendu</label>
-				</td>
-				<td>
-					<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-					<label for="cbFin">Fin</label>
-				</td>
-				<td>
-					<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-					<label for="cbSigne">Signé</label>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div class="rightBanner">
-		<select id="timeSelect" class="selector">
-			<option value=""></option>
-			<option value="twoCloseWeek">Passé + En cours</option>
-			<option value="onMonth">Mois</option>
-			<option value="nextMonth">Prochain Mois</option>
-		</select>
-		<input type="text" id="searchbox" placeholder="Recherche">
-		<span id="commercialSelect"></span>
-	</div>
-</div>
 
 <div id="addAffaireModal" class="modal order-column">
 
@@ -221,6 +234,7 @@
 </div>
 
 <input type="button" value="Today's event?" id="testBtn" class="button">
+
 
 {% endblock %}
 

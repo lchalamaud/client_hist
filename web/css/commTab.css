@@ -1,3 +1,9 @@
+#commTab{
+    margin: 20px 10px;
+    border-collapse: collapse;
+
+}
+
 #commTab thead{
     border: 1px solid #ddd;
     padding-top: 12px;
@@ -16,6 +22,29 @@ thead tr th:hover {
 }
 
 #commTab td , #commTab th{
-    border: 1px solid #ddd;
+    border: 1px solid #282a3d;
     padding: 8px;
+}
+
+.button{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.selected{
+    background-color: #ffc68e;
+}
+
+.modal{
+    display: none;
+}
+.modalbody p{
+    margin-bottom: 0;
+}
+
+.comment{
+    color: grey;
+    font-size: 14px;
+    margin: 8px 0;
+    padding-left: 30px;
 }

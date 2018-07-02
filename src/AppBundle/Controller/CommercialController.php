@@ -3,8 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Commercial;
+use AppBundle\Entity\Tache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +19,34 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CommercialController extends Controller
 {	
 	/**
-	 *@Route("/commercial/add/", name="commercial_add")
+	* @Route("/commercial/", name="commercial_detail")
+	* @Security("has_role('ROLE_USER')")
+	*/
+	public function viewCommercial()
+	{
+		$repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Commercial');
+
+		$listCommercials = $repository->findAll();
+
+		$commercialTab = array();
+		foreach ($listCommercials as $commercial) {
+			$com = array(
+				'nom' => $commercial->getNom(),
+				'acronyme' => $commercial->getAcronyme(),
+				'couleur' => $commercial->getCouleur()
+			);
+
+			$commercialTab[] = $com;
+		}
+
+		$table = [ 'commercialTab' => $commercialTab];
+
+		return $this->render('Default/commercialTable.html.twig', $table);
+	}
+
+	/**
+	 * @Route("/commercial/add/", name="commercial_add")
+	 * @Security("has_role('ROLE_ADMIN')")
 	 */
 	public function addCommercial(Request $request)
 	{
@@ -42,7 +71,7 @@ class CommercialController extends Controller
 
 				$request->getSession()->getFlashBag()->add('notice', 'Nouveau commercial ajouté');
 
-				return $this->redirectToRoute('valid');
+				return $this->redirectToRoute('commercial_detail');
 			}
 		}
 		return $this->render('Default/commercialForm.html.twig', array('form' => $form->createView(),
@@ -50,52 +79,77 @@ class CommercialController extends Controller
 	}
 
 	/**
-	*@Route("/json/commercial/", name="json_commercial")
+	* @Route("/commercial/del/", name="commercial_del")
+	* @Security("has_role('ROLE_ADMIN')")
 	*/
-	public function jsonCommercial()
+	public function delCommercial(Request $request)
 	{
-		$repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Commercial');
-
-		$listCommercials = $repository->findAll();
-		$commercialTab = array();
-		foreach ($listCommercials as $commercial) {
-			$com = array(
-				'nom' => $commercial->getNom(),
-				'acronyme' => $commercial->getAcronyme(),
-				'couleur' => $commercial->getCouleur()
-			);
-
-			$commercialTab[] = $com;
-		}
-		$table = [ 'commercial' => $commercialTab];
-
 		$response = new JsonResponse();
 
-        return $response->setData($table);
+		$em = $this->getDoctrine()->getManager();
+
+		$commDel = $request->get('acronyme');
+
+		$rptTache = $em->getRepository('AppBundle:Tache');
+		$listTaches = $rptTache->findBy(['commercial' => $commDel]);
+
+        foreach ($listTaches as $tache) {
+			$em->remove($tache);
+        }
+
+		$rptAffaire = $em->getRepository('AppBundle:Affaire');
+		$listAffaire = $rptAffaire->findBy(['commercial' => $commDel]);
+		if( !$listAffaire ){
+			$rptCommercial = $em->getRepository('AppBundle:Commercial');
+	        $commercial = $rptCommercial->findOneBy(['acronyme' => $commDel]);
+	        $em->remove($commercial);
+
+	        $em->flush();
+	        $response->setData(array('rsp' => 1));
+	        
+		}else{
+			$response->setData(array('rsp' => 10));
+		}
+        
+
+        return $response;
 	}
 
 	/**
-	*@Route("/commercial/detail/", name="commercial_detail")
+	* @Route("/commercial/del/force", name="commercial_del_force")
+	* @Security("has_role('ROLE_ADMIN')")
 	*/
-	public function viewCommercial()
+	public function delCommercialForce(Request $request)
 	{
-		$repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Commercial');
+		
 
-		$listCommercials = $repository->findAll();
+		$em = $this->getDoctrine()->getManager();
 
-		$commercialTab = array();
-		foreach ($listCommercials as $commercial) {
-			$com = array(
-				'nom' => $commercial->getNom(),
-				'acronyme' => $commercial->getAcronyme(),
-				'couleur' => $commercial->getCouleur()
-			);
+		$commDel = $request->get('acronyme');
 
-			$commercialTab[] = $com;
-		}
+		$rptTache = $em->getRepository('AppBundle:Tache');
+		$listTaches = $rptTache->findBy(['commercial' => $commDel]);
 
-		$table = [ 'commercialTab' => $commercialTab];
+        foreach ($listTaches as $tache) {
+			$em->remove($tache);
+        }
 
-		return $this->render('Default/commercialTable.html.twig', $table);
+		$rptAffaire = $em->getRepository('AppBundle:Affaire');
+		$listAffaire = $rptAffaire->findBy(['commercial' => $commDel]);
+		
+		foreach ($listAffaire as $affaire) {
+			$em->remove($affaire);
+        }
+
+        $rptCommercial = $em->getRepository('AppBundle:Commercial');
+        $commercial = $rptCommercial->findOneBy(['acronyme' => $commDel]);
+        $em->remove($commercial);
+
+        $em->flush();
+        
+        $response = new JsonResponse();
+
+        return $response;
 	}
+
 }

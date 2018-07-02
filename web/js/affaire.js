@@ -21,6 +21,7 @@ function tabSelectVal(table, index){
 }
 
 function tacheFormat ( id, debut ) {
+    var today = new Date();
     return '<table class="tacheTabClass" id="tacheTab'+ id +'">'+
             '<thead>'+ 
                 '<tr>'+
@@ -49,7 +50,7 @@ function tacheFormat ( id, debut ) {
                         '<option value=\'Suspension\'>Suspension</option>'+
                         '<option value=\'Fin\'>Fin</option>'+
                     '</select></td>'+
-                    '<td class="centerCol"><input type=\'date\' id=\'dateTache'+ id +'\'></td>'+
+                    '<td class="centerCol"><input type=\'date\' id=\'dateTache'+ id +'\' value="'+ formatDate(today) +'"></td>'+
                     '<td class="centerCol spHide" colspan=2><select id=\'selectComm'+ id +'\'>'+
                     '</select></td>'+
                     '<td class="centerCol clickPlus"> <span class="plus">+</span>'+
@@ -111,7 +112,11 @@ function setTableInfo( selector, table, info ){
 function delstrpart ( str, part ){
     var index = str.indexOf(part);
     if(index == 0){index++}
-    return str.substring(0, (index - 1)) + str.substring( index + part.length );
+    var rsp = str.substring(0, (index - 1)) + str.substring( index + part.length );
+    if( rsp.length ){
+        return rsp;
+    }
+    return false;
 };
 
 
@@ -340,27 +345,10 @@ $(document).ready( function () {
     })
 
     $('#timeSelect').change(function(){
-        switch ($(this).val()){
-            case 'twoCloseWeek':
-                timePref = setTimeStep( 'twoCloseWeek' );
-                min = timePref.min;
-                max = timePref.max;
-                break;
-            case 'onMonth':
-                timePref = setTimeStep( 'onMonth' );
-                min = timePref.min;
-                max = timePref.max;
-                break;
-            case 'nextMonth':
-                timePref = setTimeStep( 'nextMonth' );
-                min = timePref.min;
-                max = timePref.max;
-                break;
-            default:
-                min = '';
-                max = '';
-                break;
-        }
+        timePref = setTimeStep($(this).val());
+        min = timePref.min;
+        max = timePref.max;
+
         table.draw();
         setConfig();
     });
@@ -463,7 +451,9 @@ $(document).ready( function () {
             if( table.cell(this, 18).data() == comSelect || comSelect == ''){
                 if ( etat == 'En Cours' || etat == 'Oublié'){
                     if( table.cell(this, 17).data() < (todayDateToken[0]+'-'+todayDateToken[1]+'-'+todayDateToken[2])){
-                        alert('L\'affaire '+table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' nécessite une opération.')
+                        alert('L\'affaire ' + table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' n\'est pas actualisée...\n'+
+                            'Tel : ' + table.cell(this, 10).data() + '\n'+
+                            'Mail : ' + table.cell(this, 9).data())
                         i++;
                     }
                 }
@@ -486,5 +476,7 @@ $(document).ready( function () {
 
         setAffaireInfo(idAffaire, trData, table, $('#infoArea'+idAffaire+' textarea').val());
     });
+
+
 
 });

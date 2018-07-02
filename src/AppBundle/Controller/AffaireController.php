@@ -7,6 +7,7 @@ use AppBundle\Entity\Commercial;
 use AppBundle\Entity\Tache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,11 +23,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AffaireController extends Controller
 {
     /**
-     *@Route("/", name="affaire_tab")
+     * @Route("/", name="affaire_tab")
+     * @Security("has_role('ROLE_USER')")
      */
     public function Affaire(Request $request)
     {
-
 
         $em = $this->getDoctrine()->getManager();
 
@@ -90,7 +91,8 @@ class AffaireController extends Controller
             $addform->handleRequest($request);
             if ($addform->isValid()) {
                 $affaire->setNom( $addform[ 'Nom' ]->getData().' '.$addform[ 'Prenom' ]->getData() );
-                
+                $affaire->setEtat( 'En Cours' );
+
                 $em->persist($affaire);
                 $em->flush();
 

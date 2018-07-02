@@ -2,16 +2,41 @@
 
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/commTab.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('css/table.css') }}">
 
 {% endblock %}
 
 
-{% block title %}Lecture{% endblock %}  
+{% block title %}Commercial{% endblock %}
+
+{% block header %}
+	{% if is_granted('ROLE_ADMIN') %}
+	 	<a href="/commercial/add" ><input type="button" class="button" value="Ajouter"></a>
+	 	<input type="button" class="button" value="Supprimer" id="delComm">
+	{% endif %}
+{% endblock %}
 
 
 {% block body %}
+
+<div id="delModal" class="modal">
+
+	<div class="modal-content">
+		<span class="close cross">&times;</span>
+		<h1>Supprimer commercial</h1>
+		<div class='modalbody'>
+			<p>Voulez vous vraiment supprimer le commercial <span id='delModalNom'></span> de la base de données?</p>
+			<div class='comment'>(Toutes les taches associées à ce commercial seront supprimées.)</div>
+			<span id="delResponse"></span>
+			<div class="deleteBtn">
+				<button id="delConfirmBtn" class='button'>Supprimer</button>
+				<button id="delCancelmBtn" class='button close'>Annuler</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <table id='commTab' class="hover stripe">
 	<thead>
@@ -24,8 +49,8 @@
 	<tbody>
 		{% for commercial in commercialTab %}
 			<tr>
-				<td>{{ commercial.nom }}</td>
-				<td>{{ commercial.acronyme }}</td>
+				<td class="nom">{{ commercial.nom }}</td>
+				<td class="acronyme">{{ commercial.acronyme }}</td>
 				<td>{{ commercial.couleur }}</td>
 			</tr>
 		{% endfor %}
@@ -35,4 +60,5 @@
 {% endblock %}
 
 {% block javascripts %}
+	<script src="{{ asset('js/commercial.js') }}"></script>
 {% endblock %}

@@ -26,10 +26,10 @@
     padding-left: 6px;
 }
 div #nomField{
-    width: 20.5%;
+    width: 20.1%;
 }
 #form_Nom{
-    width: 90%;
+    width: 89%;
 }
 div #prenomField{
     width: 20.5%;
@@ -44,21 +44,29 @@ div #prenomField{
     display: block;
 }
 #cp{
-    width: 53%;
+    width: 50%;
 }
 #form_CP{
-    width: 35%;
+    width: 30%;
+}
+#ville{
+    width: 32%;
+}
+#ville>div{
+    width: 100%;
 }
 #form_Ville{
-    width: 98.8%;
+    width: 100%;
 }
 
-#form_NbController{
-    width: 56%;
+#sysType div{
+    width: 100%;
 }
-
-#sysType{
-    width:65%;
+#form_SystemType{
+    width: 49%;
+}
+div>#form_NbController{
+    width: 48.5%;
 }
 
 .modal-content textarea {

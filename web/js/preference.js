@@ -54,29 +54,64 @@ function setTimeStep( timeStep ){
 
 	var today = new Date();
     var todayDateToken = formatDate(today).split('-');
-
-    if(timeStep == '') {
-        min = '';
-        max = '';
-        $('#timeSelect option').prop('checked', true);
-    }else if(timeStep == 'twoCloseWeek') {
-    	var weekDate = new Date( todayDateToken[0], todayDateToken[1]-1, todayDateToken[2]);
-	    var dayOfWeek = weekDate.getDay();
-	    weekDate.setDate(weekDate.getDate()-dayOfWeek-6);
-	    min = formatDate(weekDate);
-	    weekDate.setDate(weekDate.getDate()+13);
-	    max = formatDate(weekDate);
-    }else if(timeStep == 'onMonth') {
-        var minDate = new Date( todayDateToken[0], todayDateToken[1]-1, 1);
-        min = formatDate(minDate);
-        var maxDate = new Date( todayDateToken[0], todayDateToken[1], 0);
-        max = formatDate(maxDate);
-    }else if(timeStep == 'nextMonth') {
-        var minDate = new Date( todayDateToken[0], todayDateToken[1], 1);
-        min = formatDate(minDate);
-        var maxDate = new Date( todayDateToken[0], parseInt(todayDateToken[1])+1, 0);
-        max = formatDate(maxDate);
+    var dayOfWeek = today.getDay();
+   switch( timeStep ){
+        case 'prevDay':
+            today.setDate(today.getDate()-1);
+            min = formatDate(today);
+            max = min;
+            break;
+        case 'onDay':
+            min = formatDate(today);
+            max = min;
+            break;
+        case 'nextDay':
+            today.setDate(today.getDate()+1);
+            min = formatDate(today);
+            max = min;
+            break;
+        case 'prevWeek':
+            today.setDate(today.getDate()-dayOfWeek-6);
+            min = formatDate(today);
+            today.setDate(today.getDate()+6);
+            max = formatDate(today);
+            break;
+        case 'onWeek':
+            today.setDate(today.getDate()-dayOfWeek+1);
+            min = formatDate(today);
+            today.setDate(today.getDate()+6);
+            max = formatDate(today);
+            break;
+        case 'nextWeek':
+            today.setDate(today.getDate()+8-dayOfWeek);
+            min = formatDate(today);
+            today.setDate(today.getDate()+6);
+            max = formatDate(today);
+            break;
+        case 'prevMonth':
+            var minDate = new Date( todayDateToken[0], todayDateToken[1]-2, 1);
+            min = formatDate(minDate);
+            var maxDate = new Date( todayDateToken[0], todayDateToken[1]-1, 0);
+            max = formatDate(maxDate);
+            break;
+        case 'onMonth':
+            var minDate = new Date( todayDateToken[0], todayDateToken[1]-1, 1);
+            min = formatDate(minDate);
+            var maxDate = new Date( todayDateToken[0], todayDateToken[1], 0);
+            max = formatDate(maxDate);
+            break;
+        case 'nextMonth':
+            var minDate = new Date( todayDateToken[0], todayDateToken[1], 1);
+            min = formatDate(minDate);
+            var maxDate = new Date( todayDateToken[0], parseInt(todayDateToken[1])+1, 0);
+            max = formatDate(maxDate);
+            break;
+        default :
+            min = '';
+            max = '';
+            break;
     }
+
     $("#timeSelect option").filter(function() {
         return $(this).val() == timeStep; 
     }).prop('selected', true);
