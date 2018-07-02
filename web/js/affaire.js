@@ -454,7 +454,7 @@ $(document).ready( function () {
 
 
     $('#testBtn').on('click', function(){
-        var i=0;
+        /*var i=0;
         var today = new Date();
         var todayDateToken = formatDate(today).split('-');
         table.rows().every(function(){
@@ -472,7 +472,9 @@ $(document).ready( function () {
 
         if( i == 0 ){
             alert('Pas de Rappel aujourd\'hui');
-        }
+        }*/
+
+        console.log(table.rows().count())
 
     });
 
