@@ -70,6 +70,7 @@ class TacheController extends Controller
         $idAffaire = $request->get('idAffaire');
         $type = $request->get('type');
         $comm = $request->get('commercial');
+        $date = $request->get('date');
         
         $em = $this->getDoctrine()->getManager();
 
@@ -85,7 +86,12 @@ class TacheController extends Controller
         $tache->setAffaire($affaire);
         $tache->setCommercial($commercial);
         $tache->setType($type);
-        $tache->setDate(new \DateTime($request->get('date')));
+        $tache->setDate(new \DateTime($date));
+
+        $em->persist($tache);
+
+        $commentTmp = $affaire->getInfo();
+        $affaire->setInfo( $type.', '.$date.' ('.$comm."):\n\n".$commentTmp );
 
         if( $type === 'Signature' ){
             $affaire->setEtat('Signé');
@@ -97,7 +103,7 @@ class TacheController extends Controller
             $affaire->setEtat('En Cours');
         }
 
-        $em->persist($tache);
+        $em->persist($affaire);
         $em->flush();
 
         $response = new JsonResponse();

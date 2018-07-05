@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
 
         <title>{% block title %}{% endblock %}</title>
-
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/main.css') }}"/>
         <link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/header.css') }}">
         <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/main.css') }}">
@@ -21,14 +21,15 @@
             <div class="navigation">
                 <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaires</div></a>
                 <div class="subMenu spHide">
-                    <a href="/"><h1>Acceuil</h1></a>
-                    <a href="/commercial/"><h1>Commerciaux</h1></a>
-                    <a href="/login"><h1>Login</h1></a>
-                    <a href="/profile"><h1>Profile</h1></a>
+                    <a href="/"><h1 class="home">Acceuil</h1><span class="fas fa-home"></span></a>
+                    <a href="/commercial/"><h1>Commerciaux</h1><span class="fas fa-briefcase"></span></a>
+                    <a href="/login/"><h1>Login</h1><span class="fas fa-sign-in-alt"></span></a>
+                    <a href="/profile/"><h1>Profile</h1><span class="fas fa-user"></span></a>
+                    <a href="/mail/"><h1>Mail</h1><span class="fas fa-envelope"></span></a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/admin/manager/"><h1>Utilisateurs</h1></a>
+                        <a href="/admin/manager/"><h1>Utilisateurs</h1><span class="fas fa-users"></span></a>
                     {% endif %}
-                    <a href="/logout"><h1>Déconnexion</h1></a>
+                    <a href="/logout"><h1>Déconnexion</h1><i class="fas fa-power-off"></i></span></a>
                 </div>
             </div>
             {% block header %}{% endblock %}
@@ -39,4 +40,5 @@
         <script src="{{ asset('js/accueil.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
+
 </html>

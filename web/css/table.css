@@ -10,45 +10,40 @@
 }
 
 .client_Tab{
-    color: #282a3d;
+    color: #1f212d;
     font-size: 15px;
 }
 
 .client_Tab thead{
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: center;
+    text-align: left;
     color: #fff;
-    background-color: #fe8e1e;
+    background-color: #1f212d;
+    font-weight: normal;
 
     /*box-shadow: 0 0 15px #D37A24 inset, 0 0 10px #935C2D inset, 0 0 5px #684833 inset;*/
 }
 
 
 thead tr th:hover {
-    background-color: #ffa144;
+    background-color: #3f435b;
 }
 .dataTable td , .dataTable th{
     padding: 8px;
-    border-left: 1px solid #FFEDDE;
+    border-left: 1px solid #454547;
 }
 
 .dataTable thead tr th {
-    border-bottom: 1px solid #FFEDDE;
-}
-.dataTable thead tr .cialCol{
-    border-top-right-radius: 5px;
-}
-.dataTable thead tr th:first-child{
-    border-top-left-radius: 5px;
+    border-bottom: 1px solid #454547;
 }
 
 .dataTable tbody tr td:first-child{
-    border-left: 1px solid #FFEDDE;
+    border-left: 1px solid #454547;
 }
 
 .cialCol{
-    border-right: 1px solid #FFEDDE;
+    border-right: 1px solid #454547;
 }
 
 .infoLine{
@@ -70,7 +65,7 @@ thead tr th:hover {
     float: left;
     margin: 5px 0px 5px 20px;
     border-collapse: collapse;
-    border: 2px solid #FFEDDE;
+    border: 1px solid #454547;
 }
 .tacheTabClass tr td{
     border-left: none;
@@ -108,11 +103,11 @@ input[type="date"]{
 }
 
 .slider thead tr th{
-    background-color: #e5e7ea;
-    color: black;
+    background-color: #ff811c;
+    color: white;
 }
 [id^='tacheTab'] thead tr th:hover{
-    background-color: #e5e7ea;
+    background-color: #ff811c;
 }
 
 div.slider {
@@ -140,8 +135,8 @@ div.slider {
 }
 
 .odd{
-    background-color: #fff3ea;
+    background-color: #d7e0e0;
 }
 .even{
-    background-color: #ffe6d1;
+    background-color: #e8f7f7;
 }

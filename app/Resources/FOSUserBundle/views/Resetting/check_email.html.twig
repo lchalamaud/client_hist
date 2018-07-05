@@ -2,8 +2,15 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/form.css') }}">
+{% endblock %}
+
 {% block fos_user_content %}
-<p>
-{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
-</p>
+	<div id="content">
+		<h1>Confirmation...</h1>
+		<p>
+		{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+		</p>
+	</div>
 {% endblock %}

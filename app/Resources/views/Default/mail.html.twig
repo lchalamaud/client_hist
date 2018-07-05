@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/mail.css') }}">
 {% endblock %}
 
 {% block title %}Mail{% endblock %}
@@ -12,4 +12,23 @@
 
 {% block body %}
 
+	<div id="content">
+		<h1>Inbox Mail</h1>
+		{% for mail in inboxMsg %}
+			<div class="message">
+				<div class="header">
+					<h2>{{ mail.Subject }}</h2>
+					<h3>De : {{ mail.From.Mailbox.Name }}</h3>
+					<div class="date">{{ mail.DateTimeCreated }}</div>
+				</div>
+				<div class="body">{{ mail.Body._ }}</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="{{ asset('js/mail.js') }}"></script>
 {% endblock %}

@@ -169,8 +169,7 @@ class AffaireController extends Controller
                     $oldestDate = $oldestTache->getDate()->format('Y-m-d');
                 }
                 
-            }
-            elseif($affaire->getEtat() === 'Fin'){
+            }elseif($affaire->getEtat() === 'Fin'){
                 foreach ($listTaches as $tache){
                     if($tache->getType() === 'Fin'){ 
                         if($tache->getDate() > $oldestTache->getDate()){

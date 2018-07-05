@@ -97,13 +97,11 @@ function getFormVal( id ){
 }
 
 /*  Modal  */
-var addaffaireModal = document.getElementById('addAffaireModal');
-var delModal = document.getElementById('delAffaireModal');
 
 $(document).on('keyup', function(e) {
     if(e.which == 27){
-        addaffaireModal.style.display = "none";
-        delModal.style.display = "none";
+        $('#addAffaireModal').hide();
+        $('#delAffaireModal').hide();
         $('#delResponse').empty();
     }else if(e.which == 13){
         /*e.preventDefault();
@@ -113,16 +111,16 @@ $(document).on('keyup', function(e) {
 
 
 $('.close').on('click', function() {
-    addaffaireModal.style.display = "none";
-    delModal.style.display = "none";
+    $('#addAffaireModal').hide();
+    $('#delAffaireModal').hide();
     $('#delResponse').empty();
 });
 
 window.onclick = function(event) {
-    if (event.target == addaffaireModal) {
-        addaffaireModal.style.display = "none";
-    }else if (event.target == delModal) {
-        delModal.style.display = "none";
+    if (event.target.id == 'addAffaireModal') {
+        $('#addAffaireModal').hide();
+    }else if (event.target.id == 'delAffaireModal') {
+        $('#delAffaireModal').hide();
         $('#delResponse').empty();
     }
 }
@@ -130,9 +128,9 @@ window.onclick = function(event) {
 
 $('#addAffaireBtn').on('click', function() {
     cleanForm();
-    $('#modifConfirmBtn').css('display' , 'none');
-    $('#form_Ajouter').css('display', 'inline-block');
-    addaffaireModal.style.display = "block";
+    $('#modifConfirmBtn').hide();
+    $('#form_Ajouter').show();
+    $('#addAffaireModal').show();
     $('#addAffaireModal').removeClass('modifAffaire');
     $('#addAffaireModal').addClass('newAffaire');
 });
@@ -140,11 +138,11 @@ $('#addAffaireBtn').on('click', function() {
 $('#modifAffaireBtn').on('click', function() {
     $('#form_Ajouter').css('display' , 'none');
     $('#modifConfirmBtn').css('display', 'inline-block');
-    addaffaireModal.style.display = "block";
+    $('#addAffaireModal').show();
     $('#addAffaireModal').removeClass('newAffaire');
     $('#addAffaireModal').addClass('modifAffaire');
 });
 
 $('#delAffaireBtn').on('click', function() {
-    delModal.style.display = "block";
+    $('#delAffaireModal').show();
 });

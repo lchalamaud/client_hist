@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/userManager.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 {% endblock %}
 
 {% block title %}User Manager{% endblock %}
@@ -14,6 +15,22 @@
 {% endblock %}
 
 {% block body %}
+    <div id="delModal" class="modal">
+
+        <div class="modal-content">
+            <span class="close cross">&times;</span>
+            <h1>Supprimer utilisateur</h1>
+            <div class="modalbody">
+                <p>Voulez vous vraiment supprimer l'utilisateur : <span id='delModalNom'></span>?</p>
+                <span id="delResponse"></span>
+                <div class="deleteBtn">
+                    <button id="delConfirmBtn" class='button'>Supprimer</button>
+                    <button id="delCancelmBtn" class='button close'>Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="userFrame">
         <h1>Liste des Utilisateurs</h1>
         <table id="userList">

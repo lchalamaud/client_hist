@@ -14,7 +14,7 @@
 	padding-left: 10px; 
 	font-size: 30px;
 	color: #fe8e1e;
-	background-color: #282a3d;
+	background-color: #1f212d;
 	margin-top: 0;
 	margin-bottom: 10px;
 }
@@ -26,17 +26,19 @@
 
 #userList thead{
 	background-color: #fe8e1e;
+	color: white;
 }
 
 #userList .subTitle{
 	padding: 8px 10px;
 	font-weight: normal;
 	font-size: 14px;
+	color: black;
 }
 
 #userList td, #userList th{
 	padding: 10px 15px;
-	border: 1px solid #282a3d;
+	border: 1px solid #1f212d;
 }
 
 .button{

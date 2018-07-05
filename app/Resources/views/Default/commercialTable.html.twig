@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/form.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/commTab.css') }}">
 
@@ -37,26 +37,28 @@
 	</div>
 </div>
 
-
-<table id='commTab' class="hover stripe">
-	<thead>
-		<tr>
-			<th>Nom</th>
-			<th>Acronyme</th>
-			<th>Couleur</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for commercial in commercialTab %}
+<div id='content'>
+    <h1>Liste des commerciaux</h1>
+	<table id='commTab'>
+		<thead>
 			<tr>
-				<td class="nom">{{ commercial.nom }}</td>
-				<td class="acronyme">{{ commercial.acronyme }}</td>
-				<td>{{ commercial.couleur }}</td>
+				<th>Nom</th>
+				<th>Acronyme</th>
+				<th>Couleur</th>
 			</tr>
-		{% endfor %}
-		
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{% for commercial in commercialTab %}
+				<tr>
+					<td class="nom">{{ commercial.nom }}</td>
+					<td class="acronyme">{{ commercial.acronyme }}</td>
+					<td>{{ commercial.couleur }}</td>
+				</tr>
+			{% endfor %}
+			
+		</tbody>
+	</table>
+</div>
 {% endblock %}
 
 {% block javascripts %}

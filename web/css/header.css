@@ -1,37 +1,43 @@
-
 #header{
     padding-top: 7px;
     padding-left: 0;
     border: none;
     width: 100%;
-    background-color: #282a3d;
+    background-color: #1f212d;
     color: white;
     overflow: auto;
 }
 
+
 .subMenu{
     display: none;
     padding: 0;
-    width: 200px;
     position: absolute;
+    background-color: #1f212d;
 }
 .subMenu a{
-    text-decoration: none;
-}
-.subMenu h1{
-    margin: 0;
     border-bottom: 1px solid #fe8e1e;
-    padding: 10px 25px;
-    font-size: 17px;
+    margin: 0;
+    padding-left: 25px;
+    padding-right: 15px;
     color: #fe8e1e;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
-.subMenu h1:hover{
-    background-color: #c3c6dd;
+
+.subMenu h1{
+    font-size: 17px;
+}
+
+
+.subMenu a:hover{
+    background-color: #3f435b;
 }
 .navigation:hover .subMenu{
     display: block;
     z-index: 1;
-    background-color: #282a3d;
 }
 
 .txtBanner{
@@ -44,7 +50,6 @@
     padding-left: 20px;
     padding-bottom: 15px;
 }
-
 .txtBanner div{
     display: inline-block;
 }
@@ -56,12 +61,12 @@
     font-size: 15px;
 }
 
+
 .leftBanner{
     float: left;
     margin-top: 6px;
     margin-left: 35px;
 }
-
 .leftBanner .button{
     margin-left: 8px;
 }
@@ -82,7 +87,15 @@
 }
 
 #searchbox{
-    height: 16px;
+    height: 20px;
     margin: 0 10px;
     padding-left: 7px;
+    background-color: #646468;
+    border: 1px solid #c4a17d;
+    border-radius: 2px;
+    color: white;
+}
+
+#searchbox::placeholder{
+    color: #c4a17d;
 }

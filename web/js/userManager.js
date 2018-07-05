@@ -42,9 +42,15 @@ function delUser(){
         type: "post",
         url: url,
         beforeSend: function(){
-
+        	$('#delConfirmBtn').prop("disabled",true);
+            $('html').css( 'cursor' , 'wait');
+            $('#delResponse').empty().append('<p style="color: grey;margin-left:10px;">Suppression en cours...</p>');
         },
         success: function(){
+        	$('html').css( 'cursor' , 'default');
+        	$('.modal').hide();
+        	$('#delConfirmBtn').prop("disabled",false);
+        	$('#delResponse').empty()
         	$('.selected').remove();
         	disable('#delUser');
 			disable('.promoteUser');
@@ -52,7 +58,9 @@ function delUser(){
         	
         },
         error: function(){
-
+        	$('#delResponse').empty().append('<p style="color: red;margin-left:10px;">Erreur dans la suppression de l\'utilisateur.</p>');
+            $('html').css( 'cursor' , 'default');
+            $('#delConfirmBtn').prop("disabled",false);
         },
         data: {
         	'username': $('.selected .username').html(),
@@ -83,6 +91,21 @@ $(document).ready( function () {
 	});
 
 	$('#delUser').click(function(){
+		$('#delModalNom').empty().append($('.selected').find('.username').html())
+		$('.modal').show();
+	})
+
+	window.onclick = function(event) {
+		console.log(event.target)
+	    if ($(event.target).hasClass('modal')) {
+	        $('.modal').hide();
+	    }
+	}
+	$('.close').on('click', function() {
+		$('.modal').hide();
+	});
+
+	$('#delConfirmBtn').click(function(){
 		delUser();
 	})
 

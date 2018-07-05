@@ -15,7 +15,7 @@
 	padding-left: 10px; 
 	font-size: 30px;
 	color: #fe8e1e;
-	background-color: #282a3d;
+	background-color: #1f212d;
 	margin-top: 0;
 	margin-bottom: 10px;
 }
@@ -66,6 +66,16 @@
 	margin: 7px;
 }
 
-.submitButton {
+input[type="submit"], a input[type="submit"]{
 	display: inline-block;
+}
+
+#content p{
+	margin: 25px 35px;
+	text-align: justify;
+}
+
+#mdpReset{
+	font-size: 12px;
+	color: #adadad;;
 }

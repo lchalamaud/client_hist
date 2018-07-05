@@ -285,8 +285,10 @@ $(document).ready( function () {
 
     $('#cbEnCours').click(function(){
         if($(this).is(":checked")){
-            if (etatFilter != ''){
+            if (etatFilter != false){
                 etatFilter += '|';
+            }else{
+                etatFilter = ''
             }
             etatFilter += 'En Cours';
         }else{
@@ -297,9 +299,12 @@ $(document).ready( function () {
     })
     $('#cbOublie').click(function(){
         if($(this).is(":checked")){
-            if (etatFilter != ''){
+            if (etatFilter != false){
                 etatFilter += '|';
+            }else{
+                etatFilter = ''
             }
+
             etatFilter += 'Oublié';
         }else{
             etatFilter = delstrpart(etatFilter, 'Oublié');
@@ -309,8 +314,10 @@ $(document).ready( function () {
     })
     $('#cbFin').click(function(){
         if($(this).is(":checked")){
-            if (etatFilter != ''){
+            if (etatFilter != false){
                 etatFilter += '|';
+            }else{
+                etatFilter = ''
             }
             etatFilter += 'Fin';
         }else{
@@ -321,8 +328,10 @@ $(document).ready( function () {
     })
     $('#cbSuspendu').click(function(){
         if($(this).is(":checked")){
-            if (etatFilter != ''){
+            if (etatFilter != false){
                 etatFilter += '|';
+            }else{
+                etatFilter = ''
             }
             etatFilter += 'Suspendu';
         }else{
@@ -333,8 +342,10 @@ $(document).ready( function () {
     })
     $('#cbSigne').click(function(){
         if($(this).is(":checked")){
-            if (etatFilter != ''){
+            if (etatFilter != false){
                 etatFilter += '|';
+            }else{
+                etatFilter = ''
             }
             etatFilter += 'Signé';
         }else{
@@ -403,6 +414,7 @@ $(document).ready( function () {
             row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+table.cell(this, 20).data()+'</textarea></div>' + '</div>' ).show();
             getTacheCommercial(idAffaire, table.cell(this, 18).data());
             row.child().addClass('infoLine');
+            console.log(tr.attr('class'))
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus');
             tdi.first().addClass('fa-minus');
@@ -464,7 +476,7 @@ $(document).ready( function () {
             alert('Pas de Rappel aujourd\'hui');
         }*/
 
-        console.log(table.rows().count())
+        console.log(table.page.info().recordsDisplay)
 
     });
 

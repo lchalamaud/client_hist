@@ -14,11 +14,9 @@
 		    <h2>Confirmation :</h2>
 		    {{ form_row(form.plainPassword.second) }}
 		    
-		    <div class="submitButton">
-		        <input type="submit" value="{{ 'Ajouter'|trans }}" class='button'/>
-		    
+	        <input type="submit" value="{{ 'Ajouter'|trans }}" class='button'/>
+		    <a href="/admin/manager/"><input type="submit" value="Annuler" class='button'/></a>
 		{{ form_end(form) }}
-				<a href="/admin/manager/"><input type="submit" value="Annuler" class='button'/></a>
-			</div>
+			
 	</div>
 </div>

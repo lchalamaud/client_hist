@@ -139,7 +139,6 @@ function addTache( idAffaire, trData, table ){
                     }
                     break;
             }
-            table.draw();
 
         },
         error: function(){
@@ -167,7 +166,6 @@ function delTache( idTache, tacheRow, table, trData ){
                 table.cell(trData, 17).data(prevDate);
             }
             $(tacheRow).remove();
-            table.draw();
 
         },
         error: function(){
