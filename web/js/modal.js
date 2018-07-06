@@ -12,83 +12,83 @@ function enable( button ){
 }
 
 function cleanForm(){
-    $('#form_Civilite option').prop('selected', false);
-    $('#form_Nom').val(null);
-    $('#form_Societe').val(null);
+    $('#affaire_Civilite option').prop('selected', false);
+    $('#affaire_Nom').val(null);
+    $('#affaire_Societe').val(null);
 
-    $('#form_Rue').val(null);
-    $('#form_Complement').val(null);
-    $('#form_CP').val(null);
-    $('#form_Ville').val(null);
+    $('#affaire_Rue').val(null);
+    $('#affaire_Complement').val(null);
+    $('#affaire_CP').val(null);
+    $('#affaire_Ville').val(null);
 
-    $('#form_EMail').val(null);
-    $('#form_Telephone').val(null);
+    $('#affaire_EMail').val(null);
+    $('#affaire_Telephone').val(null);
 
-    $('#form_NbController').val(null);
-    $('#form_DevisType option').prop('selected', false);
-    $('#form_SystemType option').prop('selected', false);
-    $('#form_Provenance option').prop('selected', false);
+    $('#affaire_NbController').val(null);
+    $('#affaire_DevisType option').prop('selected', false);
+    $('#affaire_SystemType option').prop('selected', false);
+    $('#affaire_Provenance option').prop('selected', false);
 
-    $('#form_Debut').val(null);
-    $('#form_Commercial option').prop('selected', false);
-    $('#form_Commentaire').val(null);
+    $('#affaire_Debut').val(null);
+    $('#affaire_Commercial option').prop('selected', false);
+    $('#affaire_Commentaire').val(null);
 }
 
 function fillForm( table ){
-    $('#form_Civilite option').filter(function(){
+    $('#affaire_Civilite option').filter(function(){
         return $(this).text() == tabSelectVal(table, 2);
     }).prop('selected', true);
-    $('#form_Nom').val(tabSelectVal(table, 3));
-    $('#form_Societe').val(tabSelectVal(table, 4));
+    $('#affaire_Nom').val(tabSelectVal(table, 3));
+    $('#affaire_Societe').val(tabSelectVal(table, 4));
 
-    $('#form_Rue').val(tabSelectVal(table, 5));
-    $('#form_Complement').val(tabSelectVal(table, 6));
-    $('#form_CP').val(tabSelectVal(table, 7));
-    $('#form_Ville').val(tabSelectVal(table, 8));
+    $('#affaire_Rue').val(tabSelectVal(table, 5));
+    $('#affaire_Complement').val(tabSelectVal(table, 6));
+    $('#affaire_CP').val(tabSelectVal(table, 7));
+    $('#affaire_Ville').val(tabSelectVal(table, 8));
 
-    $('#form_EMail').val(tabSelectVal(table, 9));
-    $('#form_Telephone').val(tabSelectVal(table, 10));
+    $('#affaire_EMail').val(tabSelectVal(table, 9));
+    $('#affaire_Telephone').val(tabSelectVal(table, 10));
 
-    $('#form_NbController').val(tabSelectVal(table, 11));
-    $('#form_DevisType option').filter(function(){
+    $('#affaire_NbController').val(tabSelectVal(table, 11));
+    $('#affaire_DevisType option').filter(function(){
         return $(this).text() == tabSelectVal(table, 12);
     }).prop('selected', true);
-    $('#form_SystemType option').filter(function(){
+    $('#affaire_SystemType option').filter(function(){
         return $(this).text() == tabSelectVal(table, 13);
     }).prop('selected', true);
-    $('#form_Provenance option').filter(function(){
+    $('#affaire_Provenance option').filter(function(){
         return $(this).text() == tabSelectVal(table, 14);
     }).prop('selected', true);
-    $('#form_Debut').val(tabSelectVal(table, 15));
+    $('#affaire_Debut').val(tabSelectVal(table, 15));
 
-    $('#form_Commercial option').filter(function(){
+    $('#affaire_Commercial option').filter(function(){
         return $(this).text() == tabSelectVal(table, 16);
     }).prop('selected', true);
-    $('#form_Commentaire').val(tabSelectVal(table, 19));
+    $('#affaire_Commentaire').val(tabSelectVal(table, 19));
 }
 
 function getFormVal( id ){
     jsonResp = { 
-                    'civilite' : $('#form_Civilite').val(),
-                    'nom' : $('#form_Nom').val(),
-                    'societe' : $('#form_Societe').val(),
+                    'civilite' : $('#affaire_Civilite').val(),
+                    'nom' : $('#affaire_Nom').val(),
+                    'societe' : $('#affaire_Societe').val(),
 
-                    'rue' : $('#form_Rue').val(),
-                    'complement' : $('#form_Complement').val(),
-                    'cp' : $('#form_CP').val(),
-                    'ville' : $('#form_Ville').val(),
+                    'rue' : $('#affaire_Rue').val(),
+                    'complement' : $('#affaire_Complement').val(),
+                    'cp' : $('#affaire_CP').val(),
+                    'ville' : $('#affaire_Ville').val(),
                     
-                    'email' : $('#form_EMail').val(),
-                    'telephone' : $('#form_Telephone').val(),
+                    'email' : $('#affaire_EMail').val(),
+                    'telephone' : $('#affaire_Telephone').val(),
                     
-                    'nbController' : $('#form_NbController').val(),
-                    'devisType' : $('#form_DevisType').val(),
-                    'systemType' : $('#form_SystemType').val(),
-                    'provenance' : $('#form_Provenance').val(),
+                    'nbController' : $('#affaire_NbController').val(),
+                    'devisType' : $('#affaire_DevisType').val(),
+                    'systemType' : $('#affaire_SystemType').val(),
+                    'provenance' : $('#affaire_Provenance').val(),
                     
-                    'debut' : $('#form_Debut').val(),
-                    'commercial' : $('#form_Commercial').val(),
-                    'commentaire' : $('#form_Commentaire').val(),
+                    'debut' : $('#affaire_Debut').val(),
+                    'commercial' : $('#affaire_Commercial').val(),
+                    'commentaire' : $('#affaire_Commentaire').val(),
                     'id' : id
                 };
 
@@ -129,14 +129,14 @@ window.onclick = function(event) {
 $('#addAffaireBtn').on('click', function() {
     cleanForm();
     $('#modifConfirmBtn').hide();
-    $('#form_Ajouter').show();
+    $('#affaire_Ajouter').show();
     $('#addAffaireModal').show();
     $('#addAffaireModal').removeClass('modifAffaire');
     $('#addAffaireModal').addClass('newAffaire');
 });
 
 $('#modifAffaireBtn').on('click', function() {
-    $('#form_Ajouter').css('display' , 'none');
+    $('#affaire_Ajouter').css('display' , 'none');
     $('#modifConfirmBtn').css('display', 'inline-block');
     $('#addAffaireModal').show();
     $('#addAffaireModal').removeClass('newAffaire');

@@ -15,26 +15,26 @@
     padding-left: 6px;
 }
 
-.modal-content #form_DevisType, #form_Provenance, #form_Commercial, #form_SystemType{
+.modal-content #affaire_DevisType, #affaire_Provenance, #affaire_Commercial, #affaire_SystemType{
     width: 51.5%;
     height: 25px;
     padding-left: 6px;
 }
 
-.modal-content #form_Civilite{
+.modal-content #affaire_Civilite{
     height: 25px;
     padding-left: 6px;
 }
 div #nomField{
     width: 20.1%;
 }
-#form_Nom{
+#affaire_Nom{
     width: 89%;
 }
 div #prenomField{
     width: 20.5%;
 }
-#form_Prenom{
+#affaire_Prenom{
     width: 90%;
 }
 
@@ -46,7 +46,7 @@ div #prenomField{
 #cp{
     width: 50%;
 }
-#form_CP{
+#affaire_CP{
     width: 30%;
 }
 #ville{
@@ -55,17 +55,17 @@ div #prenomField{
 #ville>div{
     width: 100%;
 }
-#form_Ville{
+#affaire_Ville{
     width: 100%;
 }
 
 #sysType div{
     width: 100%;
 }
-#form_SystemType{
+#affaire_SystemType{
     width: 49%;
 }
-div>#form_NbController{
+div>#affaire_NbController{
     width: 48.5%;
 }
 

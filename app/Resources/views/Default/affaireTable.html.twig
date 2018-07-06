@@ -47,7 +47,7 @@
 				</tr>
 			</table>
 		</div>
-
+		<button type="submit" class="button" id="refresh"><span class="fas fa-sync-alt"></span></button>
 		<div class="rightBanner">
 			<select id="timeSelect" class="selector">
 				<option value="">Tous</option>
@@ -74,6 +74,7 @@
 {% endblock %}
 
 {% block body %}
+
 <div id="config" style="display:none;">{{ config.timeStep }}-{{ config.commercialPref }}-{{ config.enCours }}-{{ config.oublie }}-{{ config.suspendu }}-{{ config.fin }}-{{ config.signe }}</div>
 
 <div id="addAffaireModal" class="modal order-column">

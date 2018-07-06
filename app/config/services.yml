@@ -36,3 +36,7 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    AppBundle\Service\Mail:
+        class: 'AppBundle\Utils\Mail'
+        factory: 'AppBundle\Email\Utils\MailFactory:createMail'
+        argument: ['@mail']

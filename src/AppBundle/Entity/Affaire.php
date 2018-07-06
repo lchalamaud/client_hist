@@ -279,4 +279,34 @@ class Affaire
 	{
 		return $this->info;
 	}
+
+	public function affaireToArray( $rappel ){
+		return array(
+                'civilite' => $this->getCivilite(),
+                'nom' => $this->getNom(),
+                'societe' => $this->getSociete(),
+
+                'rue' => $this->getRue(),
+                'complement' => $this->getComplement(),
+                'cp' => $this->getCP(),
+                'ville' => $this->getVille(),
+
+                'mail' => $this->getEmail(),
+                'telephone' => $this->getTelephone(),
+
+                'nb_controller' => $this->getNbController(),
+                'devi_type' => $this->getDevisType(),
+                'system_type' => $this->getSystemType(),
+                'provenance' => $this->getProvenance(),
+
+                'debut' => $this->getDebut(),
+                'etat' => $this->getEtat(),
+                'rappel' => $rappel,
+                'commercial' => $this->getCommercial(),
+                'commentaire' => $this->getCommentaire(),
+                'info' => $this->getInfo(),
+                'id' => $this->getId()
+            );
+	}
+
 }

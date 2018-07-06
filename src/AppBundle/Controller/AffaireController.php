@@ -34,60 +34,9 @@ class AffaireController extends Controller
 
         /*  Formulaire  */
         $affaire = new affaire();
+        $addform = $this->createForm('AppBundle\Form\AffaireType', $affaire);
         
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $affaire);
-        $formBuilder
-            ->add('Civilite', ChoiceType::class, array(
-                'choices' =>  array(
-                    'M.' => 'M.',
-                    'Mme' => 'Mme',
-                )))
-            ->add('Nom', TextType::class, array( 'attr' => array('placeholder' => 'NOM' )))
-            ->add('Prenom', TextType::class, array( 'required' => false, 'mapped' => false, 'attr' => array('placeholder' => 'Prénom' )))
-            ->add('Societe', TextType::class, array( 'attr' => array('placeholder' => 'Société' )))
-            ->add('Telephone', TelType::class, array( 'attr' => array('placeholder' => 'Téléphone' )))
-            ->add('EMail', TextType::class, array( 'attr' => array('placeholder' => 'exemple@mail.com' )))
-            ->add('Rue', TextType::class, array( 'attr' => array('placeholder' => 'Rue' )))
-            ->add('Complement', TextType::class, array( 'required' => false, 'attr' => array('placeholder' => 'Complément' )))
-            ->add('CP', IntegerType::class, array( 'attr' => array('placeholder' => 'Code Postal' )))
-            ->add('Ville', TextType::class, array( 'attr' => array('placeholder' => 'VILLE' )))
-            ->add('Commercial', EntityType::class, array(
-                'class' => 'AppBundle:Commercial',
-                'choice_label' => 'acronyme'
-            ))            
-            ->add('Debut', DateType::class, array('widget' => 'single_text'))
-            ->add('DevisType', ChoiceType::class, array(
-                'choices' => array(
-                    'Achat' => 'Achat',
-                    'Location' => 'Location',
-                    'Renseignement' => 'Renseignement',
-                )))
-            ->add('SystemType', ChoiceType::class, array(
-                'choices' => array(
-                    'QuizzBox Entreprise' => 'QB Entreprise',
-                    'Version SSIAP - CQP' => 'SSIAP/CQP',
-                    'QuizzBox Campus' => 'QB Campus',
-                    'QuizzBox Education' => 'QB Education',
-                    'QuizzBox Assemblée Générale' => 'QB Assemblé Générale',
-                    'Autres' => 'Autres',
-                )))
-            ->add('NbController',   IntegerType::class, array( 'attr' => array( 'placeholder' => 'Nb Boitiers' )))
-            ->add('Provenance', ChoiceType::class, array(
-                'choices' => array(
-                    'Recherche Internet (Google...)' => 'RI',
-                    'Reseaux sociaux (Facebook)' => 'RS',
-                    'Presse' => 'Presse',
-                    'Recommandation' => 'Recommandation',
-                    'Déja client' => 'Client',
-                    'Autres' => 'Autres',
-                )))
-            ->add('Commentaire',      TextareaType::class, array('required' => false,))
-            ->add('Id', IntegerType::class, array( 'required' => false, 'mapped' => false))
-            ->add('Ajouter',      SubmitType::class)
-        ;
-        $addform = $formBuilder->getForm();
-
-       if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $addform->handleRequest($request);
             if ($addform->isValid()) {
                 $affaire->setNom( $addform[ 'Nom' ]->getData().' '.$addform[ 'Prenom' ]->getData() );
@@ -110,8 +59,6 @@ class AffaireController extends Controller
 
         $repTache = $em->getRepository('AppBundle:Tache');
         
-
-
         $todayDate = date("Y-m-d");
 
         $affaireTab = array();
@@ -184,8 +131,6 @@ class AffaireController extends Controller
                 
             }
 
-
-            
             $tmp = array(
                 'civilite' => $affaire->getCivilite(),
                 'nom' => $affaire->getNom(),
@@ -216,6 +161,9 @@ class AffaireController extends Controller
             $affaireTab[] = $tmp;
         }
 
+
+        /*  Lecture du fichier de préférence    */
+        
         $publicResourcesFolderPath = $this->get('kernel')->getRootDir() . '/../web/preferences/';
         $filename = "userprofile.conf";
 

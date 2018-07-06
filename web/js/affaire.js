@@ -213,9 +213,9 @@ $(document).ready( function () {
             { "data": "Devi_Type" },        //12
             { "data": "System_Type" },      //13
             { "data": "Provenance" },       //14
-            { "data": "Debut" ,},            //15
+            { "data": "Debut" ,},           //15
             { "data": "Etat" },             //16
-            { "data": "Rappel" },            //17
+            { "data": "Rappel" },           //17
             { "data": "Commercial" },       //18
             { "data": "Commentaire" },      //19
             { "data": "Info" },             //20
@@ -476,8 +476,13 @@ $(document).ready( function () {
             alert('Pas de Rappel aujourd\'hui');
         }*/
 
-        console.log(table.page.info().recordsDisplay)
+        console.log(table.page.info().recordsDisplay);
 
+    });
+
+    $('#refresh').click(function(){
+        updateDbFromMailBox();
+        table.draw();
     });
 
     $(document).on('change', "div.infoText textarea", function(event){

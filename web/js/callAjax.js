@@ -229,3 +229,25 @@ function setAffaireInfo( idAffaire, selector, table, info ){
         data: JsonInfo
     });
 }
+
+function updateDbFromMailBox( table ){
+    
+
+    var url ='/mail/database/';
+    $.ajax({
+        type: "GET",
+        url: url,
+        beforeSend: function(){
+
+        },
+        success: function(data){
+            console.log(data.affaires);
+            $.each(data.affaires, function(i, item){
+                table.row.add( item ).draw();
+            })
+        },
+        error: function(){
+
+        },
+    });
+}
