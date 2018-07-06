@@ -40,7 +40,7 @@ function tacheFormat ( id, debut ) {
                     '<td></td>'+
                 '</tr>'+
                 '<tr><form>'+
-                    '<td><select id=\'type'+ id +'\'>'+
+                    '<td><select id=\'type'+ id +'\' class="typeTacheSelect">'+
                         '<option value=\'Appel\'>Appel</option>'+
                         '<option value=\'Démo\'>Démo</option>'+
                         '<option value=\'Rappel\'>Rappel</option>'+
@@ -105,7 +105,7 @@ function formatDate( date ){
 }
 
 function setTableInfo( selector, table, info ){
-    table.cell(selector, 20).data(info)
+    table.cell(selector, 20).data(info);
 }
 
 
@@ -144,7 +144,7 @@ $(document).ready( function () {
 		    "sProcessing":     "Traitement en cours...",
 		    "sSearch":         "Rechercher&nbsp;:",
 		    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-		    "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+		    "sInfo":           "Affaire : _START_ - _END_ (_TOTAL_)",
 		    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
 		    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
 		    "sInfoPostFix":    "",
@@ -223,7 +223,7 @@ $(document).ready( function () {
         ],
         "order": [[17, 'desc']],
         "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/40),
-        "dom": 'tpr',
+        "dom": 'tpri',
         "autoWidth": false,
         "initComplete": function () {
             this.api().columns(18).every( function () {
@@ -272,7 +272,7 @@ $(document).ready( function () {
         fillForm( table );
     });
     $('#modifConfirmBtn').on('click', function(){
-        modifAffaire(table.cell('.selected' ,21).data());
+        modifAffaire( table , tabSelectVal(table,21));
     });
 
     $('#delAffaireBtn').on('click', function() {
@@ -414,14 +414,11 @@ $(document).ready( function () {
             row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+table.cell(this, 20).data()+'</textarea></div>' + '</div>' ).show();
             getTacheCommercial(idAffaire, table.cell(this, 18).data());
             row.child().addClass('infoLine');
-            console.log(tr.attr('class'))
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus');
             tdi.first().addClass('fa-minus');
             $('div.slider', row.child()).slideDown();
             var textareaWidth = $('#infoArea'+ idAffaire).width();
-            //tr.nextUntil('.'+tr.attr('class').split(' ')[0])
-            //var infolineHeight = tr.nextUntil('.'+tr.attr('class').split(' ')[0]).height();
 
             $('#infoArea'+idAffaire).css({
                 right: - (textareaWidth + 10) + 'px',
@@ -433,11 +430,50 @@ $(document).ready( function () {
 
     /*  Gestionnaire de tache   */
 
+    $(document).on("change", ".typeTacheSelect", function(){
+        var idTache = event.target.id.slice(5);
+        if($(event.target).find(":selected").val() == 'Signature')
+        {
+            $("<tr class='numDossier"+idTache+"'>"+
+                    "<td>N° Dossier :</td><td class='centerCol'>"+
+                    "<input type='number' class='numDossierInput'>"+
+                    "</td><td colspan=3></td>"+
+                "</tr>")
+                .appendTo($(event.target.parentElement.parentElement.parentElement));
+            $('tbody .numDossier'+idTache)
+                .find('td')
+                .wrapInner('<div style="display: none;" />')
+                .parent()
+                .find('td > div')
+                .slideDown("fast", function(){
+                    var $set = $(this);
+                    $set.replaceWith($set.contents());
+            });  
+            $(event.target.parentElement).addClass('Signature');
+        }else if($(event.target.parentElement).hasClass('Signature'))
+        {
+            $(event.target.parentElement).removeClass('Signature')
+            $('tbody .numDossier'+idTache)
+                .find('td')
+                .wrapInner('<div style="display: block;" />')
+                .parent()
+                .find('td > div')
+                .slideUp("fast", function(){
+                    $(this).parent().parent().remove();
+            });
+        }
+    })
+
     $(document).on( "click", ".clickPlus", function(){
         var trData = $(this).closest('tr.infoLine').prev();
         var idAffaire =  table.cell(trData, 21).data();
         if($('#dateTache'+idAffaire).val()){
-            addTache( idAffaire, trData, table );
+            if($('#type'+idAffaire+' option:selected').val() == 'Signature'){
+
+            }else{
+                addTache( idAffaire, trData, table );
+            }
+            
         }else{
             alert('Veuillez rentrer une date');
         }

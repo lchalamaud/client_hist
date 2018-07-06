@@ -70,7 +70,7 @@ class AffaireController extends Controller
 
             $listTaches = $repTache->findBy(['affaire' => $affaire->getId()]);
             
-            $oldestDate= '';
+            $oldestDate= $affaire->getDebut()->format('Y-m-d');
             $oldestTache = new Tache();
             $oldestTache->setDate($oldestDate);
 

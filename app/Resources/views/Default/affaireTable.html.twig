@@ -24,25 +24,25 @@
 				<tr>
 					<td>
 						<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-						<label for="cbEnCours">En Cours</label>
+						<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}"> En Cours</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-						<label for="cbOublie">Oubliées</label>
+						<label for="cbOublie"><img src="{{ asset('/img/maroon.jpg')}}"> Oubliées</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-						<label for="cbSuspendu">Suspendues</label>
+						<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}"> Suspendues</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-						<label for="cbFin">Finies</label>
+						<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-						<label for="cbSigne">Signées</label>
+						<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}"> Signées</label>
 					</td>
 				</tr>
 			</table>
@@ -184,7 +184,7 @@
 
 				<th class="centerCol spHide">Nb</th>
 				<th class="spHide">Devis</th>
-				<th style="display:none">Système</th>
+				<th class="spHide">Système</th>
 				<th style="display:none">Provenance</th>
 
 				<th style="display:none">Date de Début</th>
@@ -215,7 +215,7 @@
 
 					<td class="centerCol spHide">{{ affaire.nb_controller }}</td>
 					<td class="spHide">{{ affaire.devi_type }}</td>
-					<td style="display:none">{{ affaire.system_type }}</td>
+					<td class="spHide">{{ affaire.system_type }}</td>
 					<td style="display:none">{{ affaire.provenance }}</td>
 
 					<td style="display:none">{{ affaire.debut }}</td>

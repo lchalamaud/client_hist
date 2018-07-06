@@ -31,9 +31,9 @@ class Mail
 	public function getInboxMail()
 	{
 		// Set connection information.
-		$host = "";
-		$username = "";
-		$password = "";
+		$host = "mail.nextmedia.fr";
+		$username = "quizzbox\\Louisc";
+		$password = "NextMedia-63.";
 		$version = "";
 
 		$client = new Client($host, $username, $password);

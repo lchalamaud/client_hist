@@ -14,6 +14,7 @@ function enable( button ){
 function cleanForm(){
     $('#affaire_Civilite option').prop('selected', false);
     $('#affaire_Nom').val(null);
+    $('#affaire_Prenom').val(null);
     $('#affaire_Societe').val(null);
 
     $('#affaire_Rue').val(null);
@@ -51,10 +52,30 @@ function fillForm( table ){
 
     $('#affaire_NbController').val(tabSelectVal(table, 11));
     $('#affaire_DevisType option').filter(function(){
-        return $(this).text() == tabSelectVal(table, 12);
+        switch (tabSelectVal(table, 12)){
+            case 'Loc':
+                return $(this).text() == 'Location';
+            case 'Rens.':
+                return $(this).text() == 'Renseignement';
+            case 'Achat':
+                return $(this).text() == 'Achat';
+        } 
     }).prop('selected', true);
     $('#affaire_SystemType option').filter(function(){
-        return $(this).text() == tabSelectVal(table, 13);
+        switch (tabSelectVal(table, 13)){
+            case 'QB Ent.':
+                return $(this).text() == 'QuizzBox Entreprise';
+            case 'SSIAP/CQP':
+                return $(this).text() == 'Version SSIAP - CQP';
+            case 'QB Campus':
+                return $(this).text() == 'QuizzBox Campus';
+            case 'QB Educ.':
+                return $(this).text() == 'QuizzBox Education';
+            case 'QB AG':
+                return $(this).text() == 'QuizzBox Assemblée Générale';
+            case 'Autres':
+                return $(this).text() == 'Autres';
+        } 
     }).prop('selected', true);
     $('#affaire_Provenance option').filter(function(){
         return $(this).text() == tabSelectVal(table, 14);
@@ -62,7 +83,7 @@ function fillForm( table ){
     $('#affaire_Debut').val(tabSelectVal(table, 15));
 
     $('#affaire_Commercial option').filter(function(){
-        return $(this).text() == tabSelectVal(table, 16);
+        return $(this).text() == tabSelectVal(table, 18);
     }).prop('selected', true);
     $('#affaire_Commentaire').val(tabSelectVal(table, 19));
 }
@@ -70,7 +91,7 @@ function fillForm( table ){
 function getFormVal( id ){
     jsonResp = { 
                     'civilite' : $('#affaire_Civilite').val(),
-                    'nom' : $('#affaire_Nom').val(),
+                    'nom' : $('#affaire_Nom').val()+' '+$('#affaire_Prenom').val(),
                     'societe' : $('#affaire_Societe').val(),
 
                     'rue' : $('#affaire_Rue').val(),
@@ -94,6 +115,31 @@ function getFormVal( id ){
 
 
     return jsonResp;
+}
+
+function updateTableVal( table, formVal ){
+    table.cell('.selected', 2).data(formVal.civilite);
+    table.cell('.selected', 3).data(formVal.nom);
+    table.cell('.selected', 4).data(formVal.societe);
+
+    table.cell('.selected', 5).data(formVal.rue);
+    table.cell('.selected', 6).data(formVal.complement);
+    table.cell('.selected', 7).data(formVal.cp);
+    table.cell('.selected', 8).data(formVal.ville);
+
+    table.cell('.selected', 9).data(formVal.email);
+    table.cell('.selected', 10).data(formVal.telephone);
+
+    table.cell('.selected', 11).data(formVal.nbController);
+    table.cell('.selected', 12).data(formVal.devisType);
+    table.cell('.selected', 13).data(formVal.systemType);
+    table.cell('.selected', 14).data(formVal.provenance);
+
+    table.cell('.selected', 15).data(formVal.debut);
+    table.cell('.selected', 18).data(formVal.commercial);
+    table.cell('.selected', 19).data(formVal.commentaire);
+
+    table.page(table.page.info().page).draw('page');
 }
 
 /*  Modal  */

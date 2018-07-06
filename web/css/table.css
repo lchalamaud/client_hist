@@ -46,6 +46,10 @@ thead tr th:hover {
     border-right: 1px solid #454547;
 }
 
+.details-control{
+    padding: 8px 7px !important;
+}
+
 .infoLine{
     position: relative;
     background-color: white;
@@ -72,6 +76,10 @@ thead tr th:hover {
 }
 
 input[type="date"]{
+    width: 70%;
+}
+
+.numDossierInput{
     width: 70%;
 }
 

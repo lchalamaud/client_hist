@@ -51,15 +51,15 @@ class AffaireType extends AbstractType
                 'choices' => array(
                     'Achat' => 'Achat',
                     'Location' => 'Location',
-                    'Renseignement' => 'Renseignement',
+                    'Renseignement' => 'Rens.',
                 )))
             ->add('SystemType', ChoiceType::class, array(
                 'choices' => array(
-                    'QuizzBox Entreprise' => 'QB Entreprise',
+                    'QuizzBox Entreprise' => 'QB Ent.',
                     'Version SSIAP - CQP' => 'SSIAP/CQP',
                     'QuizzBox Campus' => 'QB Campus',
-                    'QuizzBox Education' => 'QB Education',
-                    'QuizzBox Assemblée Générale' => 'QB Assemblé Générale',
+                    'QuizzBox Education' => 'QB Educ.',
+                    'QuizzBox Assemblée Générale' => 'QB AG',
                     'Autres' => 'Autres',
                 )))
             ->add('NbController',   IntegerType::class, array( 'attr' => array( 'placeholder' => 'Nb Boitiers' )))

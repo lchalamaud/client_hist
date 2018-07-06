@@ -75,7 +75,7 @@ function getTacheCommercial(idAffaire, commercial){
 function addTache( idAffaire, trData, table ){
 
     type = $("#type"+idAffaire).val();
-    date = $("#dateTache"+idAffaire).val();
+    date = reorderDate($("#dateTache"+idAffaire).val());
     commercial = $('#selectComm'+idAffaire).find(":selected").val();
 
     tache = {
@@ -106,7 +106,8 @@ function addTache( idAffaire, trData, table ){
                 '</tr>'
             )
             var actualTextArea = $('#infoArea' + idAffaire +' textarea').val();
-            $('#infoArea' + idAffaire +' textarea').val(type+', '+reorderDate(date)+' ('+commercial+'):\n\n'+actualTextArea);
+            $('#infoArea' + idAffaire +' textarea').val(type+', '+date+' ('+commercial+'):\n\n'+actualTextArea);
+            table.cell(trData, 20).data( type+', '+date+' ('+commercial+'):\n\n'+actualTextArea);
 
             var todayDate = new Date();
             var todayToken = formatDate(todayDate).split('-');
@@ -175,7 +176,7 @@ function delTache( idTache, tacheRow, table, trData ){
     });
 }
 
-function modifAffaire( id ){
+function modifAffaire( table, id ){
     
     jsonAffaire = getFormVal( id );
     
@@ -190,6 +191,7 @@ function modifAffaire( id ){
         success: function(data){
             $('html').css( 'cursor' , 'default');
             $('#addAffaireModal').css('display','none');
+            updateTableVal( table, jsonAffaire );
         },
         error: function(){
             $('html').css( 'cursor' , 'default');
