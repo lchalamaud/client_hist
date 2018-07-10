@@ -5,18 +5,21 @@
 	<h1>Register</h1>
 	<div class="form">
 		{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'placeholder': 'fos_user_registration_register'}}) }}
-		    <h2>Nom :</h2>
-		    {{ form_row(form.username) }}
-		    <h2>Email :</h2>
-		    {{ form_row(form.email) }}
-		    <h2>Mot de passe :</h2>
-		    {{ form_row(form.plainPassword.first) }}
-		    <h2>Confirmation :</h2>
-		    {{ form_row(form.plainPassword.second) }}
-		    
+		    <div class="formContent">
+			    <h2>Nom :</h2>
+			    {{ form_row(form.username) }}
+			    <h2>Email :</h2>
+			    {{ form_row(form.email) }}
+			    <h2>Mot de passe :</h2>
+			    {{ form_row(form.plainPassword.first) }}
+			    <h2>Confirmation :</h2>
+			    {{ form_row(form.plainPassword.second) }}
+			    <h2>Commercial</label>
+				<input type="checkbox" id="roleCommercial" name="roleCommercial" value="roleCommercial"/>
+		    </div>
 	        <input type="submit" value="{{ 'Ajouter'|trans }}" class='button'/>
 		    <a href="/admin/manager/"><input type="submit" value="Annuler" class='button'/></a>
 		{{ form_end(form) }}
-			
+		
 	</div>
 </div>

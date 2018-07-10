@@ -11,7 +11,7 @@
 
 .client_Tab{
     color: #1f212d;
-    font-size: 15px;
+    font-size: 14.5px;
 }
 
 .client_Tab thead{
@@ -75,8 +75,11 @@ thead tr th:hover {
     border-left: none;
 }
 
+.typeTacheSelect{
+    width: 80%;
+}
 input[type="date"]{
-    width: 70%;
+    width: 120px;
 }
 
 .numDossierInput{
@@ -147,4 +150,8 @@ div.slider {
 }
 .even{
     background-color: #e8f7f7;
+}
+
+.dataTables_paginate, .dataTables_info{
+    display: inline-block;
 }

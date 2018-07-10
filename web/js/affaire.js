@@ -1,3 +1,5 @@
+var idleTime = 0;
+
 var commercialPref = 'Tous';
 var timeStepPref = '';
 var etatPref = '';
@@ -6,15 +8,9 @@ var oublie = true;
 var suspendu = false;
 var fin = false;
 var signe = false;
+var signEC = false;
 var etatFilter = 'En Cours|Oublié';
 
-var delay = (function(){
-    var timer = 0;
-    return function(callback, ms){
-        clearTimeout (timer);
-        timer = setTimeout(callback, ms);
-    };
-})();
 
 function tabSelectVal(table, index){
     return table.cell('.selected', index).data();
@@ -43,9 +39,9 @@ function tacheFormat ( id, debut ) {
                     '<td><select id=\'type'+ id +'\' class="typeTacheSelect">'+
                         '<option value=\'Appel\'>Appel</option>'+
                         '<option value=\'Démo\'>Démo</option>'+
-                        '<option value=\'Rappel\'>Rappel</option>'+
                         '<option value=\'Propal\'>Propal</option>'+
-                        '<option value=\'Tel\'>Tel</option>'+
+                        '<option value=\'Rappel\'>Rappel</option>'+
+                        '<option value=\'Sign EC\'>Signature en cours</option>'+
                         '<option value=\'Signature\'>Signature</option>'+
                         '<option value=\'Suspension\'>Suspension</option>'+
                         '<option value=\'Fin\'>Fin</option>'+
@@ -81,6 +77,9 @@ function infoFormat ( table ) {
             '</tr>'+
             '<tr>'+
             	'<td>'+table.Commentaire+'</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>N° Dossier : '+table.NumDossier+'</td>'+
             '</tr>'+
         '</table>';
 }
@@ -127,6 +126,8 @@ $(document).ready( function () {
     disable("#delAffaireBtn");
     disable("#modifAffaireBtn");
 
+
+
     $.fn.dataTable.ext.search.push( function( settings, data, dataIndex ) {
         var date = data[17];
         if ( ( min == '' && max == '' ) ||
@@ -144,9 +145,9 @@ $(document).ready( function () {
 		    "sProcessing":     "Traitement en cours...",
 		    "sSearch":         "Rechercher&nbsp;:",
 		    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-		    "sInfo":           "Affaire : _START_ - _END_ (_TOTAL_)",
+		    "sInfo":           "_START_ - _END_ (_TOTAL_ affaires)",
 		    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
-		    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+		    "sInfoFiltered":   "",
 		    "sInfoPostFix":    "",
 		    "sLoadingRecords": "Chargement en cours...",
 		    "sZeroRecords":    "Oups... Il semblerait qu'il n'y ai pas d'affaire.",
@@ -187,6 +188,9 @@ $(document).ready( function () {
                         case 'Signé':
                             img = '<img src="/img/green.jpg">'
                             break;
+                        case 'Sign EC':
+                            img = '<img src="/img/green_2.jpg">'
+                            break;
                         case 'Suspendu':
                             img = '<img src="/img/orange.jpg">'
                             break;
@@ -200,30 +204,31 @@ $(document).ready( function () {
                 },                
             },
             
-            { "data": "Civilite" },         //2
+            { "data": "Civilite", "visible": false },         //2
 			{ "data": "Nom" },              //3
 			{ "data": "Societe" },          //4
-            { "data": "Rue" },              //5
-            { "data": "Complement" },       //6
-            { "data": "CP" },               //7
+            { "data": "Rue", "visible": false },              //5
+            { "data": "Complement", "visible": false },       //6
+            { "data": "CP", "visible": false },               //7
             { "data": "Ville" },            //8
-            { "data": "Mail" },             //9
+            { "data": "Mail", "visible": false },             //9
             { "data": "Telephone" },        //10
             { "data": "Nb_Controller" },    //11
             { "data": "Devi_Type" },        //12
             { "data": "System_Type" },      //13
-            { "data": "Provenance" },       //14
-            { "data": "Debut" ,},           //15
-            { "data": "Etat" },             //16
+            { "data": "Provenance", "visible": false },       //14
+            { "data": "Debut", "visible": false },           //15
+            { "data": "Etat", "visible": false },             //16
             { "data": "Rappel" },           //17
             { "data": "Commercial" },       //18
-            { "data": "Commentaire" },      //19
-            { "data": "Info" },             //20
-            { "data": "Id" },               //21
+            { "data": "Commentaire", "visible": false },      //19
+            { "data": "Info", "visible": false },             //20
+            { "data": "NumDossier", "visible": false },       //21
+            { "data": "Id", "visible": false },               //22
         ],
         "order": [[17, 'desc']],
         "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/40),
-        "dom": 'tpri',
+        "dom": 'tpr<"top"i>',
         "autoWidth": false,
         "initComplete": function () {
             this.api().columns(18).every( function () {
@@ -272,7 +277,7 @@ $(document).ready( function () {
         fillForm( table );
     });
     $('#modifConfirmBtn').on('click', function(){
-        modifAffaire( table , tabSelectVal(table,21));
+        modifAffaire( table , tabSelectVal(table,22));
     });
 
     $('#delAffaireBtn').on('click', function() {
@@ -280,7 +285,7 @@ $(document).ready( function () {
         $('#delModalSociete').empty().prepend(table.cell('.selected', 4).data());
     });
     $('#delConfirmBtn').on('click', function(){
-        delAffaire(table.cell('.selected' ,21).data(), table);
+        delAffaire(table.cell('.selected' ,22).data(), table);
     });
 
     $('#cbEnCours').click(function(){
@@ -336,6 +341,20 @@ $(document).ready( function () {
             etatFilter += 'Suspendu';
         }else{
             etatFilter = delstrpart(etatFilter, 'Suspendu');
+        }
+        table.column( 16 ).search(etatFilter, true, false).draw();
+        setConfig();
+    })
+    $('#cbSignEC').click(function(){
+        if($(this).is(":checked")){
+            if (etatFilter != false){
+                etatFilter += '|';
+            }else{
+                etatFilter = ''
+            }
+            etatFilter += 'Sign EC';
+        }else{
+            etatFilter = delstrpart(etatFilter, 'Sign EC');
         }
         table.column( 16 ).search(etatFilter, true, false).draw();
         setConfig();
@@ -397,7 +416,7 @@ $(document).ready( function () {
         var tdi = tr.find("i.fa");
         var row = table.row( tr );
 
-        var idAffaire = table.cell(this, 21).data();
+        var idAffaire = table.cell(this, 22).data();
         var debut = table.cell(this, 15).data();
 
         if ( row.child.isShown() ) {
@@ -431,16 +450,16 @@ $(document).ready( function () {
     /*  Gestionnaire de tache   */
 
     $(document).on("change", ".typeTacheSelect", function(){
-        var idTache = event.target.id.slice(5);
+        var idAffaire = event.target.id.slice(4);
         if($(event.target).find(":selected").val() == 'Signature')
         {
-            $("<tr class='numDossier"+idTache+"'>"+
+            $("<tr class='numDossier"+idAffaire+"'>"+
                     "<td>N° Dossier :</td><td class='centerCol'>"+
                     "<input type='number' class='numDossierInput'>"+
                     "</td><td colspan=3></td>"+
                 "</tr>")
                 .appendTo($(event.target.parentElement.parentElement.parentElement));
-            $('tbody .numDossier'+idTache)
+            $('tbody .numDossier'+idAffaire)
                 .find('td')
                 .wrapInner('<div style="display: none;" />')
                 .parent()
@@ -453,7 +472,7 @@ $(document).ready( function () {
         }else if($(event.target.parentElement).hasClass('Signature'))
         {
             $(event.target.parentElement).removeClass('Signature')
-            $('tbody .numDossier'+idTache)
+            $('tbody .numDossier'+idAffaire)
                 .find('td')
                 .wrapInner('<div style="display: block;" />')
                 .parent()
@@ -466,12 +485,17 @@ $(document).ready( function () {
 
     $(document).on( "click", ".clickPlus", function(){
         var trData = $(this).closest('tr.infoLine').prev();
-        var idAffaire =  table.cell(trData, 21).data();
+        var idAffaire =  table.cell(trData, 22).data();
         if($('#dateTache'+idAffaire).val()){
             if($('#type'+idAffaire+' option:selected').val() == 'Signature'){
-
+                numDossier = $(event.target.parentElement.parentElement).next().find('.numDossierInput').val();
+                if(numDossier){
+                    addTache( idAffaire, trData, table, numDossier );
+                }else{
+                    alert('Veuillez rentrer le numéros de dossier');
+                }
             }else{
-                addTache( idAffaire, trData, table );
+                addTache( idAffaire, trData, table, null );
             }
             
         }else{
@@ -512,13 +536,12 @@ $(document).ready( function () {
             alert('Pas de Rappel aujourd\'hui');
         }*/
 
-        console.log(table.page.info().recordsDisplay);
+        console.log(etatFilter);
 
     });
 
     $('#refresh').click(function(){
-        updateDbFromMailBox();
-        table.draw();
+        updateDbFromMailBox( table );
     });
 
     $(document).on('change', "div.infoText textarea", function(event){
@@ -529,7 +552,7 @@ $(document).ready( function () {
 
         setAffaireInfo(idAffaire, trData, table, $('#infoArea'+idAffaire+' textarea').val());
     });
-
-
-
+    
+    /*      Auto Update: 5 minute d'inactivité      */
+    setInterval(function(){updateDbFromMailBox( table );}, 300000); //300 000ms = 5 minutes
 });

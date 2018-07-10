@@ -26,6 +26,7 @@ class PreferenceController extends Controller
             ."\nSuspendu:".$request->get('suspendu')
             ."\nFin:".$request->get('fin')
             ."\nSigné:".$request->get('signe')
+            ."\nSignEC:".$request->get('signEC')
         );
 
         $response = new JsonResponse();

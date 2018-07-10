@@ -7,6 +7,7 @@ function initConfig(){
     suspendu = config[4];
     fin = config[5];
     signe = config[6];
+    signEC = config[7];
 }
 
 function setInitStateConfig(){
@@ -47,7 +48,14 @@ function setInitStateConfig(){
             etatFilter += '|Signé';
         }
     }
-
+    if( signEC=='true' ){
+        $('#cbSignEC').prop( "checked", true );
+        if(etatFilter == ''){
+            etatFilter += 'Sign EC';
+        }else{
+            etatFilter += '|Sign EC';
+        }
+    }
 }
 
 function setTimeStep( timeStep ){
@@ -131,6 +139,7 @@ function setConfig(){
         'suspendu': $('#cbSuspendu').is(":checked"),
         'fin': $('#cbFin').is(":checked"),
         'signe': $('#cbSigne').is(":checked"),
+        'signEC': $('#cbSignEC').is(":checked"),
     }
     $.ajax({
         type: "post",

@@ -29,18 +29,18 @@ function delAffaire(idAffaire, table){
 
 function getTacheCommercial(idAffaire, commercial){
     
-    var url = '/tache/affaire/nom/'+idAffaire+'/';
+    var start = new Date().getTime();
+    var url = '/tache/affaire/nom/';
     $.ajax({
         type: "get",
         url: url,
         beforeSend: function(){
             $('html').css( 'cursor' , 'wait');
-
         },
         success: function(data){
             $('html').css( 'cursor' , 'default');
 
-            $.each(data.commercial, function(i, item){
+            $.each(data.commercial, function(i, item){   
                 if( item.acronyme == commercial){
                     $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" selected>' + item.acronyme + '</option>');
                 }else{
@@ -48,8 +48,8 @@ function getTacheCommercial(idAffaire, commercial){
                 }
             })
 
-            data.taches.sort(sortDateTab);
 
+            data.taches.sort(sortDateTab);
             $.each(data.taches, function(i, item) {
                 $('#tacheTab'+ idAffaire).prepend(
                     '<tr>'+
@@ -61,18 +61,19 @@ function getTacheCommercial(idAffaire, commercial){
                     '</td>'
                 );
             });
-
+            console.log(new Date().getTime() - start);
         },
         error: function(){
             $('html').css( 'cursor' , 'default');
             $('#tacheTab'+ idAffaire).prepend(
                     '<tr><td colspan=5 style="color : red">Erreur de lecture... Fermez et réouvrez l\'affaire</td></tr>'
             )
-        }
+        },
+        data : {'idAffaire' : idAffaire}
     });  
 }
 
-function addTache( idAffaire, trData, table ){
+function addTache( idAffaire, trData, table, numDossier ){
 
     type = $("#type"+idAffaire).val();
     date = reorderDate($("#dateTache"+idAffaire).val());
@@ -83,6 +84,7 @@ function addTache( idAffaire, trData, table ){
         'type' : type,
         'date' : date,
         'commercial' : commercial,
+        'numDossier' : numDossier,
     };
 
     var url = '/add/tache/';
@@ -99,7 +101,7 @@ function addTache( idAffaire, trData, table ){
             $('#tacheTab'+idAffaire+' tbody').prepend(
                 '<tr>'+
                     '<td>'+type+'</td>'+
-                    '<td class="centerCol">'+reorderDate(date)+'</td>'+
+                    '<td class="centerCol">'+date+'</td>'+
                     '<td class="centerCol spHide">'+commercial+'</td>'+
                     '<td class="centerCol tdColor">'+ data.couleur +'</td>'+
                     '<td class="centerCol"><i class="far fa-times-circle" id="cross'+ data.id +'"></i></td>'+
@@ -115,6 +117,14 @@ function addTache( idAffaire, trData, table ){
             switch(type){
                 case 'Signature':
                     table.cell(trData, 1).data('Signé');
+                    $('tbody .numDossier'+idAffaire)
+                        .find('td')
+                        .wrapInner('<div style="display: block;" />')
+                        .parent()
+                        .find('td > div')
+                        .slideUp("fast", function(){
+                            $(this).parent().parent().remove();
+                    });
                     break;
                 case 'Suspension':
                     table.cell(trData, 1).data('Suspendu');
@@ -122,18 +132,21 @@ function addTache( idAffaire, trData, table ){
                 case 'Fin':
                     table.cell(trData, 1).data('Fin');
                     break;
+                case 'Sign EC':
+                    table.cell(trData, 1).data('Sign EC');
+                    break;
                 case 'Rappel':
-                    if( date > table.cell(trData, 17).data() ){
+                    if( reorderDate(date) > table.cell(trData, 17).data() ){
                         table.cell(trData, 17).data(date);
                     }
-                    if( date < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                    if( reorderDate(date) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
                         table.cell(trData, 1).data('Oublié');
                     }else{
                         table.cell(trData, 1).data('En Cours');
                     }
                     break;
                 default:
-                    if( date < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                    if( reorderDate(date) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
                         table.cell(trData, 1).data('Oublié');
                     }else{
                         table.cell(trData, 1).data('En Cours');
@@ -232,6 +245,7 @@ function setAffaireInfo( idAffaire, selector, table, info ){
     });
 }
 
+
 function updateDbFromMailBox( table ){
     
 
@@ -243,10 +257,36 @@ function updateDbFromMailBox( table ){
 
         },
         success: function(data){
-            console.log(data.affaires);
             $.each(data.affaires, function(i, item){
-                table.row.add( item ).draw();
+                tmp = {
+                    "" : null,
+                    "etat" : item.etat,
+                    "Civilite" : item.civilite,
+                    "Nom" : item.nom,
+                    "Societe" : item.societe,
+                    "Rue" : item.rue,
+                    "Complement" : item.complement,
+                    "CP" : item.cp,
+                    "Ville" : item.ville,
+                    "Mail" : item.mail,
+                    "Telephone" : item.telephone,
+                    "Nb_Controller" : item.nb_controller,
+                    "Devi_Type" : item.devi_type,
+                    "System_Type" : item.system_type,
+                    "Provenance" : item.provenance,
+                    "Debut" : item.debut.date.split(' ')[0],
+                    "Etat" : item.etat,
+                    "Rappel" : item.debut.date.split(' ')[0],
+                    "Commercial" : item.commercial,
+                    "Commentaire" : item.commentaire,
+                    "Info" : '',
+                    "NumDossier" : null,
+                    "Id" : item.id
+                }
+                table.rows.add([tmp]);
             })
+            table.draw(false);
+                
         },
         error: function(){
 

@@ -27,18 +27,23 @@
 						<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}"> En Cours</label>
 					</td>
 					<td>
+						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
+						<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
+					</td>
+				</tr>
+					<td>
 						<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
 						<label for="cbOublie"><img src="{{ asset('/img/maroon.jpg')}}"> Oubliées</label>
 					</td>
-				</tr>
-				<tr>
 					<td>
 						<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
 						<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}"> Suspendues</label>
 					</td>
+				</tr>
+				<tr>
 					<td>
-						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-						<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
+						<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
+						<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}"> Signature En Cours</label>
 					</td>
 					<td>
 						<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
@@ -75,7 +80,7 @@
 
 {% block body %}
 
-<div id="config" style="display:none;">{{ config.timeStep }}-{{ config.commercialPref }}-{{ config.enCours }}-{{ config.oublie }}-{{ config.suspendu }}-{{ config.fin }}-{{ config.signe }}</div>
+<div id="config" style="display:none;">{{ config.timeStep }}-{{ config.commercialPref }}-{{ config.enCours }}-{{ config.oublie }}-{{ config.suspendu }}-{{ config.fin }}-{{ config.signe }}-{{ config.signEC }}</div>
 
 <div id="addAffaireModal" class="modal order-column">
 
@@ -193,6 +198,7 @@
 				<th class="centerCol spHide cialCol">Cial</th>
 				<th style="display:none">Commentaire</th>
 				<th style="display:none">Info</th>
+				<th style="display:none">Numéros de dossier</th>
 				<th style="display:none">Id</th>
 			</tr>
 		</thead>
@@ -224,6 +230,7 @@
 					<td class="centerCol spHide cialCol">{{ affaire.commercial }}</td>
 					<td style="display:none">{{ affaire.commentaire }}</td>
 					<td style="display:none">{{ affaire.info }}</td>
+					<td style="display:none">{{ affaire.numDossier }}</td>
 					<td style="display:none" id="idAffaire">{{ affaire.id }}</td>
 				</tr>
 			{% endfor %}

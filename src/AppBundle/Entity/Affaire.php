@@ -25,7 +25,7 @@ class Affaire
 	protected $societe;
 
 	/**
-	 * @ORM\Column(name="telephone", type="string", length=10)
+	 * @ORM\Column(name="telephone", type="string", length=20)
 	 */
 	protected $telephone;
 
@@ -107,6 +107,11 @@ class Affaire
 	 * @ORM\Column(name="info", type="text", nullable=true)
 	 */
 	protected $info;
+
+	/**
+	 * @ORM\Column(name="numDossier", type="integer", length=5, nullable=true)
+	 */
+	protected $numDossier;
 
 	public function setCivilite($civilite)
 	{
@@ -278,6 +283,15 @@ class Affaire
 	public function getInfo()
 	{
 		return $this->info;
+	}
+
+	public function setNumDossier($numDossier)
+	{
+		$this->numDossier = $numDossier;
+	}
+	public function getNumDossier()
+	{
+		return $this->numDossier;
 	}
 
 	public function affaireToArray( $rappel ){

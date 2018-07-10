@@ -103,6 +103,19 @@ class AffaireController extends Controller
                     $oldestDate = $oldestTache->getDate()->format('Y-m-d');
                 }
                 
+            }elseif($affaire->getEtat() === 'Sign EC'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Sign EC'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                }
+                
             }elseif($affaire->getEtat() === 'Suspendu'){
                 foreach ($listTaches as $tache){
                     if($tache->getType() === 'Suspension'){ 
@@ -155,6 +168,7 @@ class AffaireController extends Controller
                 'commercial' => $commercial ? $commercial->getAcronyme() : null,
                 'commentaire' => $affaire->getCommentaire(),
                 'info' => $affaire->getInfo(),
+                'numDossier' => $affaire->getNumDossier(),
                 'id' => $affaire->getId()
             );
 
@@ -177,6 +191,7 @@ class AffaireController extends Controller
             $suspendu = explode(":",$configFile[4])[1];
             $fin = explode(":",$configFile[5])[1];
             $signe = explode(":",$configFile[6])[1];
+            $signEC = explode(":",$configFile[7])[1];
 
             $config = array(
                 'timeStep' => $timeStep,
@@ -186,6 +201,7 @@ class AffaireController extends Controller
                 'suspendu' => $suspendu,
                 'fin' => $fin,
                 'signe' => $signe,
+                'signEC' => $signEC,
             );
         }else{
             $config = array(
@@ -196,6 +212,7 @@ class AffaireController extends Controller
                 'suspendu' => '',
                 'fin' => '',
                 'signe' => '',
+                'signEC' => '',
             );
         }
         

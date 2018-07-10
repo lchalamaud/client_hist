@@ -22,10 +22,11 @@ class TacheController extends Controller
 {
 
     /**
-     *@Route("/tache/affaire/nom/{id}/", name="tache_affaire_nom")
+     *@Route("/tache/affaire/nom/", name="tache_affaire_nom")
      */
-    public function getTacheAndComm($id)
+    public function getTacheAndComm(Request $request)
     {
+        $id = $request->get('idAffaire');
         $em = $this->getDoctrine()->getManager();
         $repTache = $em->getRepository('AppBundle:Tache');
         $listTaches = $repTache->findBy(['affaire' => $id]);
@@ -38,7 +39,6 @@ class TacheController extends Controller
                 'date' => $tache->getDate()->format('Y-m-d'),
                 'couleur' => $tache->getCommercial()->getCouleur(),
                 'id' => $tache->getId(),
-
             );
             $tacheTab[] = $tmp;
         }
@@ -71,6 +71,7 @@ class TacheController extends Controller
         $type = $request->get('type');
         $comm = $request->get('commercial');
         $date = $request->get('date');
+        $numDossier = $request->get('numDossier');
         
         $em = $this->getDoctrine()->getManager();
 
@@ -92,6 +93,7 @@ class TacheController extends Controller
 
         $commentTmp = $affaire->getInfo();
         $affaire->setInfo( $type.', '.$date.' ('.$comm."):\n\n".$commentTmp );
+        $affaire->setNumDossier($numDossier);
 
         if( $type === 'Signature' ){
             $affaire->setEtat('Signé');
@@ -99,6 +101,8 @@ class TacheController extends Controller
             $affaire->setEtat('Fin');
         }elseif( $type === 'Suspension' ){
             $affaire->setEtat('Suspendu');
+        }elseif( $type === 'Sign EC' ){
+            $affaire->setEtat('Sign EC');
         }else{
             $affaire->setEtat('En Cours');
         }
