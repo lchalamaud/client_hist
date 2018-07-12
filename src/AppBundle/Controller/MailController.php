@@ -10,31 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Service\Mail;
-
-use AppBundle\Entity\MailID;
+use AppBundle\Service\Parser;
 
 use Symfony\Component\Validator\Constraints\DateTime;
 
-use jamesiarmes\PhpEws\Client;
-
-use jamesiarmes\PhpEws\Request\FindItemType;
-use jamesiarmes\PhpEws\Request\GetItemType;
-
-use jamesiarmes\PhpEws\Type\DistinguishedFolderIdType;
-use jamesiarmes\PhpEws\Type\FieldOrderType;
-use jamesiarmes\PhpEws\Type\ItemIdType;
-use jamesiarmes\PhpEws\Type\ItemResponseShapeType;
-use jamesiarmes\PhpEws\Type\PathToUnindexedFieldType;
-
-use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseItemIdsType;
-use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfFieldOrdersType;
-use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfPathsToElementType;
-
-use jamesiarmes\PhpEws\Enumeration\BodyTypeResponseType;
-use jamesiarmes\PhpEws\Enumeration\DefaultShapeNamesType;
-use jamesiarmes\PhpEws\Enumeration\DistinguishedFolderIdNameType;
-use jamesiarmes\PhpEws\Enumeration\ItemQueryTraversalType;
 
 
 class MailController extends Controller
@@ -45,15 +25,21 @@ class MailController extends Controller
 	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function readMail()
-	{
-		$parts_response = Mail::getInboxMail();
-
-		$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
-
+	{	
 		$inboxMsg = array();
-		foreach ($itemRspMessages as $itemRspMessage) {
-			$inboxMsg[] = $itemRspMessage->Items->Message[0];
+
+		$responseID = Mail::getInboxMailId();
+		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
+		if( $nbMail ){
+			$parts_response = Mail::getInboxMail( $responseID );
+
+			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
+
+			foreach ($itemRspMessages as $itemRspMessage) {
+				$inboxMsg[] = $itemRspMessage->Items->Message[0];
+			}
 		}
+		
 
 		$renderResponse = ['inboxMsg' => $inboxMsg];
 
@@ -66,22 +52,53 @@ class MailController extends Controller
 	 */
 	public function mailDb()
 	{
-		$em = $this->getDoctrine()->getManager();
-		$parts_response = Mail::getInboxMail();
-
-		$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
-
 		$affaireList = array();
 
-		foreach ($itemRspMessages as $itemRspMessage) {
-			$affaireList[] = Mail::parser($itemRspMessage->Items->Message[0])->affaireToArray(null);
-			$affaire = Mail::parser($itemRspMessage->Items->Message[0]);
-			$em->persist($affaire);
-		}
+		$em = $this->getDoctrine()->getManager();
+		
+		$responseID = Mail::getInboxMailId();
 
-		$em->flush();
+		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
+		if( $nbMail ){
+			$parts_response = Mail::getInboxMail( $responseID );
+
+			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
+
+			$otherIds = new NonEmptyArrayOfBaseItemIdsType();
+			$otherIds->ItemId = array();
+
+			$affaireIds = new NonEmptyArrayOfBaseItemIdsType();
+			$affaireIds->ItemId = array();
+
+			foreach ($itemRspMessages as $itemRspMessage) {
+				if(Parser::Prefilter($itemRspMessage->Items->Message[0])){
+					$affaireList[] = Parser::parser($itemRspMessage->Items->Message[0])->affaireToArray(null);
+					$affaire = Parser::parser($itemRspMessage->Items->Message[0]);
+					$em->persist($affaire);
+					$affaireIds->ItemId[] = $itemRspMessage->Items->Message[0]->ItemId;
+				}else{
+					$otherIds->ItemId[] = $itemRspMessage->Items->Message[0]->ItemId;
+				}
+			}
+
+			$em->flush();
+
+			Mail::moveMailToFolder( $affaireIds, 'Affaires');
+			Mail::moveMailToFolder( $otherIds, 'Autres');
+		}
 
 		$response =  new JsonResponse();
 		return $response->setData(['affaires' =>$affaireList]);
+	}
+
+	/**
+	 * @Route("/mail/folder/{name}", name="mail_folder_name")
+	 * @Security("has_role('ROLE_SUPER_ADMIN')")
+	 */
+	public function folderName($name)
+	{
+		$response = Mail::findFolder($name);
+
+		return $this->render("Default/folderName.html.twig", ['folders' => $response]);
 	}
 }

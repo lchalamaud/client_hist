@@ -11,6 +11,7 @@ use jamesiarmes\PhpEws\Client;
 use jamesiarmes\PhpEws\Request\FindFolderType;
 use jamesiarmes\PhpEws\Request\FindItemType;
 use jamesiarmes\PhpEws\Request\GetItemType;
+use jamesiarmes\PhpEws\Request\MoveItemType;
 
 use jamesiarmes\PhpEws\Type\ConstantValueType;
 use jamesiarmes\PhpEws\Type\DistinguishedFolderIdType;
@@ -20,6 +21,7 @@ use jamesiarmes\PhpEws\Type\ItemIdType;
 use jamesiarmes\PhpEws\Type\ItemResponseShapeType;
 use jamesiarmes\PhpEws\Type\PathToUnindexedFieldType;
 use jamesiarmes\PhpEws\Type\RestrictionType;
+use jamesiarmes\PhpEws\Type\TargetFolderIdType;
 
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseFolderIdsType;
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseItemIdsType;
@@ -38,16 +40,35 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mail
 {	
-	const HOST = "Exchange.Server.com";
-    const USERNAME = "domain\\username";
-    const PASSWORD = "password";
+	const HOST = "exchange.mail.server.com";
+    const USERNAME = "domaine\\username";
+    const PASSWORD = "p******d";
     const VERSION = "";
 
 
-	public function findFolder($folderName)
+    /**
+     *	Configure les options de connection au serveur Exchange
+     *
+     *	@return : jamesiarmes\PhpEws\Client
+     */
+    private function connectConfig()
     {
-        $client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
-        $client->setCurlOptions(array(CURLOPT_SSL_VERIFYPEER => false)); 
+    	$client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
+        $client->setCurlOptions(array(CURLOPT_SSL_VERIFYPEER => false)); //		!!!		DANGER		!!!
+
+        return $client;
+    }
+
+    /**
+     *	Recherche les Identifiants d'un dossier
+     *
+     *	@param $folderName : Nom du dossier à rechercher
+     *	@return : jamesiarmes\PhpEws\Type\FolderIdType
+     */
+	public function findFolder( $folderName )
+    {
+     	$client = Mail::connectConfig();
+
         // Build the request.
         $request = new FindFolderType();
         $request->FolderShape = new FolderResponseShapeType();
@@ -73,20 +94,17 @@ class Mail
         return $client->FindFolder($request)->ResponseMessages->FindFolderResponseMessage[0]->RootFolder->Folders->Folder;
     }
 
+	/**
+     *	Recherche les Identifiants des Mails de la Boite de Réception
+     *
+     *	@return : jamesiarmes\PhpEws\Type\ItemIdType
+     */
 	public function getInboxMailId()
 	{
-		// Set connection information.
-        $client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
-
-		$client->setCurlOptions(array(CURLOPT_SSL_VERIFYPEER => false)); //		!!!!	DANGER	!!!!
-
-		/*****************************************************************
-		 **	Recherche de l'ID des messages dans la boite de réception	**
-		 *****************************************************************/
+     	$client = Mail::connectConfig();
 
 		$requestID = new FindItemType();
 		
-		//
 		$requestID->ItemShape = new ItemResponseShapeType();
 		$requestID->ItemShape->BaseShape = 'IdOnly';
 		$requestID->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
@@ -106,19 +124,16 @@ class Mail
 		return $client->FindItem($requestID);
 	}
 
-	public function getInboxMail()
+	/**
+     *	Recherche le contenu des mails passés en paramètre.
+     *
+     *	@param $responseID : liste des jamesiarmes\PhpEws\Type\ItemIdType des mails à chercher.
+     *	@return : jamesiarmes\PhpEws\Type\ItemType
+     */
+	public function getInboxMail( $responseID )
 	{
-		// Set connection information.
-        $client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
+     	$client = Mail::connectConfig();
 
-		$client->setCurlOptions(array(CURLOPT_SSL_VERIFYPEER => false)); //		!!!!	DANGER	!!!!
-
-		$responseID = Mail::getInboxMailId();
-
-		/*****************************************
-		 **	Recherche du contenu des messages	**
-		 *****************************************/
-		
 		$parts_request = new GetItemType();
 		$parts_request->ItemShape = new ItemResponseShapeType();
 		$parts_request->ItemShape->BaseShape = 'AllProperties';
@@ -146,129 +161,24 @@ class Mail
 	}
 
 	/**
-     * {@inheritdoc}
+     *	Déplace une liste de mail dans un dossier.
+     *
+     *	@param $ItemIds : Liste des jamesiarmes\PhpEws\Type\ItemIdType mails à déplacer.
+     *	@param $destination : Nom du dossier de destination.
      */
-	private function parseLine( string $line ): string
-	{
-		$data = explode(" : ", $line, 2);
-		if(sizeof($data) >= 2){
-			return explode(" : ", $line, 2)[1];
-		}else{
-			return '';
-		}
-	}
+	public function moveMailToFolder( $ItemIds, $destination )
+    {
+     	$client = Mail::connectConfig();
 
-	public function parser($mail){
+        $request = new MoveItemType();
 
-		$body = $mail->Body->_;
-		$token = explode("\r\n", $body);
+        $request->ToFolderId = new TargetFolderIdType();
+        $request->ToFolderId->FolderId = Mail::findFolder( $destination )[0]->FolderId;
+        
+        $request->ItemIds = new NonEmptyArrayOfBaseItemIdsType();
+        $request->ItemIds = $ItemIds;
 
-		switch ($token[0])
-		{
-			case 'Demande de devis site Allemand':
-				return Mail::alParser($mail);
-			default:
-				return Mail::frParser($mail);
-		}
-
-	}
-
-	public function frParser($mail)
-	{
-		$body = $mail->Body->_;
-		$data = array();
-		$token = explode("\r\n", $body, 13);
-
-		$affaire = new Affaire();
-
-		switch (Mail::parseLine($token[0])) {
-			case 'Renseignement':
-				$affaire->setDevisType('Rens.');
-				break;
-			case 'Location':
-				$affaire->setDevisType('Loc.');
-				break;
-			default:
-				$affaire->setDevisType(Mail::parseLine($token[0]));
-				break;
-		}
-		
-		$affaire->setSociete(Mail::parseLine($token[1]));
-		if( Mail::parseLine($token[2]) == 'Monsieur'){
-			$affaire->setCivilite('M.');
-		}else{
-			$affaire->setCivilite('Mme');
-		}
-		$affaire->setNom(Mail::parseLine($token[3]));
-		$withGoogleMap = Mail::parseLine($token[4]);
-		$affaire->setRue(explode("<https://", $withGoogleMap)[0]);
-		$affaire->setCP(Mail::parseLine($token[5]));
-		$affaire->setVille(Mail::parseLine($token[6]));
-		$affaire->setTelephone(str_replace(' ', '', Mail::parseLine($token[7])));
-		$withMailTo = Mail::parseLine($token[8]);
-		$affaire->setEmail(explode("<mailto:" ,$withMailTo)[0]);
-		switch (Mail::parseLine($token[9])) {
-			case 'Entreprise':
-				$affaire->setSystemType('Ent.');
-				break;
-			case 'Education':
-				$affaire->setSystemType('Educ.');
-				break;
-			case 'Assemblée Générale':
-				$affaire->setSystemType('AG');
-				break;
-			default:
-				$affaire->setSystemType(Mail::parseLine($token[9]));
-				break;
-		}
-		$affaire->setNbController(Mail::parseLine($token[10]));
-		$affaire->setProvenance(Mail::parseLine($token[11]));
-		$affaire->setCommentaire(Mail::parseLine($token[12]));
-
-		$affaire->setDebut(new \DateTime(substr( str_replace("T", " ", $mail->DateTimeCreated), 0, 19)));
-		$affaire->setEtat( 'En Cours' );
-
-		return $affaire;
-	}
-
-
-	public function alParser($mail)
-	{
-		$body = $mail->Body->_;
-		$data = array();
-		$token = explode("\r\n", $body, 15);
-
-		$affaire = new Affaire();
-
-		$affaire->setDevisType(Mail::parseLine($token[1]));
-		$affaire->setSociete(Mail::parseLine($token[2]));
-		if( Mail::parseLine($token[3]) == 'Monsieur'){
-			$affaire->setCivilite('M.');
-		}else{
-			$affaire->setCivilite('Mme');
-		}
-		$affaire->setNom(Mail::parseLine($token[4]));
-		$withMailTo = Mail::parseLine($token[5]);
-		$affaire->setEmail(explode("<mailto:", $withMailTo)[0]);
-		$withGoogleMap = Mail::parseLine($token[6]);
-		$affaire->setRue(explode("<https://", $withGoogleMap)[0]);
-		$affaire->setTelephone(str_replace(' ', '', Mail::parseLine($token[7])));
-		$affaire->setCP(Mail::parseLine($token[8]));
-		$affaire->setVille(Mail::parseLine($token[9]));
-		
-		
-		$affaire->setSystemType(Mail::parseLine($token[10]));
-		//Nb systeme...
-		$affaire->setNbController(Mail::parseLine($token[12]));
-		$affaire->setProvenance(Mail::parseLine($token[13]));
-		$affaire->setCommentaire(Mail::parseLine($token[14]));
-
-		$affaire->setDebut(new \DateTime(substr( str_replace("T", " ", $mail->DateTimeCreated), 0, 19)));
-		$affaire->setEtat( 'En Cours' );
-
-		return $affaire;
-	}
-
-
+        $client->MoveItem($request)->ResponseMessages->MoveItemResponseMessage;
+    }
 
 }

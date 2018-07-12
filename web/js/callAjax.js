@@ -117,6 +117,7 @@ function addTache( idAffaire, trData, table, numDossier ){
             switch(type){
                 case 'Signature':
                     table.cell(trData, 1).data('Signé');
+                    table.cell(trData, 16).data('Signé');
                     $('tbody .numDossier'+idAffaire)
                         .find('td')
                         .wrapInner('<div style="display: block;" />')
@@ -128,28 +129,35 @@ function addTache( idAffaire, trData, table, numDossier ){
                     break;
                 case 'Suspension':
                     table.cell(trData, 1).data('Suspendu');
+                    table.cell(trData, 16).data('Suspendu');
                     break;
                 case 'Fin':
                     table.cell(trData, 1).data('Fin');
+                    table.cell(trData, 16).data('Fin');
                     break;
                 case 'Sign EC':
                     table.cell(trData, 1).data('Sign EC');
+                    table.cell(trData, 16).data('Sign EC');
                     break;
                 case 'Rappel':
                     if( reorderDate(date) > table.cell(trData, 17).data() ){
-                        table.cell(trData, 17).data(date);
+                        table.cell(trData, 17).data(reorderDate(date));
                     }
                     if( reorderDate(date) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
                         table.cell(trData, 1).data('Oublié');
+                        table.cell(trData, 16).data('Oublié');
                     }else{
                         table.cell(trData, 1).data('En Cours');
+                        table.cell(trData, 16).data('En Cours');
                     }
                     break;
                 default:
                     if( reorderDate(date) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
                         table.cell(trData, 1).data('Oublié');
+                        table.cell(trData, 16).data('Oublié');
                     }else{
                         table.cell(trData, 1).data('En Cours');
+                        table.cell(trData, 16).data('En Cours');
                     }
                     break;
             }
@@ -247,8 +255,6 @@ function setAffaireInfo( idAffaire, selector, table, info ){
 
 
 function updateDbFromMailBox( table ){
-    
-
     var url ='/mail/database/';
     $.ajax({
         type: "GET",
@@ -282,8 +288,15 @@ function updateDbFromMailBox( table ){
                     "Info" : '',
                     "NumDossier" : null,
                     "Id" : item.id
-                }
-                table.rows.add([tmp]);
+                };
+                rows = table.rows.add([tmp]).nodes();
+                td = $(rows).find('td');
+                td.eq(0).addClass('centerCol');
+                td.eq(1).addClass('centerCol');
+                td.eq(5).addClass('centerCol');
+                td.eq(6).addClass('centerCol');
+                td.eq(9).addClass('centerCol');
+                td.eq(10).addClass('cialCol');
             })
             table.draw(false);
                 

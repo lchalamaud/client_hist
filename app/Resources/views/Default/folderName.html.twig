@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block title %}Mail Folder{% endblock %}
+
+{% block body %}
+	{% for folder in folders %}
+		<h1>{{ folder.DisplayName }}</h1>
+		{{ folder.FolderId.ChangeKey }}
+		{{ folder.FolderId.Id }}
+	{% endfor %}
+{% endblock %}

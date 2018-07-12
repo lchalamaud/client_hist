@@ -145,13 +145,13 @@ $(document).ready( function () {
 		    "sProcessing":     "Traitement en cours...",
 		    "sSearch":         "Rechercher&nbsp;:",
 		    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-		    "sInfo":           "_START_ - _END_ (_TOTAL_ affaires)",
-		    "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+		    "sInfo":           "_START_ - _END_ (pour _TOTAL_ affaires)",
+		    "sInfoEmpty":      "0 (pour 0 affaire)",
 		    "sInfoFiltered":   "",
 		    "sInfoPostFix":    "",
 		    "sLoadingRecords": "Chargement en cours...",
 		    "sZeroRecords":    "Oups... Il semblerait qu'il n'y ai pas d'affaire.",
-		    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+		    "sEmptyTable":     "Oups... Il semblerait qu'il n'y ai pas d'affaire.",
 		    "oPaginate": {
 		        "sFirst":      "Premier",
 		        "sPrevious":   "<<",
@@ -511,35 +511,6 @@ $(document).ready( function () {
         delTache( idTache, tacheRow, table, trData );
     })
 
-
-
-    $('#testBtn').on('click', function(){
-        /*var i=0;
-        var today = new Date();
-        var todayDateToken = formatDate(today).split('-');
-        table.rows().every(function(){
-            var comSelect = $('#commercialSelect select option:selected').val();
-            var etat = table.cell(this, 16).data();
-            if( table.cell(this, 18).data() == comSelect || comSelect == ''){
-                if ( etat == 'En Cours' || etat == 'Oublié'){
-                    if( table.cell(this, 17).data() < (todayDateToken[0]+'-'+todayDateToken[1]+'-'+todayDateToken[2])){
-                        alert('L\'affaire ' + table.cell(this, 3).data() + ' - ' + table.cell(this, 4).data() + ' n\'est pas actualisée...\n'+
-                            'Tel : ' + table.cell(this, 10).data() + '\n'+
-                            'Mail : ' + table.cell(this, 9).data())
-                        i++;
-                    }
-                }
-            }
-        })
-
-        if( i == 0 ){
-            alert('Pas de Rappel aujourd\'hui');
-        }*/
-
-        console.log(etatFilter);
-
-    });
-
     $('#refresh').click(function(){
         updateDbFromMailBox( table );
     });
@@ -554,5 +525,5 @@ $(document).ready( function () {
     });
     
     /*      Auto Update: 5 minute d'inactivité      */
-    setInterval(function(){updateDbFromMailBox( table );}, 300000); //300 000ms = 5 minutes
+    //setInterval(function(){updateDbFromMailBox( table );}, 300000); //300 000ms = 5 minutes
 });

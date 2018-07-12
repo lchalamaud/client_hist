@@ -53,7 +53,7 @@ function fillForm( table ){
     $('#affaire_NbController').val(tabSelectVal(table, 11));
     $('#affaire_DevisType option').filter(function(){
         switch (tabSelectVal(table, 12)){
-            case 'Loc':
+            case 'Loc.':
                 return $(this).text() == 'Location';
             case 'Rens.':
                 return $(this).text() == 'Renseignement';
@@ -63,15 +63,15 @@ function fillForm( table ){
     }).prop('selected', true);
     $('#affaire_SystemType option').filter(function(){
         switch (tabSelectVal(table, 13)){
-            case 'QB Ent.':
+            case 'Ent.':
                 return $(this).text() == 'QuizzBox Entreprise';
             case 'SSIAP/CQP':
                 return $(this).text() == 'Version SSIAP - CQP';
-            case 'QB Campus':
+            case 'Campus':
                 return $(this).text() == 'QuizzBox Campus';
-            case 'QB Educ.':
+            case 'Educ.':
                 return $(this).text() == 'QuizzBox Education';
-            case 'QB AG':
+            case 'AG':
                 return $(this).text() == 'QuizzBox Assemblée Générale';
             case 'Autres':
                 return $(this).text() == 'Autres';
