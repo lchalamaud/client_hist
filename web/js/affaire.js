@@ -118,6 +118,18 @@ function delstrpart ( str, part ){
     return false;
 };
 
+jQuery.fn.dataTable.Api.register( 'page.jumpToData()', function ( data, column ) {
+    var pos = this.column(column, {order:'current'}).data().indexOf( data );
+
+    if ( pos >= 0 ) {
+        var page = Math.floor( pos / this.page.info().length );
+        this.page( page ).draw( false );
+    }
+
+    return this;
+} );
+
+
 
 $(document).ready( function () {
 
@@ -150,8 +162,8 @@ $(document).ready( function () {
 		    "sInfoFiltered":   "",
 		    "sInfoPostFix":    "",
 		    "sLoadingRecords": "Chargement en cours...",
-		    "sZeroRecords":    "Oups... Il semblerait qu'il n'y ai pas d'affaire.",
-		    "sEmptyTable":     "Oups... Il semblerait qu'il n'y ai pas d'affaire.",
+		    "sZeroRecords":    "Oups... Il semblerait qu'il n'y ait pas d'affaire.",
+		    "sEmptyTable":     "Oups... Il semblerait qu'il n'y ait pas d'affaire.",
 		    "oPaginate": {
 		        "sFirst":      "Premier",
 		        "sPrevious":   "<<",
@@ -226,8 +238,9 @@ $(document).ready( function () {
             { "data": "NumDossier", "visible": false },       //21
             { "data": "Id", "visible": false },               //22
         ],
-        "order": [[17, 'desc']],
+
         "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/40),
+        "order": [[ 17, "desc" ]],
         "dom": 'tpr<"top"i>',
         "autoWidth": false,
         "initComplete": function () {
@@ -511,10 +524,6 @@ $(document).ready( function () {
         delTache( idTache, tacheRow, table, trData );
     })
 
-    $('#refresh').click(function(){
-        updateDbFromMailBox( table );
-    });
-
     $(document).on('change', "div.infoText textarea", function(event){
         var tr = $(this).closest('tr');
         var row = table.row( tr );
@@ -525,5 +534,5 @@ $(document).ready( function () {
     });
     
     /*      Auto Update: 5 minute d'inactivité      */
-    //setInterval(function(){updateDbFromMailBox( table );}, 300000); //300 000ms = 5 minutes
+    setInterval(function(){updateTable( table );}, 300000); //300 000ms = 5 minutes
 });

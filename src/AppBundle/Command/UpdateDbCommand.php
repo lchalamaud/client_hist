@@ -68,8 +68,12 @@ class UpdateDbCommand extends ContainerAwareCommand
             $em->flush();
             $output->writeln($nbAffaire.' nouvelle'.($nbAffaire>1?'s':'').' affaire'.($nbAffaire>1?'s':'').' créée'.($nbAffaire>1?'s.':'.'));
 
-            Mail::moveMailToFolder( $affaireIds, 'Affaires');
-            Mail::moveMailToFolder( $otherIds, 'Autres');
+            if( $nbAffaire ){
+                Mail::moveMailToFolder( $affaireIds, 'Affaires');
+            }
+            if( $nbAffaire-$nbMail ){
+                Mail::moveMailToFolder( $otherIds, 'Autres');
+            }
         }else{
             $output->writeln('Aucune demande trouvée.');
         }

@@ -19,62 +19,66 @@
 			<button id="modifAffaireBtn", class='button'>Modifier</button>
 			<button id="delAffaireBtn", class='button'>Supprimer</button>
 		</div>
-		<div class="checkboxFilter">
-			<table>
-				<tr>
-					<td>
-						<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-						<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}"> En Cours</label>
-					</td>
-					<td>
-						<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-						<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
-					</td>
-				</tr>
-					<td>
-						<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-						<label for="cbOublie"><img src="{{ asset('/img/maroon.jpg')}}"> Oubliées</label>
-					</td>
-					<td>
-						<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-						<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}"> Suspendues</label>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
-						<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}"> Signature En Cours</label>
-					</td>
-					<td>
-						<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-						<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}"> Signées</label>
-					</td>
-				</tr>
-			</table>
+		<div class="middleBanner">
+			<div class="checkboxFilter">
+				<table>
+					<tr>
+						<td>
+							<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
+							<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}"> En Cours</label>
+						</td>
+						<td>
+							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
+							<label for="cbOublie"><img src="{{ asset('/img/maroon.jpg')}}"> Oubliées</label>
+						</td>
+						<td>
+							<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
+							<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}"> Signature En Cours</label>
+						</td>
+					</tr>
+						<td>
+							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
+							<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
+						</td>
+					
+						
+						<td>
+							<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
+							<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}"> Suspendues</label>
+						</td>
+						<td>
+							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
+							<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}"> Signées</label>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
-		<button type="submit" class="button" id="refresh"><span class="fas fa-sync-alt"></span></button>
 		<div class="rightBanner">
-			<select id="timeSelect" class="selector">
-				<option value="">Tous</option>
-					<optgroup label="Jours">
-						<option value="prevDay">J-1</option>
-						<option value="onDay">J</option>
-						<option value="nextDay">J+1</option>
-					</optgroup>
-					<optgroup label="Semaine">
-						<option value="prevWeek">S-1</option>
-						<option value="onWeek">S</option>
-						<option value="nextWeek">S+1</option>
-					</optgroup>
-					<optgroup label="Mois">
-						<option value="prevMonth">M-1</option>
-						<option value="onMonth">M</option>
-						<option value="nextMonth">M+1</option>
-					</optgroup>
-			</select>
 			<input type="text" id="searchbox" placeholder="Recherche">
-			<span id="commercialSelect"></span>
+			<div class="selectArea">
+				<select id="timeSelect" class="selector">
+					<option value="">Tous</option>
+						<optgroup label="Jours">
+							<option value="prevDay">J-1</option>
+							<option value="onDay">J</option>
+							<option value="nextDay">J+1</option>
+						</optgroup>
+						<optgroup label="Semaine">
+							<option value="prevWeek">S-1</option>
+							<option value="onWeek">S</option>
+							<option value="nextWeek">S+1</option>
+						</optgroup>
+						<optgroup label="Mois">
+							<option value="prevMonth">M-1</option>
+							<option value="onMonth">M</option>
+							<option value="nextMonth">M+1</option>
+						</optgroup>
+				</select>
+				<span id="commercialSelect"></span>
+			</div>
 		</div>
+		
 	</div>
 {% endblock %}
 

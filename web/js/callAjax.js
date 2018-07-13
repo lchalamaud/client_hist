@@ -29,7 +29,6 @@ function delAffaire(idAffaire, table){
 
 function getTacheCommercial(idAffaire, commercial){
     
-    var start = new Date().getTime();
     var url = '/tache/affaire/nom/';
     $.ajax({
         type: "get",
@@ -61,7 +60,6 @@ function getTacheCommercial(idAffaire, commercial){
                     '</td>'
                 );
             });
-            console.log(new Date().getTime() - start);
         },
         error: function(){
             $('html').css( 'cursor' , 'default');
@@ -254,8 +252,20 @@ function setAffaireInfo( idAffaire, selector, table, info ){
 }
 
 
-function updateDbFromMailBox( table ){
-    var url ='/mail/database/';
+function isNotShown( table, id ){
+    var response = true;
+    idList = table.cells('.shown', 22)[0];
+    $.each( idList, function( index, val ){
+        if( id == table.cell(val).data() ){
+            response = false;
+            return false;
+        }
+    })
+    return response;
+}
+
+function updateTable( table ){
+    var url ='/affaire/get/';
     $.ajax({
         type: "GET",
         url: url,
@@ -263,43 +273,48 @@ function updateDbFromMailBox( table ){
 
         },
         success: function(data){
+            var initId = tabSelectVal(table, 22);
+            table.rows(':not(.shown)').remove();
+
             $.each(data.affaires, function(i, item){
-                tmp = {
-                    "" : null,
-                    "etat" : item.etat,
-                    "Civilite" : item.civilite,
-                    "Nom" : item.nom,
-                    "Societe" : item.societe,
-                    "Rue" : item.rue,
-                    "Complement" : item.complement,
-                    "CP" : item.cp,
-                    "Ville" : item.ville,
-                    "Mail" : item.mail,
-                    "Telephone" : item.telephone,
-                    "Nb_Controller" : item.nb_controller,
-                    "Devi_Type" : item.devi_type,
-                    "System_Type" : item.system_type,
-                    "Provenance" : item.provenance,
-                    "Debut" : item.debut.date.split(' ')[0],
-                    "Etat" : item.etat,
-                    "Rappel" : item.debut.date.split(' ')[0],
-                    "Commercial" : item.commercial,
-                    "Commentaire" : item.commentaire,
-                    "Info" : '',
-                    "NumDossier" : null,
-                    "Id" : item.id
-                };
-                rows = table.rows.add([tmp]).nodes();
-                td = $(rows).find('td');
-                td.eq(0).addClass('centerCol');
-                td.eq(1).addClass('centerCol');
-                td.eq(5).addClass('centerCol');
-                td.eq(6).addClass('centerCol');
-                td.eq(9).addClass('centerCol');
-                td.eq(10).addClass('cialCol');
+                if( isNotShown( table, item.id ) ){
+                    tmp = {
+                        "" : null,
+                        "etat" : item.etat,
+                        "Civilite" : item.civilite,
+                        "Nom" : item.nom,
+                        "Societe" : item.societe,
+                        "Rue" : item.rue,
+                        "Complement" : item.complement,
+                        "CP" : item.cp,
+                        "Ville" : item.ville,
+                        "Mail" : item.mail,
+                        "Telephone" : item.telephone,
+                        "Nb_Controller" : item.nb_controller,
+                        "Devi_Type" : item.devi_type,
+                        "System_Type" : item.system_type,
+                        "Provenance" : item.provenance,
+                        "Debut" : item.debut,
+                        "Etat" : item.etat,
+                        "Rappel" : item.rappel,
+                        "Commercial" : item.commercial,
+                        "Commentaire" : item.commentaire,
+                        "Info" : item.info,
+                        "NumDossier" : item.numDossier,
+                        "Id" : item.id
+                    };
+                    rows = table.rows.add([tmp]).nodes();
+                    td = $(rows).find('td');
+                    td.eq(0).addClass('centerCol');
+                    td.eq(1).addClass('centerCol');
+                    td.eq(5).addClass('centerCol');
+                    td.eq(6).addClass('centerCol');
+                    td.eq(9).addClass('centerCol');
+                    td.eq(10).addClass('centerCol cialCol');
+                }
             })
-            table.draw(false);
-                
+            table.draw();
+            table.page.jumpToData( initId, 22);
         },
         error: function(){
 

@@ -65,9 +65,6 @@ class AffaireController extends Controller
 
         foreach ($listAffaires as $affaire) {
 
-
-            $commercial = $affaire->getCommercial();
-
             $listTaches = $repTache->findBy(['affaire' => $affaire->getId()]);
             
             $oldestDate= $affaire->getDebut()->format('Y-m-d');
@@ -144,6 +141,7 @@ class AffaireController extends Controller
                 
             }
 
+            $commercial = $affaire->getCommercial();
             $tmp = array(
                 'civilite' => $affaire->getCivilite(),
                 'nom' => $affaire->getNom(),
@@ -302,5 +300,138 @@ class AffaireController extends Controller
         $em->flush();
 
         return new JsonResponse();
+    }
+
+    /**
+     *@Route("/affaire/get/", name="affaire_get")
+     */
+    public function getAffaire(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $repAffaire = $em->getRepository('AppBundle:Affaire');
+        $listAffaires = $repAffaire->findAll();
+
+        $repTache = $em->getRepository('AppBundle:Tache');
+        
+        $todayDate = date("Y-m-d");
+
+        $affaireTab = array();
+
+        foreach ($listAffaires as $affaire) {
+
+
+            $commercial = $affaire->getCommercial();
+
+            $listTaches = $repTache->findBy(['affaire' => $affaire->getId()]);
+            
+            $oldestDate= $affaire->getDebut()->format('Y-m-d');
+            $oldestTache = new Tache();
+            $oldestTache->setDate($oldestDate);
+
+            if($affaire->getEtat() === 'En Cours'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Rappel'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                    if($oldestDate < $todayDate){
+                        $affaire->setEtat('Oublié');
+                    }
+
+                }
+            }elseif($affaire->getEtat() === 'Signé'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Signature'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                }
+                
+            }elseif($affaire->getEtat() === 'Sign EC'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Sign EC'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                }
+                
+            }elseif($affaire->getEtat() === 'Suspendu'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Suspension'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                }
+                
+            }elseif($affaire->getEtat() === 'Fin'){
+                foreach ($listTaches as $tache){
+                    if($tache->getType() === 'Fin'){ 
+                        if($tache->getDate() > $oldestTache->getDate()){
+                            $oldestTache = $tache;
+
+                        }
+                    }
+                }
+                if($oldestTache->getType()){
+                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+                }
+                
+            }
+
+            $tmp = array(
+                'civilite' => $affaire->getCivilite(),
+                'nom' => $affaire->getNom(),
+                'societe' => $affaire->getSociete(),
+
+                'rue' => $affaire->getRue(),
+                'complement' => $affaire->getComplement(),
+                'cp' => $affaire->getCP(),
+                'ville' => $affaire->getVille(),
+
+                'mail' => $affaire->getEmail(),
+                'telephone' => $affaire->getTelephone(),
+
+                'nb_controller' => $affaire->getNbController(),
+                'devi_type' => $affaire->getDevisType(),
+                'system_type' => $affaire->getSystemType(),
+                'provenance' => $affaire->getProvenance(),
+
+                'debut' => $affaire->getDebut()->format('Y-m-d'),
+                'etat' => $affaire->getEtat(),
+                'rappel' => $oldestDate,
+                'commercial' => $commercial ? $commercial->getAcronyme() : null,
+                'commentaire' => $affaire->getCommentaire(),
+                'info' => $affaire->getInfo(),
+                'numDossier' => $affaire->getNumDossier(),
+                'id' => $affaire->getId()
+            );
+
+            $affaireTab[] = $tmp;
+        }
+
+        $response = new JsonResponse;
+
+        return $response->setData(array('affaires' => $affaireTab));
     }
 }

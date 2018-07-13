@@ -40,11 +40,11 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mail
 {	
-	const HOST = "exchange.mail.server.com";
-    const USERNAME = "domaine\\username";
-    const PASSWORD = "p******d";
-    const VERSION = "";
 
+    const HOST = "exchange.server.com";
+    const USERNAME = "domain\\username";
+    const PASSWORD = "password";
+    const VERSION = "";
 
     /**
      *	Configure les options de connection au serveur Exchange
@@ -54,7 +54,6 @@ class Mail
     private function connectConfig()
     {
     	$client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
-        $client->setCurlOptions(array(CURLOPT_SSL_VERIFYPEER => false)); //		!!!		DANGER		!!!
 
         return $client;
     }
