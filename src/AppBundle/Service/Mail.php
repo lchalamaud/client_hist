@@ -40,9 +40,9 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mail
 {	
-    const HOST = "exchange.server.com";
-    const USERNAME = "domain\\username";
-    const PASSWORD = "password";
+    const HOST = "mail.nextmedia.fr";
+    const USERNAME = "quizzbox\\applicontact";
+    const PASSWORD = "NextMedia63";
     const VERSION = "";
     
     /**

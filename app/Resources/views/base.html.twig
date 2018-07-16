@@ -25,8 +25,8 @@
                     <a href="/commercial/"><h1>Commerciaux</h1><span class="fas fa-briefcase"></span></a>
                     <a href="/login/"><h1>Login</h1><span class="fas fa-sign-in-alt"></span></a>
                     <a href="/profile/"><h1>Profile</h1><span class="fas fa-user"></span></a>
-                    <a href="/mail/"><h1>Mail</h1><span class="fas fa-envelope"></span></a>
                     {% if is_granted('ROLE_ADMIN') %}
+                        <a href="/mail/"><h1>Mail</h1><span class="fas fa-envelope"></span></a>
                         <a href="/admin/manager/"><h1>Utilisateurs</h1><span class="fas fa-users"></span></a>
                     {% endif %}
                     <a href="/logout"><h1>Déconnexion</h1><i class="fas fa-power-off"></i></span></a>

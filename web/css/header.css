@@ -5,7 +5,6 @@
     color: white;
     overflow: auto;
     padding-top: 10px;
-    position: sticky;
 }
 .filterHeader div{
     display: inline-block;
@@ -95,6 +94,7 @@
     border-radius: 2px;
     color: white;
     margin-right: 20px;
+    padding-left: 8px;
 }
 
 #searchbox::placeholder{
