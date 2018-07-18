@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -56,7 +56,7 @@ class CommercialController extends Controller
 		$formBuilder
 			->add('Nom',      TextType::class)
 			->add('Acronyme',     TextType::class)
-			->add('Couleur',   IntegerType::class)
+			->add('Couleur',   ColorType::class)
 			->add('Ajouter',      SubmitType::class)
 		;
 		$form = $formBuilder->getForm();
@@ -121,8 +121,6 @@ class CommercialController extends Controller
 	*/
 	public function delCommercialForce(Request $request)
 	{
-		
-
 		$em = $this->getDoctrine()->getManager();
 
 		$commDel = $request->get('acronyme');
@@ -152,4 +150,28 @@ class CommercialController extends Controller
         return $response;
 	}
 
+	/**
+	* @Route("/commercial/set/", name="commercial_set")
+	* @Security("has_role('ROLE_USER')")
+	*/
+	public function setCommercial(Request $request)
+	{
+		$idAffaire = $request->get('idAffaire');
+		$commercialAcronyme = $request->get('commercial');
+
+		$em = $this->getDoctrine()->getManager();
+
+		$affaire = $em->getRepository('AppBundle:Affaire')->find($idAffaire);
+
+		$commercial = $em->getRepository('AppBundle:Commercial')->findOneBy(['acronyme'=> $commercialAcronyme]);
+
+		$affaire->setCommercial($commercial);
+
+		$em->persist($affaire);
+		$em->flush();
+
+		$response = new JsonResponse();
+
+        return $response->setData(['rsp'=>'ok']);
+	}
 }

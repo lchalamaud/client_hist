@@ -4,6 +4,17 @@ body {
     margin: 0;
 }
 
+.colorSquare{
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    border: 1px solid grey;
+}
+
+.blockColorSquare{
+    display: block;
+}
+
 .button{
 	display: none;
 }

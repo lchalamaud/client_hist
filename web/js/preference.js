@@ -12,11 +12,11 @@ function initConfig(){
 
 function setInitStateConfig(){
     etatFilter = '';
-    if( enCours=='true' ){
+    if( enCours ){
         $('#cbEnCours').prop( "checked", true );
         etatFilter = 'En Cours';
     }
-    if( oublie=='true' ){
+    if( oublie ){
         $('#cbOublie').prop( "checked", true );
         if(etatFilter == ''){
             etatFilter += 'Oublié';
@@ -24,7 +24,7 @@ function setInitStateConfig(){
             etatFilter += '|Oublié';
         }
     }
-    if( suspendu=='true' ){
+    if( suspendu ){
         $('#cbSuspendu').prop( "checked", true );
         if(etatFilter == ''){
             etatFilter += 'Suspendu';
@@ -32,7 +32,7 @@ function setInitStateConfig(){
             etatFilter += '|Suspendu';
         }
     }
-    if( fin=='true' ){
+    if( fin ){
         $('#cbFin').prop( "checked", true );
         if(etatFilter == ''){
             etatFilter += 'Fin';
@@ -40,7 +40,7 @@ function setInitStateConfig(){
             etatFilter += '|Fin';
         }
     }
-    if( signe=='true' ){
+    if( signe ){
         $('#cbSigne').prop( "checked", true );
         if(etatFilter == ''){
             etatFilter += 'Signé';
@@ -48,7 +48,7 @@ function setInitStateConfig(){
             etatFilter += '|Signé';
         }
     }
-    if( signEC=='true' ){
+    if( signEC ){
         $('#cbSignEC').prop( "checked", true );
         if(etatFilter == ''){
             etatFilter += 'Sign EC';
@@ -140,15 +140,18 @@ function setConfig(){
         'fin': $('#cbFin').is(":checked"),
         'signe': $('#cbSigne').is(":checked"),
         'signEC': $('#cbSignEC').is(":checked"),
-    }
+    };
+    dataSend = JSON.stringify(prefConfig);
     $.ajax({
         type: "post",
         url: url,
-        success: function(){
+        success: function(data){
         },
         error: function(){
         },
-        data: prefConfig
+        data: dataSend,
+        dataType: 'json',
+        contentType: 'application/json'
     });
 
 }

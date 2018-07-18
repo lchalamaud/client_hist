@@ -1,0 +1,111 @@
+base:
+  business: Business
+  home: Home
+  commercials: Commercial
+  login: Log In
+  profile: Profile
+  mail: Mail
+  users: Users
+  disconnect: Disconnect
+
+button:
+  add: Add
+  modify: Modify
+  del: Delete
+  cancel: Cancel
+  promote: Promote
+  demote: Demote
+
+business:
+  header:
+    onLive: Current
+    forgotten: Forgotten
+    'sign in progress': Sign in progress
+    ended: Ended
+    suspended: Pending
+    signed: Signed
+    search: Search
+    all: All
+    day: Days
+    D: D
+    week: Weeks
+    W: W
+    month: Months
+    M: M
+
+  modal:
+    addBusiness: Add a business
+    MR: Mr
+    MRS: Mrs
+    firstName: Firstname
+    lastName: Lastname
+    society: Society
+    mail: mail
+    phone: Phone
+    address: Address
+    street: Street
+    complement: Complement
+    pc: PC
+    city: CITY
+    commercial: Commercial
+    begin: Begin
+    devisType: Quote type
+    buy: Buy
+    rent: Rent
+    information: Information
+    systemType: System type
+    qbBusiness: QuizzBox Business
+    qbSSIAP/CQP: SSIAP - CQP Version
+    qbCampus: QuizzBox Campus
+    qbEduc: QuizzBox School
+    qbGeneralMeeting: QuizzBox General Meeting
+    others: Others
+    nb: Nb
+    origin: Origin
+    internetSearch: Internet search (Google...)
+    socialNetwork: Social Network (Facebook)
+    presse: Presse
+    recommendation: Recommendation
+    alreadyCustomer: Already Customer
+    comment: Comment
+    delete: Delete
+    doYouWantToDel: Do you really want to delete business
+
+  loading: Loading
+
+  table:
+    name: Name
+    society: Society
+    city: City
+    phone: Phone
+    number: Nb
+    quote: Quote
+    system: System
+    reminder: Reminder
+    commercial: Cial
+
+commercial:
+  name: Name
+  acronym: Acronym
+  color: Color
+  form:
+    addComm: Add a commercial
+
+  table:
+    delComm: Delete commercial
+    doYouWantToDel: Do you really want to delete commercial
+    ofDatabase: from the database
+    warningMessage: Every associated task will be deleted
+    listComm: Commercial list
+
+mail:
+  'inBox message': Inbox
+  from: From
+
+userManager:
+  delUser: Delete user
+  delConfirm: Do you really want to delete user
+  userList: User list
+  username: Name
+  email: Email
+  role: Role

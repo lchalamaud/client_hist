@@ -15,14 +15,14 @@
     display: none;
     padding: 0;
     position: absolute;
-    background-color: #1f212d;
+    background-color: #fe8e1e;/*#36394c;*/
 }
 .subMenu a{
-    border-bottom: 1px solid #fe8e1e;
+    border-bottom: 1px solid #1f212d;
     margin: 0;
     padding-left: 25px;
     padding-right: 15px;
-    color: #fe8e1e;
+    color: #1f212d;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,7 +32,7 @@
     font-size: 17px;
 }
 .subMenu a:hover{
-    background-color: #3f435b;
+    background-color: #fc9c3c;
 }
 .navigation:hover .subMenu{
     display: block;

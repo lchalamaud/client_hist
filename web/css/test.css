@@ -1,0 +1,7 @@
+.colorSquare{
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 2px;
+	border: 1px solid grey;
+}

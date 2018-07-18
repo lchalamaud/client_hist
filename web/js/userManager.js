@@ -96,7 +96,6 @@ $(document).ready( function () {
 	})
 
 	window.onclick = function(event) {
-		console.log(event.target)
 	    if ($(event.target).hasClass('modal')) {
 	        $('.modal').hide();
 	    }

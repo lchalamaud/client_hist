@@ -81,7 +81,10 @@ thead tr th:hover {
 input[type="date"]{
     width: 120px;
 }
-
+td .tdColor{
+    width: 15px;
+    padding: 8px 0;
+}
 .numDossierInput{
     width: 70%;
 }

@@ -14,6 +14,7 @@ class UserManagerController extends Controller
 {
     /**
      * @Route("/admin/manager/", name="admin_manager")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function indexAction()
     {
@@ -31,7 +32,7 @@ class UserManagerController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AppBundle:User')->findOneBy(array('username'=>$request->get('username')));
-        $userManager = $this->get('fos_user.user_manager');   
+        $userManager = $this->get('fos_user.user_manager');
         $user->setRoles(array($request->get('role')));
         $userManager->updateUser($user);
 

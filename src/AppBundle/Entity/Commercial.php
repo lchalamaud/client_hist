@@ -23,7 +23,7 @@ class Commercial
 	protected $acronyme;
 
 	/**
-	 * @ORM\Column(name="couleur", type="integer", length=2)
+	 * @ORM\Column(name="couleur", type="string", length=7)
 	 */
 	protected $couleur;
 

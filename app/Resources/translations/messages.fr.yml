@@ -1,0 +1,112 @@
+base:
+  business: Affaires
+  home: Acceuil
+  commercials: Commerciaux
+  login: Connexion
+  profile: Profil
+  mail: Mail
+  users: Utilisateurs
+  disconnect: Déconnexion
+
+button:
+  add: Ajouter
+  modify: Modifier
+  del: Supprimer
+  cancel: Annuler
+  promote: Promote
+  demote: Demote
+
+business:
+  header:
+    onLive: En Cours
+    forgotten: Oubliée
+    'sign in progress': Signature En Cours
+    ended: Finie
+    suspended: Suspendue
+    signed: Signée
+    search: Recherche
+    all: Tous
+    day: Jours
+    D: J
+    week: Semaines
+    W: S
+    month: Mois
+    M: M
+  
+  modal:
+    addBusiness: Ajouter une affaire
+    MR: M.
+    MRS: Mme
+    firstName: Prénom
+    lastName: NOM
+    society: Société
+    mail: mail
+    phone: Téléphone
+    address: Adresse
+    street: Rue
+    complement: Complément
+    pc: CP
+    city: VILLE
+    commercial: Commercial
+    begin: Début
+    devisType: Type de devis
+    buy: Achat
+    rent: Location
+    information: Renseignement
+    systemType: Type de Systeme
+    qbBusiness: QuizzBox Entreprise
+    qbSSIAP/CQP: Version SSIAP - CQP
+    qbCampus: QuizzBox Campus
+    qbEduc: QuizzBox Education
+    qbGeneralMeeting: QuizzBox Assemblée Générale
+    others: Autres
+    nb: Nb
+    origin: Provenance
+    internetSearch: Recherche Internet (Google...)
+    socialNetwork: Reseaux sociaux (Facebook)
+    presse: Presse
+    recommendation: Recommandation
+    alreadyCustomer: Déja client
+    comment: Commentaire
+    delete: Supprimer
+    doYouWantToDel: Voulez vous vraiment supprimer l'affaire
+
+  loading: Chargement des affaires
+
+  table:
+    name: Nom
+    society: Société
+    city: Ville
+    phone: Téléphone
+    number: Nb
+    quote: Devis
+    system: Système
+    reminder: Rappel
+    commercial: Cial
+
+commercial:
+  name: Nom
+  acronym: Acronyme
+  color: Couleur
+  form:
+    addComm: Ajouter un commercial
+
+  table:
+    delComm: Supprimer commercial
+    doYouWantToDel: Voulez vous vraiment supprimer le commercial
+    ofDatabase: de la base de données
+    warningMessage: Toutes les taches associées à ce commercial seront supprimées
+    listComm: Liste des commerciaux
+
+mail:
+  'inBox message': Boîte de réception
+  from: De
+
+userManager:
+  delUser: Supprimer utilisateur
+  delConfirm: Voulez vous vraiment supprimer l'utilisateur
+  userList: Liste des Utilisateurs
+  username: Nom
+  email: Email
+  role: Rôle
+

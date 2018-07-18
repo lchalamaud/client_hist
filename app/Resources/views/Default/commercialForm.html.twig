@@ -8,17 +8,21 @@
 
 {% block body %}
 	<div id="content">
-		<h1>Ajouter un commercial</h1>
+		<h1>{{'commercial.form.addComm'|trans}}</h1>
 
 		<div class="well">
 			{{ form_start(form) }}
 
 			    {{ form_errors(form) }}
 			    {{ form_row(form._token) }}
-			    {{ form_row(form.Nom, { 'attr' : {'placeholder' : 'Nom' }}) }}
-			    {{ form_row(form.Acronyme, { 'attr' : {'placeholder' : 'Acronyme' }}) }}
-			    {{ form_row(form.Couleur, { 'attr' : {'placeholder' : 'Couleur' }}) }}
-
+			    {% set nameplaceholder = 'commercial.name'|trans %}
+			    {{ form_row(form.Nom, { 'attr' : {'placeholder' : nameplaceholder }}) }}
+			    {% set acronymplaceholder = 'commercial.acronym'|trans %}
+			    {{ form_row(form.Acronyme, { 'attr' : {'placeholder' : acronymplaceholder }}) }}
+			    <div id="color">
+				    <h3>{{ 'commercial.color'|trans }} : </h3>
+				    {{ form_row(form.Couleur) }}
+				</div>
 			   	{{ form_row(form.Ajouter, { 'attr' : {'class' : 'button' }}) }}
 			{{ form_start(form) }}
 		</div>

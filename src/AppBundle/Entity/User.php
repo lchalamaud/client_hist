@@ -18,9 +18,24 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\JoinColumn(name="preference")
+     * @ORM\OneToOne(targetEntity="Preference", cascade={"persist", "remove"}, mappedBy="id")
+     */
+    protected $preference;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    public function setPreference($preference)
+    {
+        $this->preference = $preference;
+    }
+    public function getPreference()
+    {
+        return $this->preference;
     }
 }

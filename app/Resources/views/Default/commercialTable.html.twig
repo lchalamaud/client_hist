@@ -12,8 +12,8 @@
 
 {% block header %}
 	{% if is_granted('ROLE_ADMIN') %}
-	 	<a href="/commercial/add" ><input type="button" class="button" value="Ajouter"></a>
-	 	<input type="button" class="button" value="Supprimer" id="delComm">
+	 	<a href="/commercial/add" ><input type="button" class="button" value="{{ 'button.add'|trans }}"></a>
+	 	<input type="button" class="button" value="{{ 'button.del'|trans }}" id="delComm">
 	{% endif %}
 {% endblock %}
 
@@ -24,27 +24,27 @@
 
 	<div class="modal-content">
 		<span class="close cross">&times;</span>
-		<h1>Supprimer commercial</h1>
+		<h1>{{ 'commercial.table.delComm'|trans }}</h1>
 		<div class='modalbody'>
-			<p>Voulez vous vraiment supprimer le commercial <span id='delModalNom'></span> de la base de données?</p>
-			<div class='comment'>(Toutes les taches associées à ce commercial seront supprimées.)</div>
+			<p> {{ 'commercial.table.doYouWantToDel'|trans }} <span id='delModalNom'></span> {{ 'commercial.table.ofDatabase'|trans }}?</p>
+			<div class='comment'>({{ 'commercial.table.warningMessage'|trans }}.)</div>
 			<span id="delResponse"></span>
 			<div class="deleteBtn">
-				<button id="delConfirmBtn" class='button'>Supprimer</button>
-				<button id="delCancelmBtn" class='button close'>Annuler</button>
+				<button id="delConfirmBtn" class='button'>{{ 'button.del'|trans }}</button>
+				<button id="delCancelmBtn" class='button close'>{{ 'button.cancel'|trans }}</button>
 			</div>
 		</div>
 	</div>
 </div>
 
 <div id='content'>
-    <h1>Liste des commerciaux</h1>
+    <h1>{{ 'commercial.table.listComm'|trans }}</h1>
 	<table id='commTab'>
 		<thead>
 			<tr>
-				<th>Nom</th>
-				<th>Acronyme</th>
-				<th>Couleur</th>
+				<th>{{ 'commercial.name'|trans }}</th>
+				<th>{{ 'commercial.acronym'|trans }}</th>
+				<th>{{ 'commercial.color'|trans }}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,7 +52,7 @@
 				<tr>
 					<td class="nom">{{ commercial.nom }}</td>
 					<td class="acronyme">{{ commercial.acronyme }}</td>
-					<td>{{ commercial.couleur }}</td>
+					<td><span class="colorSquare blockColorSquare" style="background-color: {{ commercial.couleur }};"></td>
 				</tr>
 			{% endfor %}
 			

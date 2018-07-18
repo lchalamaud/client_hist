@@ -30,51 +30,80 @@ class AffaireType extends AbstractType
         $formBuilder
             ->add('Civilite', ChoiceType::class, array(
                 'choices' =>  array(
-                    'M.' => 'M.',
-                    'Mme' => 'Mme',
+                    'business.modal.MR' => 'M.',
+                    'business.modal.MRS' => 'Mme',
                 )))
-            ->add('Nom', TextType::class, array( 'attr' => array('placeholder' => 'NOM' )))
-            ->add('Prenom', TextType::class, array( 'required' => false, 'mapped' => false, 'attr' => array('placeholder' => 'Prénom' )))
-            ->add('Societe', TextType::class, array( 'attr' => array('placeholder' => 'Société' )))
-            ->add('Telephone', TelType::class, array( 'attr' => array('placeholder' => 'Téléphone' )))
-            ->add('EMail', TextType::class, array( 'attr' => array('placeholder' => 'exemple@mail.com' )))
-            ->add('Rue', TextType::class, array( 'attr' => array('placeholder' => 'Rue' )))
-            ->add('Complement', TextType::class, array( 'required' => false, 'attr' => array('placeholder' => 'Complément' )))
-            ->add('CP', IntegerType::class, array( 'attr' => array('placeholder' => 'Code Postal' )))
-            ->add('Ville', TextType::class, array( 'attr' => array('placeholder' => 'VILLE' )))
+            ->add('Nom', TextType::class, array( 'attr' => array('placeholder' => 'business.modal.lastName' )))
+            ->add('Prenom', TextType::class, array( 'required' => false, 'mapped' => false, 'attr' => array('placeholder' => 'business.modal.firstName' )))
+            ->add('Societe', TextType::class, array(
+                'label' => 'business.modal.society',
+                'attr' => array('placeholder' => 'business.modal.society' )
+            ))
+            ->add('Telephone', TelType::class, array(
+                'label' => 'business.modal.phone',
+                'attr' => array('placeholder' => 'business.modal.phone' )
+            ))
+            ->add('EMail', TextType::class, array(
+                'label' => 'business.modal.mail',
+                'attr' => array('placeholder' => 'exemple@mail.com' )
+            ))
+            ->add('Rue', TextType::class, array(
+                'label' => 'business.modal.address',
+                'attr' => array('placeholder' => 'business.modal.street' )
+            ))
+            ->add('Complement', TextType::class, array(
+                'label' => 'business.modal.complement',
+                'required' => false,
+                'attr' => array('placeholder' => 'business.modal.complement' )
+            ))
+            ->add('CP', IntegerType::class, array( 'attr' => array('placeholder' => 'business.modal.pc' )))
+            ->add('Ville', TextType::class, array( 'attr' => array('placeholder' => 'business.modal.city' )))
             ->add('Commercial', EntityType::class, array(
+                'label' => 'business.modal.commercial',
+                'required' => false,
                 'class' => 'AppBundle:Commercial',
                 'choice_label' => 'acronyme'
             ))            
-            ->add('Debut', DateType::class, array('widget' => 'single_text'))
+            ->add('Debut', DateType::class, array(
+                'label' => 'business.modal.begin',
+                'widget' => 'single_text'
+            ))
             ->add('DevisType', ChoiceType::class, array(
+                'label' => 'business.modal.devisType',
                 'choices' => array(
-                    'Achat' => 'Achat',
-                    'Location' => 'Loc.',
-                    'Renseignement' => 'Rens.',
+                    'business.modal.buy' => 'Achat',
+                    'business.modal.rent' => 'Loc.',
+                    'business.modal.information' => 'Rens.',
                 )))
             ->add('SystemType', ChoiceType::class, array(
                 'choices' => array(
-                    'QuizzBox Entreprise' => 'Ent.',
-                    'Version SSIAP - CQP' => 'SSIAP/CQP',
-                    'QuizzBox Campus' => 'Campus',
-                    'QuizzBox Education' => 'Educ.',
-                    'QuizzBox Assemblée Générale' => 'AG',
-                    'Autres' => 'Autres',
+                    'business.modal.qbBusiness' => 'Ent.',
+                    'business.modal.qbSSIAP/CQP' => 'SSIAP/CQP',
+                    'business.modal.qbCampus' => 'Campus',
+                    'business.modal.qbEduc' => 'Educ.',
+                    'business.modal.qbGeneralMeeting' => 'AG',
+                    'business.modal.others' => 'Autres',
                 )))
-            ->add('NbController',   IntegerType::class, array( 'attr' => array( 'placeholder' => 'Nb Boitiers' )))
+            ->add('NbController',   IntegerType::class, array( 'attr' => array( 'placeholder' => 'business.modal.nb' )))
             ->add('Provenance', ChoiceType::class, array(
+                'label' => 'business.modal.origin',
                 'choices' => array(
-                    'Recherche Internet (Google...)' => 'RI',
-                    'Reseaux sociaux (Facebook)' => 'RS',
-                    'Presse' => 'Presse',
-                    'Recommandation' => 'Recommandation',
-                    'Déja client' => 'Client',
-                    'Autres' => 'Autres',
+                    'business.modal.internetSearch' => 'RI',
+                    'business.modal.socialNetwork' => 'RS',
+                    'business.modal.presse' => 'Presse',
+                    'business.modal.recommendation' => 'Recommandation',
+                    'business.modal.alreadyCustomer' => 'Client',
+                    'business.modal.others' => 'Autres',
                 )))
-            ->add('Commentaire',      TextareaType::class, array('required' => false,))
-            ->add('Id', IntegerType::class, array( 'required' => false, 'mapped' => false))
-            ->add('Ajouter',      SubmitType::class)
+            ->add('Commentaire',      TextareaType::class, array(
+                'label' => 'business.modal.comment',
+                'required' => false,
+            ))
+            ->add('Id', IntegerType::class, array(
+                'label' => false,
+                'required' => false, 'mapped' => false
+            ))
+            ->add('Ajouter',      SubmitType::class, array( 'label' => 'button.add'))
         ;
     }
 

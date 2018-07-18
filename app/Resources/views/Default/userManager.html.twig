@@ -8,10 +8,10 @@
 {% block title %}User Manager{% endblock %}
 
 {% block header %}
-    <a href="/register/" ><input type="button" class="button" value="Ajouter"></a>
-    <input type="button" class="button" value="Supprimer" id="delUser">
-    <input type="button" class="button promoteUser" value="Promote">
-    <input type="button" class="button demoteUser" value="Demote">
+    <a href="/register/" ><input type="button" class="button" value="{{ 'button.add'|trans }}"></a>
+    <input type="button" class="button" value="{{ 'button.del'|trans }}" id="delUser">
+    <input type="button" class="button promoteUser" value="{{ 'button.promote'|trans }}">
+    <input type="button" class="button demoteUser" value="{{ 'button.demote'|trans }}">
 {% endblock %}
 
 {% block body %}
@@ -19,26 +19,26 @@
 
         <div class="modal-content">
             <span class="close cross">&times;</span>
-            <h1>Supprimer utilisateur</h1>
+            <h1>{{ 'userManager.delUser'|trans }}</h1>
             <div class="modalbody">
-                <p>Voulez vous vraiment supprimer l'utilisateur : <span id='delModalNom'></span>?</p>
+                <p>{{ 'userManager.delConfirm'|trans }} : <span id='delModalNom'></span>?</p>
                 <span id="delResponse"></span>
                 <div class="deleteBtn">
-                    <button id="delConfirmBtn" class='button'>Supprimer</button>
-                    <button id="delCancelmBtn" class='button close'>Annuler</button>
+                    <button id="delConfirmBtn" class='button'>{{ 'button.del'|trans }}</button>
+                    <button id="delCancelmBtn" class='button close'>{{ 'button.cancel'|trans }}</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="userFrame">
-        <h1>Liste des Utilisateurs</h1>
+        <h1>{{ 'userManager.userList'|trans }}</h1>
         <table id="userList">
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>email</th>
-                    <th colspan=3>Roles</th>
+                    <th>{{ 'userManager.username'|trans }}</th>
+                    <th>{{ 'userManager.email'|trans }}</th>
+                    <th colspan=3>{{ 'userManager.role'|trans }}</th>
                 </tr>
                 <tr>
                     <th></th>

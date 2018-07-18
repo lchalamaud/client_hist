@@ -13,17 +13,17 @@
         {% endif %}
         <div class="username">
             <label for="username">{{ 'Nom'|trans }}</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Nom" />
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="{{ 'security.login.username'|trans }}" />
         </div>
         <div class="password">
             <label for="password">{{ 'Mot de passe'|trans }}</label>
-            <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Mot de passe" />
+            <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="{{ 'security.login.password'|trans }}" />
         </div>
         <div class='remember_me'>
             <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-            <h3>{{ 'Se souvenir de moi'|trans }}</h3>
+            <h3>{{ 'security.login.remember_me'|trans }}</h3>
         </div>
-        <input type="submit" id="_submit" name="_submit" value="{{ 'Se Connecter'|trans }}" class="button"/>
+        <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="button"/>
         
     </form>
 

@@ -16,9 +16,10 @@ function tabSelectVal(table, index){
     return table.cell('.selected', index).data();
 }
 
-function tacheFormat ( id, debut ) {
+function tacheFormat ( id, debut, commercial ) {
     var today = new Date();
-    return '<table class="tacheTabClass" id="tacheTab'+ id +'">'+
+    if(commercial){
+        return '<table class="tacheTabClass" id="tacheTab'+ id +'">'+
             '<thead>'+ 
                 '<tr>'+
                     '<th>Type</th>'+
@@ -32,7 +33,7 @@ function tacheFormat ( id, debut ) {
                     '<td>Début</td>'+
                     '<td class="centerCol">'+ reorderDate(debut) +'</td>'+
                     '<td class="spHide"></td>'+
-                    '<td></td>'+
+                    '<td class="spHide">'+ commercial +'</td>'+
                     '<td></td>'+
                 '</tr>'+
                 '<tr><form>'+
@@ -53,6 +54,28 @@ function tacheFormat ( id, debut ) {
                 '</form></tr>'+
             '</tbody>'+
         '</table>';
+    }else{
+        return '<table class="tacheTabClass" id="tacheTab'+ id +'">'+
+            '<thead>'+ 
+                '<tr>'+
+                    '<th>Type</th>'+
+                    '<th>Date</th>'+
+                    '<th class="spHide" colspan=2>Commercial</th>'+
+                    '<th></th>'+
+                '</tr>'+
+            '</thead>'+
+            '<tbody>'+
+                '<tr>'+
+                    '<td>Début</td>'+
+                    '<td class="centerCol">'+ reorderDate(debut) +'</td>'+
+                    '<td class="centerCol spHide" colspan=2>Assignation : <select id=\'selectComm'+ id +'\'>'+
+                    '</select></td>'+
+                    '<td class="centerCol clickAssign"><span class="plus">+</span></td>'+
+                '</tr>'+
+            '</tbody>'+
+        '</table>';
+    }
+    
 }
 
 function infoFormat ( table ) {
@@ -192,22 +215,22 @@ $(document).ready( function () {
                 "render": function ( data, type, row, meta ){
                     switch (data){
                         case 'En Cours':
-                            img = '<img src="/img/blue.jpg">'
+                            img = '<img src="/img/blue.jpg" class="colorSquare">'
                             break;
                         case 'Oublié':
-                            img = '<img src="/img/maroon.jpg">'
+                            img = '<img src="/img/yellow.jpg" class="colorSquare">'
                             break;
                         case 'Signé':
-                            img = '<img src="/img/green.jpg">'
+                            img = '<img src="/img/green.jpg" class="colorSquare">'
                             break;
                         case 'Sign EC':
-                            img = '<img src="/img/green_2.jpg">'
+                            img = '<img src="/img/green_2.jpg" class="colorSquare">'
                             break;
                         case 'Suspendu':
-                            img = '<img src="/img/orange.jpg">'
+                            img = '<img src="/img/orange.jpg" class="colorSquare">'
                             break;
                         case 'Fin':
-                            img = '<img src="/img/red.jpg">'
+                            img = '<img src="/img/red.jpg" class="colorSquare">'
                             break;
                     }
 
@@ -431,6 +454,7 @@ $(document).ready( function () {
 
         var idAffaire = table.cell(this, 22).data();
         var debut = table.cell(this, 15).data();
+        var commercial = table.cell(this, 18).data();
 
         if ( row.child.isShown() ) {
             $('div.slider', row.child()).slideUp( function () {
@@ -443,8 +467,8 @@ $(document).ready( function () {
             $('#infoArea'+idAffaire).remove();
         }
         else {
-            row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+table.cell(this, 20).data()+'</textarea></div>' + '</div>' ).show();
-            getTacheCommercial(idAffaire, table.cell(this, 18).data());
+            row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut, commercial ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+(table.cell(this, 20).data()?table.cell(this, 20).data():'')+'</textarea></div>' + '</div>' ).show();
+            getTacheCommercial(idAffaire, commercial);
             row.child().addClass('infoLine');
             tr.addClass('shown');
             tdi.first().removeClass('fa-plus');
@@ -495,6 +519,13 @@ $(document).ready( function () {
             });
         }
     })
+
+    $(document).on( "click", ".clickAssign", function(){
+        var trData = $(this).closest('tr.infoLine').prev();
+        var idAffaire =  table.cell(trData, 22).data();
+        var commercial = $('#selectComm'+idAffaire).find(":selected").val();
+        setCommercial( table, idAffaire, commercial, trData );
+    });
 
     $(document).on( "click", ".clickPlus", function(){
         var trData = $(this).closest('tr.infoLine').prev();

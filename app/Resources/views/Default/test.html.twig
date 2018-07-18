@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/test.css') }}">
+		<script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.js') }}"></script>
+	</head>
+	<body>
+		<span class="colorSquare"></span><input type="color">
+		
+		<script>
+		$("input").change(function(){
+			$(".colorSquare").css("background-color", $("input").val());
+		})
+		</script>
+	</body>
+</html>

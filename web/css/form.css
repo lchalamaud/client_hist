@@ -79,3 +79,19 @@ input[type="submit"], a input[type="submit"]{
 	font-size: 12px;
 	color: #adadad;;
 }
+
+#color h3,
+#color div{
+	display: inline-block;
+}
+
+#color h3{
+	font-size: 15px;
+	color: grey;
+}
+#color div input{
+	width: 20px;
+	padding: 0;
+	border: none;
+	background-color: none;
+}

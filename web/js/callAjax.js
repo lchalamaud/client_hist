@@ -27,6 +27,48 @@ function delAffaire(idAffaire, table){
     });
 }
 
+function setCommercial( table, idAffaire, commercial, trData ){
+    var today = new Date();
+
+    var url = '/commercial/set/';
+    $.ajax({
+        type: "post",
+        url: url,
+        beforeSend: function(){
+        },
+        success: function(data){
+            table.cell( trData, 18 ).data(commercial);
+            $('#selectComm'+idAffaire).closest('tbody').append(
+                '<tr><form>'+
+                    '<td><select id=\'type'+ idAffaire +'\' class="typeTacheSelect">'+
+                        '<option value=\'Appel\'>Appel</option>'+
+                        '<option value=\'Démo\'>Démo</option>'+
+                        '<option value=\'Propal\'>Propal</option>'+
+                        '<option value=\'Rappel\'>Rappel</option>'+
+                        '<option value=\'Sign EC\'>Signature en cours</option>'+
+                        '<option value=\'Signature\'>Signature</option>'+
+                        '<option value=\'Suspension\'>Suspension</option>'+
+                        '<option value=\'Fin\'>Fin</option>'+
+                    '</select></td>'+
+                    '<td class="centerCol"><input type=\'date\' id=\'dateTache'+ idAffaire +'\' value="'+ formatDate(today) +'"></td>'+
+                    '<td class="centerCol spHide newTaskTab" colspan=2></td>'+
+                    '<td class="centerCol clickPlus"> <span class="plus">+</span>'+
+                '</form></tr>'
+                );
+            var select = $('#selectComm'+idAffaire).clone();
+            $(".newTaskTab").append(select).removeClass('newTaskTab');
+            $('#selectComm'+idAffaire).closest('td').empty().append(commercial);
+            
+        },
+        error: function(){
+        },
+        data : {
+            'idAffaire' : idAffaire,
+            'commercial' : commercial
+        }
+    });
+}
+
 function getTacheCommercial(idAffaire, commercial){
     
     var url = '/tache/affaire/nom/';
@@ -39,11 +81,11 @@ function getTacheCommercial(idAffaire, commercial){
         success: function(data){
             $('html').css( 'cursor' , 'default');
 
-            $.each(data.commercial, function(i, item){   
+            $.each(data.commercial, function(i, item){
                 if( item.acronyme == commercial){
-                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" selected>' + item.acronyme + '</option>');
+                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" style="background-color: '+item.couleur+';"selected>' + item.acronyme + '</option>');
                 }else{
-                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '">' + item.acronyme + '</option>');
+                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" style="background-color: '+item.couleur+';"><span class="colorSquare blockColorSquare" style="background-color: '+item.couleur +';"></span> ' + item.acronyme + '</option>');
                 }
             })
 
@@ -54,9 +96,9 @@ function getTacheCommercial(idAffaire, commercial){
                     '<tr>'+
                         '<td>'+ item.type +'</td>'+
                         '<td class="centerCol">'+ reorderDate(item.date) +'</td>'+
+                        '<td class="centerCol tdColor"><span class="colorSquare blockColorSquare" style="background-color: '+item.couleur +';"></span></td>'+
                         '<td class="centerCol spHide">'+ item.commercial +'</td>'+
-                        '<td class="centerCol tdColor">'+ item.couleur +'</td>'+
-                        '<td class="centerCol"><i class="far fa-times-circle" id="cross'+ item.id +'"></i></td>'+
+                        '<td class="centerCol spHide"><i class="far fa-times-circle" id="cross'+ item.id +'"></i></td>'+
                     '</td>'
                 );
             });
@@ -100,9 +142,9 @@ function addTache( idAffaire, trData, table, numDossier ){
                 '<tr>'+
                     '<td>'+type+'</td>'+
                     '<td class="centerCol">'+date+'</td>'+
+                    '<td class="centerCol tdColor"><span class="colorSquare blockColorSquare" style="background-color: '+data.couleur +';"></span></td>'+
                     '<td class="centerCol spHide">'+commercial+'</td>'+
-                    '<td class="centerCol tdColor">'+ data.couleur +'</td>'+
-                    '<td class="centerCol"><i class="far fa-times-circle" id="cross'+ data.id +'"></i></td>'+
+                    '<td class="centerCol spHide"><i class="far fa-times-circle" id="cross'+ data.id +'"></i></td>'+
                 '</tr>'
             )
             var actualTextArea = $('#infoArea' + idAffaire +' textarea').val();

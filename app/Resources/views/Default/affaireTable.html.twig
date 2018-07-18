@@ -15,9 +15,9 @@
 {% block header %}
 	<div class="filterHeader">
 		<div class="leftBanner">
-			<button id="addAffaireBtn", class='button'>Ajouter</button>
-			<button id="modifAffaireBtn", class='button'>Modifier</button>
-			<button id="delAffaireBtn", class='button'>Supprimer</button>
+			<button id="addAffaireBtn", class='button'>{{ 'button.add'|trans }}</button>
+			<button id="modifAffaireBtn", class='button'>{{ 'button.modify'|trans }}</button>
+			<button id="delAffaireBtn", class='button'>{{ 'button.del'|trans }}</button>
 		</div>
 		<div class="middleBanner">
 			<div class="checkboxFilter">
@@ -25,54 +25,54 @@
 					<tr>
 						<td>
 							<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-							<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}"> En Cours</label>
+							<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}" class="colorSquare"> {{ 'business.header.onLive'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-							<label for="cbOublie"><img src="{{ asset('/img/maroon.jpg')}}"> Oubliées</label>
+							<label for="cbOublie"><img src="{{ asset('/img/yellow.jpg')}}" class="colorSquare"> {{ 'business.header.forgotten'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
-							<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}"> Signature En Cours</label>
+							<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}" class="colorSquare"> {{ 'business.header.sign in progress'|trans }}</label>
 						</td>
 					</tr>
 						<td>
 							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-							<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}"> Finies</label>
+							<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}" class="colorSquare"> {{ 'business.header.ended'|trans }}</label>
 						</td>
 					
 						
 						<td>
 							<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-							<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}"> Suspendues</label>
+							<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}" class="colorSquare"> {{ 'business.header.suspended'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-							<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}"> Signées</label>
+							<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}" class="colorSquare"> {{ 'business.header.signed'|trans }}</label>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 		<div class="rightBanner">
-			<input type="text" id="searchbox" placeholder="Recherche">
+			<input type="text" id="searchbox" placeholder="{{ 'business.header.search'|trans }}">
 			<div class="selectArea">
 				<select id="timeSelect" class="selector">
-					<option value="">Tous</option>
-						<optgroup label="Jours">
-							<option value="prevDay">J-1</option>
-							<option value="onDay">J</option>
-							<option value="nextDay">J+1</option>
+					<option value="">{{ 'business.header.all'|trans }}</option>
+						<optgroup label="{{ 'business.header.day'|trans }}">
+							<option value="prevDay">{{ 'business.header.D'|trans }}-1</option>
+							<option value="onDay">{{ 'business.header.D'|trans }}</option>
+							<option value="nextDay">{{ 'business.header.D'|trans }}+1</option>
 						</optgroup>
-						<optgroup label="Semaine">
-							<option value="prevWeek">S-1</option>
-							<option value="onWeek">S</option>
-							<option value="nextWeek">S+1</option>
+						<optgroup label="{{ 'business.header.week'|trans }}">
+							<option value="prevWeek">{{ 'business.header.W'|trans }}-1</option>
+							<option value="onWeek">{{ 'business.header.W'|trans }}</option>
+							<option value="nextWeek">{{ 'business.header.W'|trans }}+1</option>
 						</optgroup>
-						<optgroup label="Mois">
-							<option value="prevMonth">M-1</option>
-							<option value="onMonth">M</option>
-							<option value="nextMonth">M+1</option>
+						<optgroup label="{{ 'business.header.month'|trans }}">
+							<option value="prevMonth">{{ 'business.header.M'|trans }}-1</option>
+							<option value="onMonth">{{ 'business.header.M'|trans }}</option>
+							<option value="nextMonth">{{ 'business.header.M'|trans }}+1</option>
 						</optgroup>
 				</select>
 				<span id="commercialSelect"></span>
@@ -90,7 +90,7 @@
 
 	<div class="modal-content">
 		<span class="close cross">&times;</span>
-		<h1>Ajouter une affaire</h1>
+		<h1>{{ 'business.modal.addBusiness'|trans }}</h1>
 
 		<div class="modalbody">
 			{{ form_start(addform) }}
@@ -98,7 +98,9 @@
 
 			    <div class='personne'>
 				    <div class='nom'>
-					    {{ form_row(addform.Civilite, { 'label' : 'NOM | Prénom' }) }}
+				    	{% set firstNameLastNameLabel = 'business.modal.lastName'|trans~'|'~'business.modal.firstName'|trans %}
+					    {{ form_row(addform.Civilite, { 'label' : firstNameLastNameLabel }) }}
+
 					    <div id="nomField">
 						    {{ form_row(addform.Nom, { 'label' : false }) }}
 						</div>
@@ -107,16 +109,19 @@
 						</div>
 
 					</div>
-				    {{ form_row(addform.Societe, { 'label' : 'Société' }) }}
-					{{ form_row(addform.Telephone, { 'label' : 'Téléphone' }) }}
-					{{ form_row(addform.EMail, { 'label' : '@mail' }) }}
+				    {{ form_row(addform.Societe) }}
+					{{ form_row(addform.Telephone) }}
+					{{ form_row(addform.EMail) }}
 				</div>
 				<div class='adresse'>
-					{{ form_row(addform.Rue, { 'label' : 'Adresse' }) }}
-					{{ form_row(addform.Complement, { 'label' : 'Complément' }) }}
+					{{ form_row(addform.Rue) }}
+
+					{{ form_row(addform.Complement) }}
+
 					<div class='cpVille'>
 						<div id='cp'>
-							{{ form_row(addform.CP, { 'label' : 'CP | VILLE' }) }}
+							{% set pcCityLabel = 'business.modal.pc'|trans~'|'~'business.modal.city'|trans %}
+							{{ form_row(addform.CP, { 'label' : pcCityLabel }) }}
 						</div>
 						<div id='ville'>
 							{{ form_row(addform.Ville, { 'label' : false }) }}
@@ -124,27 +129,29 @@
 					</div>
 				</div>
 				<div class='detailComm'>
-					{{ form_row(addform.Commercial, { 'label' : 'Commercial' }) }}
-					{{ form_row(addform.Debut, { 'label' : 'Début' }) }}
+					{{ form_row(addform.Commercial) }}
+					{{ form_row(addform.Debut) }}
 				</div>
 				<div class='detailAffaire'>
-					{{ form_row(addform.DevisType, { 'label' : 'Type de devis' }) }}
+					{{ form_row(addform.DevisType) }}
 					<div class='nbType'>
 						<div id='sysType'>
-							{{ form_row(addform.SystemType, { 'label' : 'Type de Systeme | Nb' }) }}
+							{% set systemeTypeNbLabel = 'business.modal.systemType'|trans~'|'~'business.modal.nb'|trans %}
+							{{ form_row(addform.SystemType, { 'label' : systemeTypeNbLabel }) }}
 						</div>
 						{{ form_row(addform.NbController, { 'label' : false }) }}
 					</div>
-					{{ form_row(addform.Provenance, { 'label' : 'Provenance' }) }}
-					{{ form_row(addform.Commentaire, { 'label' : 'Commentaire' }) }}
+					{{ form_row(addform.Provenance) }}
+
+					{{ form_row(addform.Commentaire) }}
 					<div class="hidden-row">{{ form_row(addform.Id) }}</div>
 				</div>
 				<div class='adderBtn'>
 					{{ form_row(addform.Ajouter, {'attr': {'class': 'button'}}) }}
 
 					<div>
-						<input type="button" value="Modifier" class="button" id="modifConfirmBtn" style="display : none;">
-						<input type="button" value="Annuler" class="button close">
+						<input type="button" value="{{ 'button.modify'|trans }}" class="button" id="modifConfirmBtn" style="display : none;">
+						<input type="button" value="{{ 'button.cancel'|trans }}" class="button close">
 					</div>
 				</div>
 			{{ form_end(addform) }}
@@ -156,13 +163,13 @@
 <div id="delAffaireModal" class="modal">
 	<div class="modal-content">
 		<span class="close cross">&times;</span>
-		<h1>Supprimer</h1>
+		<h1>{{ 'business.modal.delete'|trans }}</h1>
 		<div class='modalbody clearfix'>
-			<p>Voulez vous vraiment supprimer l'affaire : <span id='delModalNom'></span> - <span id='delModalSociete'></span>?</p>
+			<p>{{ 'business.modal.doYouWantToDel'|trans }} : <span id='delModalNom'></span> - <span id='delModalSociete'></span>?</p>
 			<span id="delResponse"></span>
 			<div class="deleteBtn">
-				<button id="delConfirmBtn" class='button'>Supprimer</button>
-				<button id="delCancelmBtn" class='button close'>Annuler</button>
+				<button id="delConfirmBtn" class='button'>{{ 'button.del'|trans }}</button>
+				<button id="delCancelmBtn" class='button close'>{{ 'button.cancel'|trans }}</button>
 			</div>
 		</div>
 	</div>
@@ -170,7 +177,7 @@
 
 <div id="waiter">
 	<div><img src="{{ asset('img/waiter.gif') }}" width="35" height="35"></div>
-	<div id="text">Chargement des affaires</div>
+	<div id="text">{{ 'business.loading'|trans }}</div>
 </div>
 
 <div id='affaireDetail'>
@@ -180,26 +187,26 @@
 				<th></th>
 				<th></th>
 				<th style="display:none">Civilité</th>
-				<th>Nom</th>
-				<th>Société</th>
+				<th>{{ 'business.table.name'|trans }}</th>
+				<th>{{ 'business.table.society'|trans }}</th>
 
 				<th style="display:none">Rue</th>
 				<th style="display:none">Complement</th>
 				<th style="display:none">CP</th>
-				<th class="spHide">Ville</th>
+				<th class="spHide">{{ 'business.table.city'|trans }}</th>
 
 				<th style="display:none">@mail</th>
-				<th class="spHide">Téléphone</th>
+				<th class="spHide">{{ 'business.table.phone'|trans }}</th>
 
-				<th class="centerCol spHide">Nb</th>
-				<th class="spHide">Devis</th>
-				<th class="spHide">Système</th>
+				<th class="centerCol spHide">{{ 'business.table.number'|trans }}</th>
+				<th class="spHide">{{ 'business.table.quote'|trans }}</th>
+				<th class="spHide">{{ 'business.table.system'|trans }}</th>
 				<th style="display:none">Provenance</th>
 
 				<th style="display:none">Date de Début</th>
 				<th style="display:none">Etat</th>
-				<th class="centerCol">Rappel</th>
-				<th class="centerCol spHide cialCol">Cial</th>
+				<th class="centerCol">{{ 'business.table.reminder'|trans }}</th>
+				<th class="centerCol spHide cialCol">{{ 'business.table.commercial'|trans }}</th>
 				<th style="display:none">Commentaire</th>
 				<th style="display:none">Info</th>
 				<th style="display:none">Numéros de dossier</th>

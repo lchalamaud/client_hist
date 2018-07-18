@@ -19,17 +19,20 @@
     <body>
         <div id="header">
             <div class="navigation">
-                <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">Affaires</div></a>
+                <a href="/" class="txtBanner"><div id="qbBanner">Quizzbox</div><div id="affaireBanner">{{ 'base.business'|trans }}</div></a>
                 <div class="subMenu spHide">
-                    <a href="/"><h1 class="home">Acceuil</h1><span class="fas fa-home"></span></a>
-                    <a href="/commercial/"><h1>Commerciaux</h1><span class="fas fa-briefcase"></span></a>
-                    <a href="/login/"><h1>Login</h1><span class="fas fa-sign-in-alt"></span></a>
-                    <a href="/profile/"><h1>Profile</h1><span class="fas fa-user"></span></a>
+                    <a href="/"><h1 class="home">{{ 'base.home'|trans }}</h1><span class="fas fa-home"></span></a>
+                    <a href="/login"><h1>{{ 'base.login'|trans }}</h1><span class="fas fa-sign-in-alt"></span></a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/mail/"><h1>Mail</h1><span class="fas fa-envelope"></span></a>
-                        <a href="/admin/manager/"><h1>Utilisateurs</h1><span class="fas fa-users"></span></a>
+                        <a href="/mail/"><h1>{{ 'base.mail'|trans }}</h1><span class="fas fa-envelope"></span></a>
+                        <a href="/admin/manager/"><h1>{{ 'base.users'|trans }}</h1><span class="fas fa-users"></span></a>
                     {% endif %}
-                    <a href="/logout"><h1>Déconnexion</h1><i class="fas fa-power-off"></i></span></a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="/commercial/"><h1>{{ 'base.commercials'|trans }}</h1><span class="fas fa-briefcase"></span></a>
+                        <a href="/profile/"><h1>{{ 'base.profile'|trans }}</h1><span class="fas fa-user"></span></a>
+                        <a href="/logout"><h1>{{ 'base.disconnect'|trans }}</h1><i class="fas fa-power-off"></i></span></a>
+                    {% endif %}
+                    
                 </div>
             </div>
             {% block header %}{% endblock %}

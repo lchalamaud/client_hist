@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Affaire;
 use AppBundle\Entity\Commercial;
 use AppBundle\Entity\Tache;
+use AppBundle\Entity\Preference;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,6 +23,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AffaireController extends Controller
 {
+    public function getOldestTaskDate( $affaire, $type )
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $taskList = $em->getRepository('AppBundle:Tache')->findBy(['affaire' => $affaire->getId()]);
+
+        $oldestDate= $affaire->getDebut()->format('Y-m-d');
+
+        $oldestTache = new Tache();
+        $oldestTache->setDate($oldestDate);
+
+        foreach ($taskList as $task){
+            if($task->getType() === $type){ 
+                if($task->getDate() > $oldestTache->getDate()){
+                    $oldestTache = $task;
+                }
+            }
+        }
+        if($oldestTache->getType()){
+            $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+        }
+
+        return $oldestDate;
+    }
+
     /**
      * @Route("/", name="affaire_tab")
      * @Security("has_role('ROLE_USER')")
@@ -31,8 +57,39 @@ class AffaireController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        /*********************************
+         **  Gestion des préférences    **
+         *********************************/
+        
+        $user = $this->getUser();
 
-        /*  Formulaire  */
+        if($user->getPreference() != NULL){
+            $preference = $user->getPreference();
+        }else{
+            $preference = new Preference();
+            $user->setPreference($preference);
+        }
+
+        $em->persist($preference);
+        $em->flush();
+
+        $config = array(
+            'timeStep' => $preference->getTemps(),
+            'commercialPref' => $preference->getComm(),
+            'enCours' => $preference->getEn_cours(),
+            'oublie' => $preference->getOublie(),
+            'suspendu' => $preference->getSuspendu(),
+            'fin' => $preference->getFin(),
+            'signe' => $preference->getSigne(),
+            'signEC' => $preference->getSigneEC(),
+        );
+
+
+
+        /******************
+         **  Formulaire  **
+         ******************/
+
         $affaire = new affaire();
         $addform = $this->createForm('AppBundle\Form\AffaireType', $affaire);
         
@@ -53,93 +110,42 @@ class AffaireController extends Controller
         }
 
 
-        /*  Table des Affaires  */
+        /*************************
+         ** Table des Affaires  **
+         *************************/
+
         $repAffaire = $em->getRepository('AppBundle:Affaire');
         $listAffaires = $repAffaire->findAll();
-
-        $repTache = $em->getRepository('AppBundle:Tache');
-        
         $todayDate = date("Y-m-d");
-
         $affaireTab = array();
 
         foreach ($listAffaires as $affaire) {
 
-            $listTaches = $repTache->findBy(['affaire' => $affaire->getId()]);
-            
-            $oldestDate= $affaire->getDebut()->format('Y-m-d');
-            $oldestTache = new Tache();
-            $oldestTache->setDate($oldestDate);
-
-            if($affaire->getEtat() === 'En Cours'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Rappel'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+            switch ( $affaire->getEtat() )
+            {
+                case 'En Cours':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Rappel' );
                     if($oldestDate < $todayDate){
                         $affaire->setEtat('Oublié');
                     }
-
-                }
-            }elseif($affaire->getEtat() === 'Signé'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Signature'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Sign EC'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Sign EC'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Suspendu'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Suspension'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Fin'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Fin'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
+                    break;
+                case 'Signé':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Signature' );
+                    break;
+                case 'Sign EC':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Sign EC' );
+                    break;
+                case 'Suspendu':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Suspension' );
+                    break;
+                case 'Fin':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Fin' );
+                    break;
+                default:
+                    $oldestDate = $affaire->getDebut()->format('Y-m-d');
+                    break;
             }
+
 
             $commercial = $affaire->getCommercial();
             $tmp = array(
@@ -172,50 +178,6 @@ class AffaireController extends Controller
 
             $affaireTab[] = $tmp;
         }
-
-
-        /*  Lecture du fichier de préférence    */
-        
-        $publicResourcesFolderPath = $this->get('kernel')->getRootDir() . '/../web/preferences/';
-        $filename = "userprofile.conf";
-
-        $file = $publicResourcesFolderPath.$filename;
-        $configFile = explode("\n", file_get_contents($file));
-        if(sizeof($configFile) > 1){
-            $timeStep = explode(":",$configFile[0])[1];
-            $commercialPref = explode(":",$configFile[1])[1];
-            $enCours = explode(":",$configFile[2])[1];
-            $oublie = explode(":",$configFile[3])[1];
-            $suspendu = explode(":",$configFile[4])[1];
-            $fin = explode(":",$configFile[5])[1];
-            $signe = explode(":",$configFile[6])[1];
-            $signEC = explode(":",$configFile[7])[1];
-
-            $config = array(
-                'timeStep' => $timeStep,
-                'commercialPref' => $commercialPref,
-                'enCours' => $enCours,
-                'oublie' => $oublie,
-                'suspendu' => $suspendu,
-                'fin' => $fin,
-                'signe' => $signe,
-                'signEC' => $signEC,
-            );
-        }else{
-            $config = array(
-                'timeStep' => '',
-                'commercialPref' => '',
-                'enCours' => '',
-                'oublie' => '',
-                'suspendu' => '',
-                'fin' => '',
-                'signe' => '',
-                'signEC' => '',
-            );
-        }
-        
-
-        
 
 
         $response = array( 'addform' => $addform->createView(), 'affaires' => $affaireTab, 'config'=> $config );
@@ -311,8 +273,6 @@ class AffaireController extends Controller
 
         $repAffaire = $em->getRepository('AppBundle:Affaire');
         $listAffaires = $repAffaire->findAll();
-
-        $repTache = $em->getRepository('AppBundle:Tache');
         
         $todayDate = date("Y-m-d");
 
@@ -320,83 +280,31 @@ class AffaireController extends Controller
 
         foreach ($listAffaires as $affaire) {
 
-
             $commercial = $affaire->getCommercial();
 
-            $listTaches = $repTache->findBy(['affaire' => $affaire->getId()]);
-            
-            $oldestDate= $affaire->getDebut()->format('Y-m-d');
-            $oldestTache = new Tache();
-            $oldestTache->setDate($oldestDate);
-
-            if($affaire->getEtat() === 'En Cours'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Rappel'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
+            switch ( $affaire->getEtat() )
+            {
+                case 'En Cours':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Rappel' );
                     if($oldestDate < $todayDate){
                         $affaire->setEtat('Oublié');
                     }
-
-                }
-            }elseif($affaire->getEtat() === 'Signé'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Signature'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Sign EC'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Sign EC'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Suspendu'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Suspension'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
-            }elseif($affaire->getEtat() === 'Fin'){
-                foreach ($listTaches as $tache){
-                    if($tache->getType() === 'Fin'){ 
-                        if($tache->getDate() > $oldestTache->getDate()){
-                            $oldestTache = $tache;
-
-                        }
-                    }
-                }
-                if($oldestTache->getType()){
-                    $oldestDate = $oldestTache->getDate()->format('Y-m-d');
-                }
-                
+                    break;
+                case 'Signé':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Signature' );
+                    break;
+                case 'Sign EC':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Sign EC' );
+                    break;
+                case 'Suspendu':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Suspension' );
+                    break;
+                case 'Fin':
+                    $oldestDate = $this->getOldestTaskDate( $affaire, 'Fin' );
+                    break;
+                default:
+                    $oldestDate = $affaire->getDebut()->format('Y-m-d');
+                    break;
             }
 
             $tmp = array(

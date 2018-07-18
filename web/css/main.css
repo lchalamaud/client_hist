@@ -8,8 +8,15 @@ a{
     text-decoration: none;
 }
 
-img{
-    border-radius: 1px;
+.colorSquare{
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+}
+
+.blockColorSquare{
+    border: 1px solid grey;
+    display: block;
 }
 
 .button{

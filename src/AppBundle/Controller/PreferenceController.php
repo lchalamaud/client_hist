@@ -14,23 +14,39 @@ class PreferenceController extends Controller
      */
     public function PreferenceSave(Request $request){
 
-        $publicResourcesFolderPath = $this->get('kernel')->getRootDir() . '/../web/preferences/';
-        $filename = "userprofile.conf";
+        $em = $this->getDoctrine()->getManager();
 
-        $file = $publicResourcesFolderPath.$filename;
-        file_put_contents($file,
-            'temps:'.$request->get('timeStep')
-            ."\ncomm:".$request->get('commercial')
-            ."\nEn Cours:".$request->get('enCours')
-            ."\nOublié:".$request->get('oublie')
-            ."\nSuspendu:".$request->get('suspendu')
-            ."\nFin:".$request->get('fin')
-            ."\nSigné:".$request->get('signe')
-            ."\nSignEC:".$request->get('signEC')
-        );
+        $user = $this->getUser();
+
+        $preference = $user->getPreference();
+
+        $json = json_decode($request->getContent());
+
+        $preference->setTemps($json->timeStep);
+        $preference->setComm($json->commercial);
+        $preference->setEn_cours($json->enCours);
+        $preference->setOublie($json->oublie);
+        $preference->setSuspendu($json->suspendu);
+        $preference->setFin($json->fin);
+        $preference->setSigne($json->signe);
+        $preference->setSigneEC($json->signEC);
+
+        $em->persist($preference);
+        $em->flush();
 
         $response = new JsonResponse();
 
-        return $response->setData(array('rsp'=>'ok'));
+        return $response->setData(array(
+            'rsp' => array(
+                'temps' => $preference->getTemps(),
+                'comm' => $preference->getComm(),
+                'enCours' => $preference->getEn_cours(),
+                'oublie' => $preference->getOublie(),
+                'suspendu' =>$preference->getSuspendu(),
+                'fin' =>$preference->getFin(),
+                'sign' =>$preference->getSigne(),
+                'signEC' =>$preference->getSigneEC()
+            )
+        ));
     }
 }

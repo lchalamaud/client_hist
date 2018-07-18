@@ -21,8 +21,9 @@
     background-color: #fe8e1e;
 }
 
-.dataTable td , .dataTable th{
-    padding: 8px;
+.dataTable td ,
+.dataTable th{
+    padding: 6px 4px;
     border-bottom: 1px solid #848484;
 }
 
@@ -46,6 +47,10 @@ div.slider {
 	margin-left:auto; 
     margin-right:auto;
     background-color: #fff;
+}
+
+.typeTacheSelect{
+    width: 50%;
 }
 
 .fa-times-circle{

@@ -12,12 +12,12 @@
 
 {% block body %}
 	<div id="content">
-		<h1>Inbox Mail</h1>
+		<h1>{{ 'mail.inBox message'|trans }}</h1>
 		{% for mail in inboxMsg %}
 			<div class="message">
 				<div class="header">
 					<h2>{{ mail.Subject }}</h2>
-					<h3>De : {{ mail.From.Mailbox.Name }}</h3>
+					<h3>{{ 'mail.from'|trans }} : {{ mail.From.Mailbox.Name }}</h3>
 					<div class="date">{{ mail.DateTimeCreated }}</div>
 				</div>
 				<div class="body">{{ mail.Body._ }}</div>
