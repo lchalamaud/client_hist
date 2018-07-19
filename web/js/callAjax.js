@@ -1,5 +1,3 @@
-
-
 function delAffaire(idAffaire, table){
     var url = '/del/affaire/'+idAffaire+'/';
     $.ajax({

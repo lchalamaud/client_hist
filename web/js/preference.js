@@ -155,19 +155,3 @@ function setConfig(){
     });
 
 }
-/*
-$('#nextMonth').on('click', function(){
-
-    if($(this).is(":checked")){
-
-        timePref = setTimeStep( 3 );
-        min = timePref.min;
-        max = timePref.max;
-
-    }else{
-        min = '';
-        max = '';
-    }
-    table.draw();
-    setConfig(getTimeConf(), $('#commercialSelect select option:selected').val());
-});*/

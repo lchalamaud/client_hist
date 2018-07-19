@@ -90,6 +90,7 @@ class CommercialController extends Controller
 
 		$commDel = $request->get('acronyme');
 
+		/*	Suppression des taches lié au commercial	*/
 		$rptTache = $em->getRepository('AppBundle:Tache');
 		$listTaches = $rptTache->findBy(['commercial' => $commDel]);
 
@@ -97,9 +98,12 @@ class CommercialController extends Controller
 			$em->remove($tache);
         }
 
+
 		$rptAffaire = $em->getRepository('AppBundle:Affaire');
 		$listAffaire = $rptAffaire->findBy(['commercial' => $commDel]);
 		if( !$listAffaire ){
+
+			/*	Suppression du commercial 	*/
 			$rptCommercial = $em->getRepository('AppBundle:Commercial');
 	        $commercial = $rptCommercial->findOneBy(['acronyme' => $commDel]);
 	        $em->remove($commercial);
@@ -108,7 +112,10 @@ class CommercialController extends Controller
 	        $response->setData(array('rsp' => 1));
 	        
 		}else{
+
+			/*	Refus de suppression, commercial lié a au moins une affaire 	*/
 			$response->setData(array('rsp' => 10));
+
 		}
         
 
@@ -121,6 +128,10 @@ class CommercialController extends Controller
 	*/
 	public function delCommercialForce(Request $request)
 	{
+		/*****************************************************************************
+		 **	Suppression des taches et affaires lié au commercial et du commercial	**
+		 *****************************************************************************/
+		
 		$em = $this->getDoctrine()->getManager();
 
 		$commDel = $request->get('acronyme');

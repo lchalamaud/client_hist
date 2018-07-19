@@ -60,6 +60,8 @@ function delCommForce( ){
         success: function(data){
     		$(".selected").remove();
     		$("#delModal").css('display', 'none');
+            $('html').css( 'cursor' , 'default');
+            $('#delConfirmBtn').prop("disabled",false);
         },
         error: function(){
         	$('#delResponse').empty().append('<p style="color: red;margin-left:10px;">Erreur dans la suppression du commercial.</p>');

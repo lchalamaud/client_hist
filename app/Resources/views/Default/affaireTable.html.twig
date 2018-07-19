@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/media/css/jquery.dataTables.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/table.css') }}">
-<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/addermodal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/delmodal.css') }}">
@@ -25,30 +25,30 @@
 					<tr>
 						<td>
 							<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-							<label for="cbEnCours"><img src="{{ asset('/img/blue.jpg')}}" class="colorSquare"> {{ 'business.header.onLive'|trans }}</label>
+							<label for="cbEnCours"><img src="{{ asset('/images/blue.jpg')}}" class="colorSquare"> {{ 'business.header.onLive'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-							<label for="cbOublie"><img src="{{ asset('/img/yellow.jpg')}}" class="colorSquare"> {{ 'business.header.forgotten'|trans }}</label>
+							<label for="cbOublie"><img src="{{ asset('/images/yellow.jpg')}}" class="colorSquare"> {{ 'business.header.forgotten'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
-							<label for="cbSignEC"><img src="{{ asset('/img/green_2.jpg')}}" class="colorSquare"> {{ 'business.header.sign in progress'|trans }}</label>
+							<label for="cbSignEC"><img src="{{ asset('/images/green_2.jpg')}}" class="colorSquare"> {{ 'business.header.sign in progress'|trans }}</label>
 						</td>
 					</tr>
 						<td>
 							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-							<label for="cbFin"><img src="{{ asset('/img/red.jpg')}}" class="colorSquare"> {{ 'business.header.ended'|trans }}</label>
+							<label for="cbFin"><img src="{{ asset('/images/red.jpg')}}" class="colorSquare"> {{ 'business.header.ended'|trans }}</label>
 						</td>
 					
 						
 						<td>
 							<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-							<label for="cbSuspendu"><img src="{{ asset('/img/orange.jpg')}}" class="colorSquare"> {{ 'business.header.suspended'|trans }}</label>
+							<label for="cbSuspendu"><img src="{{ asset('/images/orange.jpg')}}" class="colorSquare"> {{ 'business.header.suspended'|trans }}</label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-							<label for="cbSigne"><img src="{{ asset('/img/green.jpg')}}" class="colorSquare"> {{ 'business.header.signed'|trans }}</label>
+							<label for="cbSigne"><img src="{{ asset('/images/green.jpg')}}" class="colorSquare"> {{ 'business.header.signed'|trans }}</label>
 						</td>
 					</tr>
 				</table>
@@ -176,7 +176,7 @@
 </div>
 
 <div id="waiter">
-	<div><img src="{{ asset('img/waiter.gif') }}" width="35" height="35"></div>
+	<div><img src="{{ asset('images/waiter.gif') }}" width="35" height="35"></div>
 	<div id="text">{{ 'business.loading'|trans }}</div>
 </div>
 
@@ -254,8 +254,8 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('js/affaire.js') }}"></script>
-	<script src="{{ asset('js/modal.js') }}"></script>
-	<script src="{{ asset('js/callAjax.js') }}"></script>
-	<script src="{{ asset('js/preference.js') }}"></script>
+	<script src="{{ asset('js/affaire.min.js') }}"></script>
+	<script src="{{ asset('js/modal.min.js') }}"></script>
+	<script src="{{ asset('js/callAjax.min.js') }}"></script>
+	<script src="{{ asset('js/preference.min.js') }}"></script>
 {% endblock %}

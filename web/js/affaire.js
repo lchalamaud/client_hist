@@ -11,6 +11,21 @@ var signe = false;
 var signEC = false;
 var etatFilter = 'En Cours|Oublié';
 
+jQuery.fn.extend({
+    isCheckSetFilter: function($state){
+        if($(this).is(":checked")){
+            if (etatFilter != false){
+                etatFilter += '|';
+            }else{
+                etatFilter = ''
+            }
+            etatFilter += $state;
+        }else{
+            etatFilter = delstrpart(etatFilter, $state);
+        }
+        setConfig();
+    }
+});
 
 function tabSelectVal(table, index){
     return table.cell('.selected', index).data();
@@ -94,9 +109,6 @@ function infoFormat ( table ) {
             '</tr>'+
             '<tr>'+
                 '<td>'+table.Provenance+'</td>'+
-            '</tr>'+
-            '<tr>'+
-                '<td>'+table.System_Type+'</td>'+
             '</tr>'+
             '<tr>'+
             	'<td>'+table.Commentaire+'</td>'+
@@ -215,22 +227,22 @@ $(document).ready( function () {
                 "render": function ( data, type, row, meta ){
                     switch (data){
                         case 'En Cours':
-                            img = '<img src="/img/blue.jpg" class="colorSquare">'
+                            img = '<img src="/images/blue.jpg" class="colorSquare">'
                             break;
                         case 'Oublié':
-                            img = '<img src="/img/yellow.jpg" class="colorSquare">'
+                            img = '<img src="/images/yellow.jpg" class="colorSquare">'
                             break;
                         case 'Signé':
-                            img = '<img src="/img/green.jpg" class="colorSquare">'
+                            img = '<img src="/images/green.jpg" class="colorSquare">'
                             break;
                         case 'Sign EC':
-                            img = '<img src="/img/green_2.jpg" class="colorSquare">'
+                            img = '<img src="/images/green_2.jpg" class="colorSquare">'
                             break;
                         case 'Suspendu':
-                            img = '<img src="/img/orange.jpg" class="colorSquare">'
+                            img = '<img src="/images/orange.jpg" class="colorSquare">'
                             break;
                         case 'Fin':
-                            img = '<img src="/img/red.jpg" class="colorSquare">'
+                            img = '<img src="/images/red.jpg" class="colorSquare">'
                             break;
                     }
 
@@ -324,91 +336,31 @@ $(document).ready( function () {
         delAffaire(table.cell('.selected' ,22).data(), table);
     });
 
-    $('#cbEnCours').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
-            etatFilter += 'En Cours';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'En Cours');
-        }
-        table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
-    })
-    $('#cbOublie').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
 
-            etatFilter += 'Oublié';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'Oublié');
+    $('.stateCheckbox').click(function(){
+        switch ($(this).attr('id')){
+            case 'cbEnCours':
+                $(this).isCheckSetFilter('En Cours');
+                break;
+            case 'cbOublie':
+                $(this).isCheckSetFilter('Oublié');
+                break;
+            case 'cbFin':
+                $(this).isCheckSetFilter('Fin');
+                break;
+            case 'cbSuspendu':
+                $(this).isCheckSetFilter('Suspendu');
+                break;
+            case 'cbSignEC':
+                $(this).isCheckSetFilter('Sign EC');
+                break;
+            case 'cbSigne':
+                $(this).isCheckSetFilter('Signé');
+                break;
         }
         table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
     })
-    $('#cbFin').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
-            etatFilter += 'Fin';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'Fin');
-        }
-        table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
-    })
-    $('#cbSuspendu').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
-            etatFilter += 'Suspendu';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'Suspendu');
-        }
-        table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
-    })
-    $('#cbSignEC').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
-            etatFilter += 'Sign EC';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'Sign EC');
-        }
-        table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
-    })
-    $('#cbSigne').click(function(){
-        if($(this).is(":checked")){
-            if (etatFilter != false){
-                etatFilter += '|';
-            }else{
-                etatFilter = ''
-            }
-            etatFilter += 'Signé';
-        }else{
-            etatFilter = delstrpart(etatFilter, 'Signé');
-        }
-        table.column( 16 ).search(etatFilter, true, false).draw();
-        setConfig();
-    })
+
 
     $('#timeSelect').change(function(){
         timePref = setTimeStep($(this).val());

@@ -28,9 +28,10 @@ class TacheController extends Controller
     {
         $id = $request->get('idAffaire');
         $em = $this->getDoctrine()->getManager();
+
+        /*  Retroune les taches lié a l'affaire    */
         $repTache = $em->getRepository('AppBundle:Tache');
         $listTaches = $repTache->findBy(['affaire' => $id]);
-
         $tacheTab = array();
         foreach ($listTaches as $tache) {
             $tmp = array(
@@ -43,8 +44,8 @@ class TacheController extends Controller
             $tacheTab[] = $tmp;
         }
 
+        /*  Retourne la liste des commerciaux   */
         $repComm = $em->getRepository('AppBundle:Commercial');
-
         $listCommercials = $repComm->findAll();
         $commercialTab = array();
         foreach ($listCommercials as $commercial) {
@@ -91,6 +92,7 @@ class TacheController extends Controller
 
         $em->persist($tache);
 
+        /*  Mise à jour de l'état de l'affaire  */
         $commentTmp = $affaire->getInfo();
         $affaire->setInfo( $type.', '.$date.' ('.$comm."):\n\n".$commentTmp );
         $affaire->setNumDossier($numDossier);

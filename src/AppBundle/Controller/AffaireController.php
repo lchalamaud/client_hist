@@ -192,6 +192,7 @@ class AffaireController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        /*  Supprime les taches liés à l'affaire avant de supprimer l'affaire    */
         $rptTache = $em->getRepository('AppBundle:Tache');
         $listTaches = $rptTache->findBy(['affaire' => $id]);
         foreach ($listTaches as $tache) {
@@ -282,6 +283,7 @@ class AffaireController extends Controller
 
             $commercial = $affaire->getCommercial();
 
+            /*  Recherche de la tache la plus ancienne   */
             switch ( $affaire->getEtat() )
             {
                 case 'En Cours':

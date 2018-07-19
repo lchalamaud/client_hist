@@ -6,15 +6,15 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/main.css') }}"/>
-        <link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/header.css') }}">
+        <link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/header.min.css') }}">
         <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/main.css') }}">
         <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/header.css') }}">
         {% block stylesheets %}{% endblock %}
 
-		<link rel="icon" type="image/jpg" href="{{ asset('img/favicon.jpeg') }}" />
+		<link rel="icon" type="image/jpg" href="{{ asset('images/favicon.jpeg') }}" />
 
-        <script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.dataTables.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     </head>
     <body>
         <div id="header">
