@@ -47,8 +47,8 @@ function tacheFormat ( id, debut, commercial ) {
                 '<tr>'+
                     '<td>Début</td>'+
                     '<td class="centerCol">'+ reorderDate(debut) +'</td>'+
-                    '<td class="spHide"></td>'+
-                    '<td class="spHide">'+ commercial +'</td>'+
+                    '<td class="spHide tdColor"></td>'+
+                    '<td class="spHide centerCol">'+ commercial +'</td>'+
                     '<td></td>'+
                 '</tr>'+
                 '<tr><form>'+
@@ -63,8 +63,13 @@ function tacheFormat ( id, debut, commercial ) {
                         '<option value=\'Fin\'>Fin</option>'+
                     '</select></td>'+
                     '<td class="centerCol"><input type=\'date\' id=\'dateTache'+ id +'\' value="'+ formatDate(today) +'"></td>'+
-                    '<td class="centerCol spHide" colspan=2><select id=\'selectComm'+ id +'\'>'+
-                    '</select></td>'+
+                    '<td class="centerCol spHide" colspan=2><dl class="dropdown" id=\'selectComm'+ id +'\'>'+
+                        '<dt>Cial<span class="fas fa-caret-down"></span></dt>'+
+                        '<dd>'+
+                            '<ul class="listcontent">'+
+                            '</ul>'+
+                        '</dd>'+
+                    '</dl></td>'+
                     '<td class="centerCol clickPlus"> <span class="plus">+</span>'+
                 '</form></tr>'+
             '</tbody>'+
@@ -75,7 +80,7 @@ function tacheFormat ( id, debut, commercial ) {
                 '<tr>'+
                     '<th>Type</th>'+
                     '<th>Date</th>'+
-                    '<th class="spHide" colspan=2>Commercial</th>'+
+                    '<th class="spHide" colspan=2>Cial</th>'+
                     '<th></th>'+
                 '</tr>'+
             '</thead>'+
@@ -83,8 +88,14 @@ function tacheFormat ( id, debut, commercial ) {
                 '<tr>'+
                     '<td>Début</td>'+
                     '<td class="centerCol">'+ reorderDate(debut) +'</td>'+
-                    '<td class="centerCol spHide" colspan=2>Assignation : <select id=\'selectComm'+ id +'\'>'+
-                    '</select></td>'+
+                    '<td>Assign:</td>'+
+                    '<td class="centerCol spHide"><dl class="dropdown" id=\'selectComm'+ id +'\'>'+
+                        '<dt>Cial<span class="fas fa-caret-down"></span></dt>'+
+                        '<dd>'+
+                            '<ul class="listcontent">'+
+                            '</ul>'+
+                        '</dd>'+
+                    '</dl></td>'+
                     '<td class="centerCol clickAssign"><span class="plus">+</span></td>'+
                 '</tr>'+
             '</tbody>'+
@@ -475,8 +486,13 @@ $(document).ready( function () {
     $(document).on( "click", ".clickAssign", function(){
         var trData = $(this).closest('tr.infoLine').prev();
         var idAffaire =  table.cell(trData, 22).data();
-        var commercial = $('#selectComm'+idAffaire).find(":selected").val();
-        setCommercial( table, idAffaire, commercial, trData );
+        var commercial = $('#selectComm'+idAffaire+' dt').html().split('</span>');
+        if(commercial){
+            setCommercial( table, idAffaire, trData, commercial[1], commercial[0]+'</span>' );
+        }else{
+            $('#selectComm'+idAffaire).fadeTo(400, 0.33).fadeTo(400, 1).fadeTo(400, 0.33).fadeTo(400, 1);
+            alert('Veuillez rentrer le commercial à assigner à l\'affaire.');
+        }
     });
 
     $(document).on( "click", ".clickPlus", function(){

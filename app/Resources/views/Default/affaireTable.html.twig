@@ -25,30 +25,30 @@
 					<tr>
 						<td>
 							<input type="checkbox" id="cbEnCours" name="cbEnCours" class="stateCheckbox" value="cbEnCours">
-							<label for="cbEnCours"><img src="{{ asset('/images/blue.jpg')}}" class="colorSquare"> {{ 'business.header.onLive'|trans }}</label>
+							<label for="cbEnCours"><img src="{{ asset('/images/blue.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.onLive'|trans }}</div></label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-							<label for="cbOublie"><img src="{{ asset('/images/yellow.jpg')}}" class="colorSquare"> {{ 'business.header.forgotten'|trans }}</label>
+							<label for="cbOublie"><img src="{{ asset('/images/yellow.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.forgotten'|trans }}</div></label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
-							<label for="cbSignEC"><img src="{{ asset('/images/green_2.jpg')}}" class="colorSquare"> {{ 'business.header.sign in progress'|trans }}</label>
+							<label for="cbSignEC"><img src="{{ asset('/images/green_2.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.sign in progress'|trans }}</div></label>
 						</td>
 					</tr>
 						<td>
 							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-							<label for="cbFin"><img src="{{ asset('/images/red.jpg')}}" class="colorSquare"> {{ 'business.header.ended'|trans }}</label>
+							<label for="cbFin"><img src="{{ asset('/images/red.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.ended'|trans }}</div></label>
 						</td>
 					
 						
 						<td>
 							<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
-							<label for="cbSuspendu"><img src="{{ asset('/images/orange.jpg')}}" class="colorSquare"> {{ 'business.header.suspended'|trans }}</label>
+							<label for="cbSuspendu"><img src="{{ asset('/images/orange.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.suspended'|trans }}</div></label>
 						</td>
 						<td>
 							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-							<label for="cbSigne"><img src="{{ asset('/images/green.jpg')}}" class="colorSquare"> {{ 'business.header.signed'|trans }}</label>
+							<label for="cbSigne"><img src="{{ asset('/images/green.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.signed'|trans }}</div></label>
 						</td>
 					</tr>
 				</table>
@@ -238,7 +238,11 @@
 					<td style="display:none">{{ affaire.debut }}</td>
 					<td style="display:none">{{ affaire.etat }}</td>					
 					<td class="centerCol">{{ affaire.rappel }}</td>
-					<td class="centerCol spHide cialCol">{{ affaire.commercial }}</td>
+					<td class="centerCol spHide cialCol">
+						{% if affaire.commercial is not null %}
+							{{ affaire.commercial.acronyme }}
+						{% endif %}
+					</td>
 					<td style="display:none">{{ affaire.commentaire }}</td>
 					<td style="display:none">{{ affaire.info }}</td>
 					<td style="display:none">{{ affaire.numDossier }}</td>
@@ -250,7 +254,6 @@
 		<tfoot></tfoot>
 	</table>
 </div>
-
 {% endblock %}
 
 {% block javascripts %}

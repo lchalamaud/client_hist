@@ -81,5 +81,5 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     from_email:
-        address: "applicontact@quizzbox.com"
-        sender_name: "DoNoReply"
+        address: applicontact@quizzbox.com
+        sender_name: DoNoReply

@@ -29,7 +29,8 @@
 thead tr th:hover {
     background-color: #3f435b;
 }
-.dataTable td , .dataTable th{
+.dataTable td,
+.dataTable th{
     padding: 8px;
     border-left: 1px solid #454547;
 }
@@ -155,6 +156,7 @@ div.slider {
     background-color: #e8f7f7;
 }
 
-.dataTables_paginate, .dataTables_info{
+.dataTables_paginate,
+.dataTables_info{
     display: inline-block;
 }

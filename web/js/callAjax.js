@@ -25,7 +25,7 @@ function delAffaire(idAffaire, table){
     });
 }
 
-function setCommercial( table, idAffaire, commercial, trData ){
+function setCommercial( table, idAffaire, trData, commercial, color ){
     var today = new Date();
 
     var url = '/commercial/set/';
@@ -33,6 +33,7 @@ function setCommercial( table, idAffaire, commercial, trData ){
         type: "post",
         url: url,
         beforeSend: function(){
+            $('#selectComm'+idAffaire).closest('td').next().removeClass('clickAssign');
         },
         success: function(data){
             table.cell( trData, 18 ).data(commercial);
@@ -55,10 +56,13 @@ function setCommercial( table, idAffaire, commercial, trData ){
                 );
             var select = $('#selectComm'+idAffaire).clone();
             $(".newTaskTab").append(select).removeClass('newTaskTab');
+            $('#selectComm'+idAffaire).closest('td').next().empty();
+            $('#selectComm'+idAffaire).closest('td').prev().empty().append(color);
+
             $('#selectComm'+idAffaire).closest('td').empty().append(commercial);
-            
         },
         error: function(){
+            $('#selectComm'+idAffaire).closest('td').next().addClass('clickAssign');
         },
         data : {
             'idAffaire' : idAffaire,
@@ -80,10 +84,10 @@ function getTacheCommercial(idAffaire, commercial){
             $('html').css( 'cursor' , 'default');
 
             $.each(data.commercial, function(i, item){
+                $('#selectComm'+idAffaire+' .listcontent').append('<li><span class="colorSquare blockColorSquare" style="background-color:'+item.couleur+';"></span>'+item.acronyme+'</li>');
                 if( item.acronyme == commercial){
-                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" style="background-color: '+item.couleur+';"selected>' + item.acronyme + '</option>');
-                }else{
-                    $('#selectComm'+idAffaire).append('<option value="' + item.acronyme + '" style="background-color: '+item.couleur+';"><span class="colorSquare blockColorSquare" style="background-color: '+item.couleur +';"></span> ' + item.acronyme + '</option>');
+                    $('#selectComm'+idAffaire+' dt').empty().append('<span class="colorSquare blockColorSquare" style="background-color:'+item.couleur+';"></span>'+item.acronyme);
+                    $('#selectComm'+idAffaire+' dt').closest('tr').prev().find('.tdColor').empty().append('<span class="colorSquare blockColorSquare" style="background-color:'+item.couleur+';"></span>')
                 }
             })
 
@@ -115,7 +119,7 @@ function addTache( idAffaire, trData, table, numDossier ){
 
     type = $("#type"+idAffaire).val();
     date = reorderDate($("#dateTache"+idAffaire).val());
-    commercial = $('#selectComm'+idAffaire).find(":selected").val();
+    commercial = $('#selectComm'+idAffaire+' dt').html().split('</span>')[1];
 
     tache = {
         'idAffaire' : idAffaire,
@@ -130,7 +134,7 @@ function addTache( idAffaire, trData, table, numDossier ){
         type: "post",
         url: url,
         beforeSend: function(){
-
+            $('#selectComm'+idAffaire).closest('td').next().removeClass('clickPlus');
         },
         success: function(data){
             if($('#tacheTab'+idAffaire+' tr td').text().indexOf("Aucune tache associée à cette affaire") >= 0){
@@ -199,10 +203,12 @@ function addTache( idAffaire, trData, table, numDossier ){
                     }
                     break;
             }
+            $('#selectComm'+idAffaire).closest('td').next().addClass('clickPlus');
 
         },
         error: function(){
             $('#debug').css('color', 'red');
+            $('#selectComm'+idAffaire).closest('td').next().addClass('clickPlus');
         },
         data: tache
     });
@@ -221,10 +227,44 @@ function delTache( idTache, tacheRow, table, trData ){
 
         },
         success: function(){
+
             if($(tacheRow).prev().prop('nodeName') != 'TR'){
-                prevDate = reorderDate($(tacheRow).next().find('.spHide').prev().text());
+                var prevDate = reorderDate($(tacheRow).next().find('.tdColor').prev().text());
                 table.cell(trData, 17).data(prevDate);
+                
+                var type = $(tacheRow).next().find('td').first().text();
+                var todayDate = new Date();
+                var todayToken = formatDate(todayDate).split('-');
+
+                switch(type){
+                    case 'Signature':
+                        table.cell(trData, 1).data('Signé');
+                        table.cell(trData, 16).data('Signé');
+                        break;
+                    case 'Suspension':
+                        table.cell(trData, 1).data('Suspendu');
+                        table.cell(trData, 16).data('Suspendu');
+                        break;
+                    case 'Fin':
+                        table.cell(trData, 1).data('Fin');
+                        table.cell(trData, 16).data('Fin');
+                        break;
+                    case 'Sign EC':
+                        table.cell(trData, 1).data('Sign EC');
+                        table.cell(trData, 16).data('Sign EC');
+                        break;
+                    default:
+                        if( reorderDate(prevDate) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                            table.cell(trData, 1).data('Oublié');
+                            table.cell(trData, 16).data('Oublié');
+                        }else{
+                            table.cell(trData, 1).data('En Cours');
+                            table.cell(trData, 16).data('En Cours');
+                        }
+                        break;
+                }
             }
+
             $(tacheRow).remove();
 
         },

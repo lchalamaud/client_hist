@@ -73,3 +73,51 @@ input::-webkit-outer-spin-button {
 #waiter div{
     display: inline-block;
 }
+
+.dropdown{
+    width: 90px;
+    background-color: #fff;
+    border-radius: 2px;
+    margin: 0;
+}
+.dropdown dt{
+    border: 1px solid grey;
+    text-align: left;
+    padding: 3px 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.dropdown dd{
+    margin: 0;
+}
+.dropdown dd ul{
+    padding: 0;
+    margin: 3px 0 0 0;
+    position: absolute;
+    width: 90px;
+    background-color: #ffffff;
+}
+.dropdown dt:hover{
+    border-color: black;
+    color: black;
+    cursor: pointer;
+}
+.listcontent{
+    display:none;
+    list-style-type: none;
+}
+.dropdown dd ul li{
+    border: 1px solid grey;
+    text-align: left;
+    padding: 3px 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.dropdown dd ul li:hover{
+    border-color: black;
+}

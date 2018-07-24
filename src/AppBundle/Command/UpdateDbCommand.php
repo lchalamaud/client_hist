@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use AppBundle\Service\Mail;
+use AppBundle\Service\Mailer;
 use AppBundle\Service\Parser;
 
 use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseItemIdsType;
@@ -34,7 +34,7 @@ class UpdateDbCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $output->writeln('Recherche de mail entrant...');
-        $responseID = Mail::getInboxMailId();
+        $responseID = Mailer::getInboxMailId();
 
         $nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
         if( $nbMail ){
@@ -44,7 +44,7 @@ class UpdateDbCommand extends ContainerAwareCommand
                 'Tri et créations des nouvelles affaires...'
             ]);
 
-            $parts_response = Mail::getInboxMail( $responseID );
+            $parts_response = Mailer::getInboxMail( $responseID );
 
             $itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
 
@@ -69,10 +69,10 @@ class UpdateDbCommand extends ContainerAwareCommand
             $output->writeln($nbAffaire.' nouvelle'.($nbAffaire>1?'s':'').' affaire'.($nbAffaire>1?'s':'').' créée'.($nbAffaire>1?'s.':'.'));
 
             if( $nbAffaire ){
-                Mail::moveMailToFolder( $affaireIds, 'Affaires');
+                Mailer::moveMailToFolder( $affaireIds, 'Affaires');
             }
             if( $nbAffaire-$nbMail ){
-                Mail::moveMailToFolder( $otherIds, 'Autres');
+                Mailer::moveMailToFolder( $otherIds, 'Autres');
             }
         }else{
             $output->writeln('Aucune demande trouvée.');

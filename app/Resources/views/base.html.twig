@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/header.min.css') }}">
         <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/main.css') }}">
         <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/header.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/footer.css') }}">
         {% block stylesheets %}{% endblock %}
 
 		<link rel="icon" type="image/jpg" href="{{ asset('images/favicon.jpeg') }}" />
@@ -39,8 +40,19 @@
         </div>
 
         {% block body %}{% endblock %}
+        <div class="footer">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            {% else %}
+                <a href="/logout">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            {% endif %}
+            {% block footer %}{% endblock %}
+        </div>
 
-        <script src="{{ asset('js/accueil.js') }}"></script>
+        <script src="{{ asset('js/dropDownList.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 

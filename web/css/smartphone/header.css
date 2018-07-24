@@ -38,7 +38,8 @@
     margin-right:auto;
 }
 
-.rightBanner span, .rightBanner input{
+.rightBanner span,
+.rightBanner input{
     display: inline-block;
     margin: 3px;
     padding-left: 5px;

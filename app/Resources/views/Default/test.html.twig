@@ -4,12 +4,7 @@
 		<script type="text/javascript" src="{{ asset('assets/DataTables/media/js/jquery.js') }}"></script>
 	</head>
 	<body>
-		<span class="colorSquare"></span><input type="color">
+		{{dump(rsp)}}
 		
-		<script>
-		$("input").change(function(){
-			$(".colorSquare").css("background-color", $("input").val());
-		})
-		</script>
 	</body>
 </html>

@@ -1,7 +1,8 @@
 {% extends "@FOSUser/layout.html.twig" %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" type="text/css" href="{{ asset('css/form.css') }}">
+	<link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/form.css') }}">
+	<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/form.css') }}">
 {% endblock %}
 
 {% block title %}Login{% endblock %}

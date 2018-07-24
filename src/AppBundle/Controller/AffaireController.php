@@ -7,7 +7,7 @@ use AppBundle\Entity\Commercial;
 use AppBundle\Entity\Tache;
 use AppBundle\Entity\Preference;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -52,7 +52,7 @@ class AffaireController extends Controller
      * @Route("/", name="affaire_tab")
      * @Security("has_role('ROLE_USER')")
      */
-    public function Affaire(Request $request)
+    public function indexAffaire(Request $request)
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -147,7 +147,6 @@ class AffaireController extends Controller
             }
 
 
-            $commercial = $affaire->getCommercial();
             $tmp = array(
                 'civilite' => $affaire->getCivilite(),
                 'nom' => $affaire->getNom(),
@@ -169,7 +168,7 @@ class AffaireController extends Controller
                 'debut' => $affaire->getDebut()->format('Y-m-d'),
                 'etat' => $affaire->getEtat(),
                 'rappel' => $oldestDate,
-                'commercial' => $commercial ? $commercial->getAcronyme() : null,
+                'commercial' => $affaire->getCommercial(),
                 'commentaire' => $affaire->getCommentaire(),
                 'info' => $affaire->getInfo(),
                 'numDossier' => $affaire->getNumDossier(),

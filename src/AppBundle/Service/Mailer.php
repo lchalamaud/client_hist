@@ -38,11 +38,11 @@ use jamesiarmes\PhpEws\Enumeration\ItemQueryTraversalType;
 use jamesiarmes\PhpEws\Enumeration\ResponseClassType;
 use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
-class Mail
+class Mailer
 {	
-    const HOST = "mail.nextmedia.fr";
-    const USERNAME = "quizzbox\\applicontact";
-    const PASSWORD = "NextMedia63";
+    const HOST = "server.exchange.fr";
+    const USERNAME = "domain\\username";
+    const PASSWORD = "p******d";
     const VERSION = "";
     
     /**
@@ -52,7 +52,7 @@ class Mail
      */
     private function connectConfig()
     {
-    	$client = new Client( Mail::HOST, Mail::USERNAME, Mail::PASSWORD);
+    	$client = new Client( Mailer::HOST, Mailer::USERNAME, Mailer::PASSWORD);
 
         return $client;
     }
@@ -65,7 +65,7 @@ class Mail
      */
 	public function findFolder( $folderName )
     {
-     	$client = Mail::connectConfig();
+     	$client = Mailer::connectConfig();
 
         // Build the request.
         $request = new FindFolderType();
@@ -99,7 +99,7 @@ class Mail
      */
 	public function getInboxMailId()
 	{
-     	$client = Mail::connectConfig();
+     	$client = Mailer::connectConfig();
 
 		$requestID = new FindItemType();
 		
@@ -130,7 +130,7 @@ class Mail
      */
 	public function getInboxMail( $responseID )
 	{
-     	$client = Mail::connectConfig();
+     	$client = Mailer::connectConfig();
 
 		$parts_request = new GetItemType();
 		$parts_request->ItemShape = new ItemResponseShapeType();
@@ -166,12 +166,12 @@ class Mail
      */
 	public function moveMailToFolder( $ItemIds, $destination )
     {
-     	$client = Mail::connectConfig();
+     	$client = Mailer::connectConfig();
 
         $request = new MoveItemType();
 
         $request->ToFolderId = new TargetFolderIdType();
-        $request->ToFolderId->FolderId = Mail::findFolder( $destination )[0]->FolderId;
+        $request->ToFolderId->FolderId = Mailer::findFolder( $destination )[0]->FolderId;
         
         $request->ItemIds = new NonEmptyArrayOfBaseItemIdsType();
         $request->ItemIds = $ItemIds;
