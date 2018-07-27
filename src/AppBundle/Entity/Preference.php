@@ -12,7 +12,7 @@ class Preference
 	/**
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\OneToOne(targetEntity="User", inversedBy="preference")
 	 */
 	protected $id;

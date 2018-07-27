@@ -10,7 +10,7 @@
 }
 
 #content h1{
-	color: #fe8e1e;
+	color: #f58233;
 	background-color: #1f212d;
 	font-size: 35px;
 	margin: 0;
@@ -23,18 +23,18 @@
 }
 
 .message .header{
-	border-bottom: 1px solid #fe8e1e;
+	border-bottom: 1px solid #f58233;
 	padding: 8px 15px;
 }
 .message .header:hover{
 	background-color: #1f212d;
-	color: #fe8e1e;
+	color: #f58233;
 	cursor: pointer;
 }
 
 .shown .header{
 	background-color: #1f212d;
-	color: #fe8e1e;
+	color: #f58233;
 }
 
 .message h2{

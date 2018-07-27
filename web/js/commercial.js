@@ -75,15 +75,21 @@ function delCommForce( ){
 $(document).ready( function () {
 
 	disable('#delComm');
+    disable('#modifComm');
 
 	$('#commTab tbody tr').click( function() {
 		if($(this).hasClass('selected')){
 			$(this).removeClass('selected');
 			disable('#delComm');
+            disable('#modifComm');
 		}else{
-			enable( '#delComm' )
+			enable('#delComm');
+            enable('#modifComm');
 			$('#commTab').find('.selected').removeClass('selected');
 			$(this).addClass('selected');
+            var commercial = $(this).find('.acronyme').html();
+            $('.modifComm').attr('href', '/commercial/modif/'+commercial+'/');
+            console.log(commercial)
 		}
 	})
 

@@ -2,23 +2,22 @@
 
 
 <div id="content">
-	<h1>Register</h1>
+	<h1>{{ 'layout.register'|trans }}</h1>
 	<div class="form">
 		{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register', 'placeholder': 'fos_user_registration_register'}}) }}
 		    <div class="formContent">
-			    <h2>Nom :</h2>
+			    <h2>{{ 'form.username'|trans() }} :</h2>
 			    {{ form_row(form.username) }}
-			    <h2>Email :</h2>
+			    <h2>{{ 'form.email'|trans() }} :</h2>
 			    {{ form_row(form.email) }}
-			    <h2>Mot de passe :</h2>
+			    <h2>{{ 'form.password'|trans() }} :</h2>
 			    {{ form_row(form.plainPassword.first) }}
-			    <h2>Confirmation :</h2>
+			    <h2>{{ 'form.password_confirmation'|trans() }} :</h2>
 			    {{ form_row(form.plainPassword.second) }}
-			    <h2>Commercial</label>
+			    <h2>{{ 'business.modal.commercial'|trans({}, 'messages') }}</h2>
 				<input type="checkbox" id="roleCommercial" name="roleCommercial" value="roleCommercial"/>
 		    </div>
-	        <input type="submit" value="{{ 'Ajouter'|trans }}" class='button'/>
-		    <a href="/admin/manager/"><input type="submit" value="Annuler" class='button'/></a>
+	        <input type="submit" value="{{ 'button.add'|trans({}, 'messages') }}" class='button'/>
 		{{ form_end(form) }}
 		
 	</div>

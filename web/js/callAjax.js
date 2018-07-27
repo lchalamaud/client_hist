@@ -254,7 +254,9 @@ function delTache( idTache, tacheRow, table, trData ){
                         table.cell(trData, 16).data('Sign EC');
                         break;
                     default:
-                        if( reorderDate(prevDate) < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
+                        console.log(prevDate+' < '+todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]);
+
+                        if( prevDate < todayToken[0]+'-'+todayToken[1]+'-'+todayToken[2]){
                             table.cell(trData, 1).data('Oublié');
                             table.cell(trData, 16).data('Oublié');
                         }else{

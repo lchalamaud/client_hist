@@ -40,9 +40,9 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mailer
 {	
-    const HOST = "server.exchange.fr";
-    const USERNAME = "domain\\username";
-    const PASSWORD = "p******d";
+    const HOST = "mail.nextmedia.fr";
+    const USERNAME = "quizzbox\\applicontact";
+    const PASSWORD = "NextMedia63";
     const VERSION = "";
     
     /**
@@ -65,7 +65,7 @@ class Mailer
      */
 	public function findFolder( $folderName )
     {
-     	$client = Mailer::connectConfig();
+     	$client = $this->connectConfig();
 
         // Build the request.
         $request = new FindFolderType();
@@ -99,7 +99,7 @@ class Mailer
      */
 	public function getInboxMailId()
 	{
-     	$client = Mailer::connectConfig();
+     	$client = $this->connectConfig();
 
 		$requestID = new FindItemType();
 		
@@ -130,12 +130,12 @@ class Mailer
      */
 	public function getInboxMail( $responseID )
 	{
-     	$client = Mailer::connectConfig();
+     	$client = $this->connectConfig();
 
 		$parts_request = new GetItemType();
 		$parts_request->ItemShape = new ItemResponseShapeType();
 		$parts_request->ItemShape->BaseShape = 'AllProperties';
-		$parts_request->ItemShape->BodyType = 'Text';
+		$parts_request->ItemShape->BodyType = 'HTML';
 
 		// Add the body property.
 		$body_property = new PathToUnindexedFieldType();
@@ -166,12 +166,12 @@ class Mailer
      */
 	public function moveMailToFolder( $ItemIds, $destination )
     {
-     	$client = Mailer::connectConfig();
+     	$client = $this->connectConfig();
 
         $request = new MoveItemType();
 
         $request->ToFolderId = new TargetFolderIdType();
-        $request->ToFolderId->FolderId = Mailer::findFolder( $destination )[0]->FolderId;
+        $request->ToFolderId->FolderId = $this->findFolder( $destination )[0]->FolderId;
         
         $request->ItemIds = new NonEmptyArrayOfBaseItemIdsType();
         $request->ItemIds = $ItemIds;

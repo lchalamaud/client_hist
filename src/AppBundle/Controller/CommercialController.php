@@ -57,7 +57,7 @@ class CommercialController extends Controller
 			->add('Nom',      TextType::class)
 			->add('Acronyme',     TextType::class)
 			->add('Couleur',   ColorType::class)
-			->add('Ajouter',      SubmitType::class)
+			->add('Ajouter',      SubmitType::class, array( 'label' => 'button.add'))
 		;
 		$form = $formBuilder->getForm();
 
@@ -66,6 +66,40 @@ class CommercialController extends Controller
 
 			if ($form->isValid()) {
 				$em = $this->getDoctrine()->getManager();
+				$em->persist($commercial);
+				$em->flush();
+
+				$request->getSession()->getFlashBag()->add('notice', 'Nouveau commercial ajouté');
+
+				return $this->redirectToRoute('commercial_detail');
+			}
+		}
+		return $this->render('Default/commercialForm.html.twig', array('form' => $form->createView(),
+		));
+	}
+
+	/**
+	 * @Route("/commercial/modif/{acronyme}/", name="commercial_modif")
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
+	public function modifCommercial($acronyme, Request $request)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$commercial = $em->getRepository('AppBundle:Commercial')->find($acronyme);
+
+		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $commercial);
+		$formBuilder
+			->add('Nom',      TextType::class)
+			->add('Acronyme',     TextType::class)
+			->add('Couleur',   ColorType::class)
+			->add('Ajouter',      SubmitType::class, array( 'label' => 'button.modify'))
+		;
+		$form = $formBuilder->getForm();
+
+		if ($request->isMethod('POST')) {
+			$form->handleRequest($request);
+
+			if ($form->isValid()) {
 				$em->persist($commercial);
 				$em->flush();
 

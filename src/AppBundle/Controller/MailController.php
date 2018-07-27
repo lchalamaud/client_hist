@@ -54,6 +54,9 @@ class MailController extends Controller
 
 		$renderResponse = ['inboxMsg' => $inboxMsg];
 
+		
+
+
 		return $this->render("Default/mail.html.twig", $renderResponse);
 	}
 
@@ -83,7 +86,7 @@ class MailController extends Controller
 			$affaireIds->ItemId = array();
 
 			foreach ($itemRspMessages as $itemRspMessage) {
-				if($parser->Prefilter($itemRspMessage->Items->Message[0])){
+				if($parser->preFilter($itemRspMessage->Items->Message[0])){
 					$affaireList[] = $parser->parser($itemRspMessage->Items->Message[0])->affaireToArray(null);
 					$affaire = $parser->parser($itemRspMessage->Items->Message[0]);
 					$em->persist($affaire);

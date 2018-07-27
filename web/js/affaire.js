@@ -277,7 +277,7 @@ $(document).ready( function () {
             { "data": "Provenance", "visible": false },       //14
             { "data": "Debut", "visible": false },           //15
             { "data": "Etat", "visible": false },             //16
-            { "data": "Rappel" },           //17
+            { "data": "Rappel", "width": "20%" },           //17
             { "data": "Commercial" },       //18
             { "data": "Commentaire", "visible": false },      //19
             { "data": "Info", "visible": false },             //20

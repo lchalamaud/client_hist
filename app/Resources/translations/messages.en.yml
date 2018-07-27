@@ -109,3 +109,8 @@ userManager:
   username: Name
   email: Email
   role: Role
+  update_profile: 'Update your profile'
+
+
+login:
+  forgot_password: Forgot your password

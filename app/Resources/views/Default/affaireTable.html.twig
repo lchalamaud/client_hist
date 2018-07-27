@@ -3,7 +3,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/table.css') }}">
-<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.min.css') }}">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/addermodal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/delmodal.css') }}">
@@ -28,27 +28,25 @@
 							<label for="cbEnCours"><img src="{{ asset('/images/blue.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.onLive'|trans }}</div></label>
 						</td>
 						<td>
-							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
-							<label for="cbOublie"><img src="{{ asset('/images/yellow.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.forgotten'|trans }}</div></label>
-						</td>
-						<td>
 							<input type="checkbox" id="cbSignEC" name="cbSignEC" class="stateCheckbox" value="cbSignEC">
 							<label for="cbSignEC"><img src="{{ asset('/images/green_2.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.sign in progress'|trans }}</div></label>
 						</td>
+						<td>
+							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
+							<label for="cbSigne"><img src="{{ asset('/images/green.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.signed'|trans }}</div></label>
+						</td>
 					</tr>
 						<td>
-							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
-							<label for="cbFin"><img src="{{ asset('/images/red.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.ended'|trans }}</div></label>
+							<input type="checkbox" id="cbOublie" name="cbOublie" class="stateCheckbox" value="cbOublie">
+							<label for="cbOublie"><img src="{{ asset('/images/yellow.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.forgotten'|trans }}</div></label>
 						</td>
-					
-						
 						<td>
 							<input type="checkbox" id="cbSuspendu" name="cbSuspendu" class="stateCheckbox" value="cbSuspendu">
 							<label for="cbSuspendu"><img src="{{ asset('/images/orange.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.suspended'|trans }}</div></label>
 						</td>
 						<td>
-							<input type="checkbox" id="cbSigne" name="cbSigne" class="stateCheckbox" value="cbSigne">
-							<label for="cbSigne"><img src="{{ asset('/images/green.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.signed'|trans }}</div></label>
+							<input type="checkbox" id="cbFin" name="cbFin" class="stateCheckbox" value="cbFin">
+							<label for="cbFin"><img src="{{ asset('/images/red.jpg')}}" class="colorSquare"><div class="spHide"> {{ 'business.header.ended'|trans }}</div></label>
 						</td>
 					</tr>
 				</table>
@@ -259,6 +257,6 @@
 {% block javascripts %}
 	<script src="{{ asset('js/affaire.min.js') }}"></script>
 	<script src="{{ asset('js/modal.min.js') }}"></script>
-	<script src="{{ asset('js/callAjax.min.js') }}"></script>
+	<script src="{{ asset('js/callAjax.js') }}"></script>
 	<script src="{{ asset('js/preference.min.js') }}"></script>
 {% endblock %}

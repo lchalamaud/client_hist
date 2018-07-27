@@ -13,6 +13,7 @@
 {% block header %}
 	{% if is_granted('ROLE_ADMIN') %}
 	 	<a href="/commercial/add" ><input type="button" class="button" value="{{ 'button.add'|trans }}"></a>
+	 	<a href="/commercial/modif/" class="modifComm"><input type="button" class="button" value="{{ 'button.modify'|trans }}" id="modifComm"></a>
 	 	<input type="button" class="button" value="{{ 'button.del'|trans }}" id="delComm">
 	{% endif %}
 {% endblock %}

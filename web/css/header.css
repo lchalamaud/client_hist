@@ -15,7 +15,7 @@
     display: none;
     padding: 0;
     position: absolute;
-    background-color: #fe8e1e;/*#36394c;*/
+    background-color: #f58233;/*#36394c;*/
 }
 .subMenu a{
     border-bottom: 1px solid #1f212d;
@@ -32,7 +32,7 @@
     font-size: 17px;
 }
 .subMenu a:hover{
-    background-color: #fc9c3c;
+    background-color: #f79551;
 }
 .navigation:hover .subMenu{
     display: block;
@@ -42,7 +42,7 @@
 
 .txtBanner{
     float: left;
-    color: #fe8e1e;
+    color: #f58233;
     text-decoration: none;
     font-size: 35px;
     padding: 8px 20px 17px 20px;
@@ -89,7 +89,6 @@
 #searchbox{
     height: 20px;
     background-color: #646468;
-    border: 1px solid #c4a17d;
     border-radius: 2px;
     color: white;
     margin-right: 20px;

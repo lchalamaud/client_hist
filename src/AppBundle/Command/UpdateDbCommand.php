@@ -16,6 +16,16 @@ use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfBaseItemIdsType;
 
 class UpdateDbCommand extends ContainerAwareCommand 
 {
+    private $mailer;
+
+    private $parser;
+
+    public function __construct(Mailer $mailer, Parser $parser){
+        parent::__construct();
+        $this->mailer = $mailer;
+        $this->parser = $parser;
+    }
+
     protected function configure()
     {
         $this
@@ -27,6 +37,9 @@ class UpdateDbCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $mailer = $this->mailer;
+        $parser = $this->parser;
+
         $output->writeln([
             '###  Update DB  ###',
             '',
@@ -34,7 +47,7 @@ class UpdateDbCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
         $output->writeln('Recherche de mail entrant...');
-        $responseID = Mailer::getInboxMailId();
+        $responseID = $mailer->getInboxMailId();
 
         $nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
         if( $nbMail ){
@@ -44,7 +57,7 @@ class UpdateDbCommand extends ContainerAwareCommand
                 'Tri et créations des nouvelles affaires...'
             ]);
 
-            $parts_response = Mailer::getInboxMail( $responseID );
+            $parts_response = $mailer->getInboxMail( $responseID );
 
             $itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
 
@@ -56,8 +69,8 @@ class UpdateDbCommand extends ContainerAwareCommand
 
             $nbAffaire = 0;
             foreach ($itemRspMessages as $itemRspMessage) {
-                if(Parser::Prefilter($itemRspMessage->Items->Message[0])){
-                    $affaire = Parser::parser($itemRspMessage->Items->Message[0]);
+                if($parser->Prefilter($itemRspMessage->Items->Message[0])){
+                    $affaire = $parser->parser($itemRspMessage->Items->Message[0]);
                     $em->persist($affaire);
                     $affaireIds->ItemId[] = $itemRspMessage->Items->Message[0]->ItemId;
                     $nbAffaire++;
@@ -69,10 +82,10 @@ class UpdateDbCommand extends ContainerAwareCommand
             $output->writeln($nbAffaire.' nouvelle'.($nbAffaire>1?'s':'').' affaire'.($nbAffaire>1?'s':'').' créée'.($nbAffaire>1?'s.':'.'));
 
             if( $nbAffaire ){
-                Mailer::moveMailToFolder( $affaireIds, 'Affaires');
+                $mailer->moveMailToFolder( $affaireIds, 'Affaires');
             }
             if( $nbAffaire-$nbMail ){
-                Mailer::moveMailToFolder( $otherIds, 'Autres');
+                $mailer->moveMailToFolder( $otherIds, 'Autres');
             }
         }else{
             $output->writeln('Aucune demande trouvée.');

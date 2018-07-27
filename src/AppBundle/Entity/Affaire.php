@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Affaire
 {
 	/**
-	 * @ORM\Column(name="civilite", type="string", length=3)
+	 * @ORM\Column(name="civilite", type="string", length=3, nullable=true)
 	 */
 	protected $civilite;
 
@@ -25,7 +25,7 @@ class Affaire
 	protected $societe;
 
 	/**
-	 * @ORM\Column(name="telephone", type="string", length=20)
+	 * @ORM\Column(name="telephone", type="string", length=20, nullable=true)
 	 */
 	protected $telephone;
 
@@ -35,7 +35,7 @@ class Affaire
 	protected $email;
 
 	/**
-	 * @ORM\Column(name="rue", type="string", length=255)
+	 * @ORM\Column(name="rue", type="string", length=255, nullable=true)
 	 */
 	protected $rue;
 
@@ -45,12 +45,12 @@ class Affaire
 	protected $complement;
 
 	/**
-	 * @ORM\Column(name="cp", type="integer", length=5)
+	 * @ORM\Column(name="cp", type="integer", length=5, nullable=true)
 	 */
 	protected $cp;
 
 	/**
-	 * @ORM\Column(name="ville", type="string", length=63)
+	 * @ORM\Column(name="ville", type="string", length=63, nullable=true)
 	 */
 	protected $ville;
 
@@ -65,22 +65,22 @@ class Affaire
 	protected $commentaire;
 
 	/**
-	 * @ORM\Column(name="devis_type", type="string", length=31)
+	 * @ORM\Column(name="devis_type", type="string", length=31, nullable=true)
 	 */
 	protected $devis_Type;
 
 	/**
-	 * @ORM\Column(name="system_type", type="string", length=21)
+	 * @ORM\Column(name="system_type", type="string", length=21, nullable=true)
 	 */
 	protected $system_Type;
 
 	/**
-	 * @ORM\Column(name="nb_controller", type="integer", length=3)
+	 * @ORM\Column(name="nb_controller", type="integer", length=3, nullable=true)
 	 */
 	protected $nb_Controller;
 
 	/**
-	 * @ORM\Column(name="provenance", type="string", length=15)
+	 * @ORM\Column(name="provenance", type="string", length=15, nullable=true)
 	 */
 	protected $provenance;
 
