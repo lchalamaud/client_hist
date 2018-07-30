@@ -83,7 +83,7 @@ function fillForm( table ){
     $('#affaire_Debut').val(tabSelectVal(table, 15));
 
     $('#affaire_Commercial option').filter(function(){
-        return $(this).text() == tabSelectVal(table, 18);
+        return $(this).text() == tabSelectVal(table, 18).slice(84);
     }).prop('selected', true);
     $('#affaire_Commentaire').val(tabSelectVal(table, 19));
 }
