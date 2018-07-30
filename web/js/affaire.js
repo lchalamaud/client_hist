@@ -108,24 +108,24 @@ function infoFormat ( table ) {
 
     return '<table class="infoTab spHide">'+
             '<tr>'+
-                '<td>'+table.Civilite+'</td>'+
+                '<td>'+(table.Civilite?table.Civilite:'')+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>'+table.Rue+'<br/>'+
-                       table.Complement+'<br/>'+
-                       table.CP+' '+table.Ville+'</td>'+
+                '<td>'+(table.Rue?table.Rue:'')+'<br/>'+
+                       (table.Complement?table.Complement:'')+'<br/>'+
+                       (table.CP?table.CP:'')+' '+(table.Ville?table.Ville:'')+'</td>'+
             '</tr>'+
             '<tr>'+
                 '<td>'+table.Mail+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>'+table.Provenance+'</td>'+
+                '<td>'+(table.Provenance?table.Provenance:'')+'</td>'+
             '</tr>'+
             '<tr>'+
-            	'<td>'+table.Commentaire+'</td>'+
+            	'<td>'+(table.Commentaire?table.Commentaire:'')+'</td>'+
             '</tr>'+
             '<tr>'+
-                '<td>N° Dossier : '+table.NumDossier+'</td>'+
+                '<td>N° Dossier : '+(table.NumDossier?table.NumDossier:'')+'</td>'+
             '</tr>'+
         '</table>';
 }
@@ -277,15 +277,15 @@ $(document).ready( function () {
             { "data": "Provenance", "visible": false },       //14
             { "data": "Debut", "visible": false },           //15
             { "data": "Etat", "visible": false },             //16
-            { "data": "Rappel", "width": "20%" },           //17
-            { "data": "Commercial" },       //18
+            { "data": "Rappel", "width": "10%" },           //17
+            { "data": "Commercial", "width": "9%" },       //18
             { "data": "Commentaire", "visible": false },      //19
             { "data": "Info", "visible": false },             //20
             { "data": "NumDossier", "visible": false },       //21
             { "data": "Id", "visible": false },               //22
         ],
 
-        "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/40),
+        "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/45),
         "order": [[ 17, "desc" ]],
         "dom": 'tpr<"top"i>',
         "autoWidth": false,
@@ -300,7 +300,7 @@ $(document).ready( function () {
                     });
  
                 column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                    select.append( '<option value="'+d.slice(84)+'">'+d.slice(84)+'</option>' );
                 });
                 var initComm = commercialPref;
 

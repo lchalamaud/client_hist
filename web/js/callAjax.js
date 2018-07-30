@@ -36,7 +36,7 @@ function setCommercial( table, idAffaire, trData, commercial, color ){
             $('#selectComm'+idAffaire).closest('td').next().removeClass('clickAssign');
         },
         success: function(data){
-            table.cell( trData, 18 ).data(commercial);
+            table.cell( trData, 18 ).data('<span class="colorSquare blockColorSquare" style="background-color:'+ data.couleur +';"></span>'+commercial);
             $('#selectComm'+idAffaire).closest('tbody').append(
                 '<tr><form>'+
                     '<td><select id=\'type'+ idAffaire +'\' class="typeTacheSelect">'+
@@ -360,6 +360,7 @@ function updateTable( table ){
 
             $.each(data.affaires, function(i, item){
                 if( isNotShown( table, item.id ) ){
+                    
                     tmp = {
                         "" : null,
                         "etat" : item.etat,
@@ -379,7 +380,7 @@ function updateTable( table ){
                         "Debut" : item.debut,
                         "Etat" : item.etat,
                         "Rappel" : item.rappel,
-                        "Commercial" : item.commercial,
+                        "Commercial" : item.commercialCouleur?'<span class="colorSquare blockColorSquare" style="background-color:'+ item.commercialCouleur +';"></span>'+item.commercialAcronyme:'',
                         "Commentaire" : item.commentaire,
                         "Info" : item.info,
                         "NumDossier" : item.numDossier,

@@ -217,6 +217,6 @@ class CommercialController extends Controller
 
 		$response = new JsonResponse();
 
-        return $response->setData(['rsp'=>'ok']);
+        return $response->setData(['couleur'=> $commercial->getCouleur()]);
 	}
 }

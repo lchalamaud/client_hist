@@ -47,6 +47,11 @@ thead tr th:hover {
     border-right: 1px solid #454547;
 }
 
+.cialCol span{
+    display: inline-block;
+    margin-right: 5px;
+}
+
 .details-control{
     padding: 8px 7px !important;
 }

@@ -3,7 +3,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/table.css') }}">
-<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/addermodal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/delmodal.css') }}">
@@ -238,7 +238,7 @@
 					<td class="centerCol">{{ affaire.rappel }}</td>
 					<td class="centerCol spHide cialCol">
 						{% if affaire.commercial is not null %}
-							{{ affaire.commercial.acronyme }}
+							<span class="colorSquare blockColorSquare" style="background-color:{{ affaire.commercial.couleur }};"></span>{{ affaire.commercial.acronyme }}
 						{% endif %}
 					</td>
 					<td style="display:none">{{ affaire.commentaire }}</td>
@@ -257,6 +257,6 @@
 {% block javascripts %}
 	<script src="{{ asset('js/affaire.min.js') }}"></script>
 	<script src="{{ asset('js/modal.min.js') }}"></script>
-	<script src="{{ asset('js/callAjax.js') }}"></script>
+	<script src="{{ asset('js/callAjax.min.js') }}"></script>
 	<script src="{{ asset('js/preference.min.js') }}"></script>
 {% endblock %}

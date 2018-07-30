@@ -280,7 +280,6 @@ class AffaireController extends Controller
 
         foreach ($listAffaires as $affaire) {
 
-            $commercial = $affaire->getCommercial();
 
             /*  Recherche de la tache la plus ancienne   */
             switch ( $affaire->getEtat() )
@@ -308,6 +307,8 @@ class AffaireController extends Controller
                     break;
             }
 
+            $commercial = $affaire->getCommercial();
+
             $tmp = array(
                 'civilite' => $affaire->getCivilite(),
                 'nom' => $affaire->getNom(),
@@ -329,7 +330,8 @@ class AffaireController extends Controller
                 'debut' => $affaire->getDebut()->format('Y-m-d'),
                 'etat' => $affaire->getEtat(),
                 'rappel' => $oldestDate,
-                'commercial' => $commercial ? $commercial->getAcronyme() : null,
+                'commercialAcronyme' => $commercial?$commercial->getAcronyme():null,
+                'commercialCouleur' => $commercial?$commercial->getCouleur():null,
                 'commentaire' => $affaire->getCommentaire(),
                 'info' => $affaire->getInfo(),
                 'numDossier' => $affaire->getNumDossier(),

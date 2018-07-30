@@ -42,6 +42,7 @@ business:
     society: Society
     mail: mail
     phone: Phone
+    mail_exemple: example@mail.com
     address: Address
     street: Street
     complement: Complement

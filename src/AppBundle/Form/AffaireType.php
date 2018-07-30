@@ -45,7 +45,7 @@ class AffaireType extends AbstractType
             ))
             ->add('EMail', TextType::class, array(
                 'label' => 'business.modal.mail',
-                'attr' => array('placeholder' => 'exemple@mail.com' )
+                'attr' => array('placeholder' => 'business.modal.mail_exemple' )
             ))
             ->add('Rue', TextType::class, array(
                 'label' => 'business.modal.address',
