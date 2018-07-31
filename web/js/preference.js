@@ -63,7 +63,7 @@ function setTimeStep( timeStep ){
 	var today = new Date();
     var todayDateToken = formatDate(today).split('-');
     var dayOfWeek = today.getDay();
-   switch( timeStep ){
+    switch( timeStep ){
         case 'prevDay':
             today.setDate(today.getDate()-1);
             min = formatDate(today);
@@ -115,8 +115,7 @@ function setTimeStep( timeStep ){
             max = formatDate(maxDate);
             break;
         default :
-            min = '';
-            max = '';
+            return { 'min' : '', 'max' : '' }
             break;
     }
 
@@ -124,7 +123,7 @@ function setTimeStep( timeStep ){
         return $(this).val() == timeStep; 
     }).prop('selected', true);
 
-    return { 'min' : min, 'max' : max }
+    return { 'min' : reorderDate(min), 'max' : reorderDate(max) }
 }
 
 

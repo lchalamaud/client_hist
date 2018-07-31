@@ -40,8 +40,8 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mailer
 {	
-    const HOST = "exhange.server.com";
-    const USERNAME = "domaine\\username";
+    const HOST = "exchange.server.com";
+    const USERNAME = "domainne\\username";
     const PASSWORD = "p******d";
     const VERSION = "";
     

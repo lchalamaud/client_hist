@@ -214,6 +214,7 @@ class AffaireController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rptAffaire = $em->getRepository('AppBundle:Affaire');
         $rptComm = $em->getRepository('AppBundle:Commercial');
+        $commercial = $rptComm->findOneBy(['acronyme' => $request->get('commercial')]);
 
         $affaire = $rptAffaire->find($request->get('id'));
 
@@ -235,7 +236,7 @@ class AffaireController extends Controller
         $affaire->setProvenance($request->get('provenance'));
 
         $affaire->setDebut(new \DateTime($request->get('debut')));
-        $affaire->setCommercial($rptComm->findOneBy(['acronyme' => $request->get('commercial')]));
+        $affaire->setCommercial($commercial);
         $affaire->setCommentaire($request->get('commentaire'));
 
 
@@ -244,7 +245,7 @@ class AffaireController extends Controller
         
         $response = new JsonResponse();
 
-        return $response->setData(array('nom' => $affaire->getNom(), 'societe' => $affaire->getSociete()));
+        return $response->setData(array('color' => $commercial->getCouleur()));
     }
 
     /**

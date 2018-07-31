@@ -187,15 +187,45 @@ $(document).ready( function () {
 
 
     $.fn.dataTable.ext.search.push( function( settings, data, dataIndex ) {
-        var date = data[17];
-        if ( ( min == '' && max == '' ) ||
-             ( min == '' && date <= max ) ||
-             ( min <= date   && max == '' ) ||
-             ( min <= date   && date <= max ) ){
+        var date = reorderDate(data[17]);
+        var minReorder = min?reorderDate(min):'';
+        var maxReorder = max?reorderDate(max):'';
+
+        if ( ( minReorder == '' && maxReorder == '' ) ||
+             ( minReorder == '' && date <= maxReorder ) ||
+             ( minReorder <= date && maxReorder == '' ) ||
+             ( minReorder <= date && date <= maxReorder ) ){
             return true;
         }
         return false;
     });
+
+    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+        
+        "date-eu-pre": function ( date ) {
+            date = date.replace(" ", "");
+            if ( ! date ) {return 0;}
+            var year;
+            var eu_date = date.split(/[\.\-\/]/);
+            if ( eu_date[2] ) {year = eu_date[2];}
+            else {year = 0;}
+            var month = eu_date[1];
+            if ( month.length == 1 ) {month = 0+month;}
+            var day = eu_date[0];
+            if ( day.length == 1 ) {day = 0+day;}
+
+            return (year + month + day) * 1;
+        },
+     
+        "date-eu-asc": function ( a, b ) {
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+        },
+     
+        "date-eu-desc": function ( a, b ) {
+            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+        }
+    });
+
 
     /*  Table des affaires  */
 	var table = $('.client_Tab').DataTable({
@@ -263,22 +293,29 @@ $(document).ready( function () {
             },
             
             { "data": "Civilite", "visible": false },         //2
-			{ "data": "Nom" },              //3
-			{ "data": "Societe" },          //4
+			{ "data": "Nom" },                                //3
+			{ "data": "Societe" },                            //4
             { "data": "Rue", "visible": false },              //5
             { "data": "Complement", "visible": false },       //6
             { "data": "CP", "visible": false },               //7
-            { "data": "Ville" },            //8
+            { "data": "Ville" },                              //8
             { "data": "Mail", "visible": false },             //9
-            { "data": "Telephone" },        //10
-            { "data": "Nb_Controller" },    //11
-            { "data": "Devi_Type" },        //12
-            { "data": "System_Type" },      //13
+            { "data": "Telephone" },                          //10
+            { "data": "Nb_Controller" },                      //11
+            { "data": "Devi_Type" },                          //12
+            { "data": "System_Type" },                        //13
             { "data": "Provenance", "visible": false },       //14
-            { "data": "Debut", "visible": false },           //15
+            { "data": "Debut", "visible": false },            //15
             { "data": "Etat", "visible": false },             //16
-            { "data": "Rappel", "width": "10%" },           //17
-            { "data": "Commercial", "width": "9%" },       //18
+            { 
+                "data": "Rappel",
+                "width": "10%",
+                "render": function ( data, type, row, meta ){
+                    return reorderDate(data);
+                },
+                "type": "date-eu"
+            },                                                //17
+            { "data": "Commercial", "width": "9%" },          //18
             { "data": "Commentaire", "visible": false },      //19
             { "data": "Info", "visible": false },             //20
             { "data": "NumDossier", "visible": false },       //21
@@ -377,7 +414,7 @@ $(document).ready( function () {
         timePref = setTimeStep($(this).val());
         min = timePref.min;
         max = timePref.max;
-
+        console.log('de '+min+' à '+max);
         table.draw();
         setConfig();
     });

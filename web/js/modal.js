@@ -117,7 +117,7 @@ function getFormVal( id ){
     return jsonResp;
 }
 
-function updateTableVal( table, formVal ){
+function updateTableVal( table, formVal, commColor ){
     table.cell('.selected', 2).data(formVal.civilite);
     table.cell('.selected', 3).data(formVal.nom);
     table.cell('.selected', 4).data(formVal.societe);
@@ -136,7 +136,7 @@ function updateTableVal( table, formVal ){
     table.cell('.selected', 14).data(formVal.provenance);
 
     table.cell('.selected', 15).data(formVal.debut);
-    table.cell('.selected', 18).data(formVal.commercial);
+    table.cell('.selected', 18).data('<span class="colorSquare blockColorSquare" style="background-color:'+ commColor +';"></span>'+formVal.commercial);
     table.cell('.selected', 19).data(formVal.commentaire);
 
     table.page(table.page.info().page).draw('page');

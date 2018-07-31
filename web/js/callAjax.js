@@ -292,7 +292,7 @@ function modifAffaire( table, id ){
         success: function(data){
             $('html').css( 'cursor' , 'default');
             $('#addAffaireModal').css('display','none');
-            updateTableVal( table, jsonAffaire );
+            updateTableVal( table, jsonAffaire, data.color );
         },
         error: function(){
             $('html').css( 'cursor' , 'default');
