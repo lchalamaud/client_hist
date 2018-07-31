@@ -26,9 +26,15 @@ thead tr th:hover {
     background-color: white;
 }
 
-#commTab td , #commTab th{
+#commTab td,
+#commTab th{
     border: 1px solid #282a3d;
     padding: 8px;
+}
+
+#commTab td span{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .button{

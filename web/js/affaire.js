@@ -417,7 +417,7 @@ $(document).ready( function () {
 
         var idAffaire = table.cell(this, 22).data();
         var debut = table.cell(this, 15).data();
-        var commercial = table.cell(this, 18).data();
+        var commercial = table.cell(this, 18).data().slice(84);
 
         if ( row.child.isShown() ) {
             $('div.slider', row.child()).slideUp( function () {

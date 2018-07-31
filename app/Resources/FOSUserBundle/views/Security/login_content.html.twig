@@ -12,11 +12,11 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         {% endif %}
         <div class="username">
-            <label for="username">{{ 'Nom'|trans }}</label>
+            <label for="username">{{ 'security.login.username'|trans }}</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="{{ 'security.login.username'|trans }}" />
         </div>
         <div class="password">
-            <label for="password">{{ 'Mot de passe'|trans }}</label>
+            <label for="password">{{ 'security.login.password'|trans }}</label>
             <input type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="{{ 'security.login.password'|trans }}" />
         </div>
         <div class='remember_me'>

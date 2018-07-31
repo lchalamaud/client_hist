@@ -54,9 +54,9 @@ class CommercialController extends Controller
 
 		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $commercial);
 		$formBuilder
-			->add('Nom',      TextType::class)
-			->add('Acronyme',     TextType::class)
-			->add('Couleur',   ColorType::class)
+			->add('Nom',      TextType::class, array( 'label' => 'commercial.name'))
+			->add('Acronyme',     TextType::class, array( 'label' => 'commercial.acronym'))
+			->add('Couleur',   ColorType::class, array( 'label' => 'commercial.color'))
 			->add('Ajouter',      SubmitType::class, array( 'label' => 'button.add'))
 		;
 		$form = $formBuilder->getForm();

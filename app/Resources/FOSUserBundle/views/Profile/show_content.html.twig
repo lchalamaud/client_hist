@@ -4,6 +4,6 @@
 		<h1>{{ 'base.profile'|trans({}, 'messages') }}</h1>
 	    <p>{{ 'form.username'|trans }} : {{ user.username }}</p>
 	    <p>{{ 'form.email'|trans }} : {{ user.email }}</p>
-	    <a href="/profile/edit"><input type="button" class="button" value ="{{ 'profile.edit.update_profile'|trans }}"/></a>
+	    <a href="/profile/edit"><input type="button" class="button" value ="{{ 'userManager.update_profile'|trans({}, 'messages') }}"/></a>
 	    <a href="/profile/change-password"><input type="button" class="button" value ="{{ 'change_password.submit'|trans }}"/></a>
 </div>

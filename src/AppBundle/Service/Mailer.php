@@ -40,7 +40,7 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mailer
 {	
-    const HOST = "exchange.server.com";
+    const HOST = "exhange.server.com";
     const USERNAME = "domaine\\username";
     const PASSWORD = "p******d";
     const VERSION = "";
@@ -135,7 +135,7 @@ class Mailer
 		$parts_request = new GetItemType();
 		$parts_request->ItemShape = new ItemResponseShapeType();
 		$parts_request->ItemShape->BaseShape = 'AllProperties';
-		$parts_request->ItemShape->BodyType = 'HTML';
+		$parts_request->ItemShape->BodyType = 'Text';
 
 		// Add the body property.
 		$body_property = new PathToUnindexedFieldType();
