@@ -57,7 +57,7 @@ class UpdateDbCommand extends ContainerAwareCommand
                 'Tri et créations des nouvelles affaires...'
             ]);
 
-            $parts_response = $mailer->getInboxMail( $responseID );
+            $parts_response = $mailer->getBodyMail( $responseID );
 
             $itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
 

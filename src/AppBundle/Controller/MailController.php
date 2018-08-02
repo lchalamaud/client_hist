@@ -38,11 +38,14 @@ class MailController extends Controller
 		$mailer = $this->mailer;
 
 		$inboxMsg = array();
+		$affaireMsg = array();
+		$otherMsg = array();
 
 		$responseID = $mailer->getInboxMailId();
+		
 		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
 		if( $nbMail ){
-			$parts_response = $mailer->getInboxMail( $responseID );
+			$parts_response = $mailer->getBodyMail( $responseID );
 
 			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
 
@@ -51,12 +54,35 @@ class MailController extends Controller
 			}
 		}
 		
+		$responseID = $mailer->getFolderMailId('Affaires');
 
-		$renderResponse = ['inboxMsg' => $inboxMsg];
+		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
+		if( $nbMail ){
+			$parts_response = $mailer->getBodyMail( $responseID );
+
+			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
+
+			foreach ($itemRspMessages as $itemRspMessage) {
+				$affaireMsg[] = $itemRspMessage->Items->Message[0];
+			}
+		}
+
+		$responseID = $mailer->getFolderMailId('Autres');
+
+		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
+		if( $nbMail ){
+			$parts_response = $mailer->getBodyMail( $responseID );
+
+			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
+
+			foreach ($itemRspMessages as $itemRspMessage) {
+				$otherMsg[] = $itemRspMessage->Items->Message[0];
+			}
+		}
+
+		$renderResponse = ['inboxMsg' => $inboxMsg, 'affaireMsg' => $affaireMsg, 'otherMsg' => $otherMsg];
 
 		
-
-
 		return $this->render("Default/mail.html.twig", $renderResponse);
 	}
 
@@ -71,11 +97,12 @@ class MailController extends Controller
 
 		$affaireList = array();
 
-		$responseID = $mailer->getInboxMailId();
+		//$responseID = $mailer->getInboxMailId();
+		
 
 		$nbMail = $responseID->ResponseMessages->FindItemResponseMessage[0]->RootFolder->TotalItemsInView;
 		if( $nbMail ){
-			$parts_response = $mailer->getInboxMail( $responseID );
+			$parts_response = $mailer->getBodyMail( $responseID );
 
 			$itemRspMessages = $parts_response->ResponseMessages->GetItemResponseMessage;
 

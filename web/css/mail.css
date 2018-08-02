@@ -1,5 +1,6 @@
 #content{
 	border: 1px solid #c6c6c6;
+	border-top: none;
 	border-radius: 7px;
 	width: 90%;
 	margin-left: auto;
@@ -7,6 +8,7 @@
 	margin-top: 15px;
 	background-color: white;
 	padding-bottom: 20px;
+	padding-top: 0;
 }
 
 #content h1{
@@ -16,6 +18,14 @@
 	margin: 0;
 	padding: 15px;
 	text-align: center;
+}
+
+.affaire{
+	display: none;
+}
+
+.other{
+	display: none;
 }
 
 .message{
@@ -58,4 +68,45 @@
 	display: none;
 	padding: 0 30px;
 	white-space: pre-line;
+}
+
+#folder{
+	width: 100%;
+	background-color: #e5e7ea;
+}
+
+#onglet{
+	padding: 0;
+	margin: 0;
+	border-bottom: 2px solid #F58233;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#onglet li{
+   	font-size: 27px;
+	border: 2px solid #F58233;
+	background-color: #1F212D;
+	color: #F58233;
+	padding: 12px 18px;
+	border-radius: 7px 7px 0 0;
+	text-align: center;
+	width: 33%;
+	list-style-type: none;
+}
+
+#onglet li:hover{
+	cursor: pointer;
+	background-color: #43454f;
+}
+
+#onglet .active{
+	border-bottom: 2px solid #F58233;
+	background-color: #F58233;
+	color: #1F212D;
+}
+#onglet .active:hover{
+	background-color: #F58233;
 }

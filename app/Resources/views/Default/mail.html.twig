@@ -12,17 +12,50 @@
 
 {% block body %}
 	<div id="content">
-		<h1>{{ 'mail.inBox message'|trans }}</h1>
-		{% for mail in inboxMsg %}
-			<div class="message">
-				<div class="header">
-					<h2>{{ mail.Subject }}</h2>
-					<h3>{{ 'mail.from'|trans }} : {{ mail.From.Mailbox.Name }}</h3>
-					<div class="date">{{ mail.DateTimeCreated }}</div>
+		<div id="folder">
+			<ul id="onglet">
+				<li class="active">{{ 'mail.inBox message'|trans }}</li>
+				<li>Affaires</li>
+				<li>Autres</li>
+			</ul>
+		</div>
+		<div class="inbox">
+			{% for mail in inboxMsg %}
+				<div class="message">
+					<div class="header">
+						<h2>{{ mail.Subject }}</h2>
+						<h3>{{ 'mail.from'|trans }} : {{ mail.From.Mailbox.Name }}</h3>
+						<div class="date">{{ mail.DateTimeCreated }}</div>
+					</div>
+					<div class="body">{{ mail.Body._ }}</div>
 				</div>
-				<div class="body">{{ mail.Body._ }}</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		</div>
+		<div class="affaire">
+			{% for mail in affaireMsg %}
+				<div class="message">
+					<div class="header">
+						<h2>{{ mail.Subject }}</h2>
+						<h3>{{ 'mail.from'|trans }} : {{ mail.From.Mailbox.Name }}</h3>
+						<div class="date">{{ mail.DateTimeCreated }}</div>
+					</div>
+					<div class="body">{{ mail.Body._ }}</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="other">
+			{% for mail in otherMsg %}
+				<div class="message">
+					<div class="header">
+						<h2>{{ mail.Subject }}</h2>
+						<h3>{{ 'mail.from'|trans }} : {{ mail.From.Mailbox.Name }}</h3>
+						<div class="date">{{ mail.DateTimeCreated }}</div>
+					</div>
+					<div class="body">{{ mail.Body._ }}</div>
+				</div>
+			{% endfor %}
+		</div>
+
 	</div>
 
 {% endblock %}

@@ -11,4 +11,26 @@ $(document).ready(function(){
 
 		}
 	})
+
+	$('#onglet li').click(function(){
+		$('#onglet').find('.active').removeClass('active');
+		$(this).addClass('active');
+		switch ($(this).html()){
+			case 'Boîte de réception':
+				$('.inbox').show();
+				$('.affaire').hide();
+				$('.other').hide();
+				break;
+			case 'Affaires':
+				$('.inbox').hide();
+				$('.affaire').show();
+				$('.other').hide();
+				break;
+			case 'Autres':
+				$('.inbox').hide();
+				$('.affaire').hide();
+				$('.other').show();
+				break;
+		}
+	})
 })

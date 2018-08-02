@@ -43,6 +43,10 @@ thead tr th:hover {
     border-left: 1px solid #454547;
 }
 
+.rappelCol{
+    font-weight: bold;
+}
+
 .cialCol{
     border-right: 1px solid #454547;
 }

@@ -245,7 +245,7 @@ class AffaireController extends Controller
         
         $response = new JsonResponse();
 
-        return $response->setData(array('color' => $commercial->getCouleur()));
+        return $response->setData(array('color' => $commercial?$commercial->getCouleur():null));
     }
 
     /**

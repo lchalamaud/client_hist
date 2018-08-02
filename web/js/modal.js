@@ -136,7 +136,7 @@ function updateTableVal( table, formVal, commColor ){
     table.cell('.selected', 14).data(formVal.provenance);
 
     table.cell('.selected', 15).data(formVal.debut);
-    table.cell('.selected', 18).data('<span class="colorSquare blockColorSquare" style="background-color:'+ commColor +';"></span>'+formVal.commercial);
+    table.cell('.selected', 18).data(formVal.commercial?'<span class="colorSquare blockColorSquare" style="background-color:'+ commColor +';"></span>'+formVal.commercial:'');
     table.cell('.selected', 19).data(formVal.commentaire);
 
     table.page(table.page.info().page).draw('page');

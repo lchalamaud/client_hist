@@ -310,6 +310,7 @@ $(document).ready( function () {
             { 
                 "data": "Rappel",
                 "width": "10%",
+                "className": "rappelCol",
                 "render": function ( data, type, row, meta ){
                     return reorderDate(data);
                 },
@@ -322,18 +323,25 @@ $(document).ready( function () {
             { "data": "Id", "visible": false },               //22
         ],
 
-        "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/45),
+        "pageLength": Math.trunc((window.innerHeight-$('#header').height()-100)/47),
         "order": [[ 17, "desc" ]],
         "dom": 'tpr<"top"i>',
         "autoWidth": false,
         "initComplete": function () {
             this.api().columns(18).every( function () {
                 var column = this;
-                var select = $('<select class="selector"><option value="">Tous</option></select>')
+                var select = $('<select class="selector"><option value="Tous">Tous</option></select>')
                     .appendTo( "#commercialSelect" ).on( 'change', function () {
                         var val = $.fn.dataTable.util.escapeRegex($(this).val());
                         
-                        column.search( val ? '^'+val+'$' : '', true, false ).draw();
+                        if(val === ''){
+                            column.search( '^$', true, false ).draw();
+                        }else if(val === 'Tous'){
+                            column.search( '', true, false ).draw();
+                        }else{
+                            column.search( val ? '^'+val+'$' : '', true, false ).draw();
+                        }
+                        
                     });
  
                 column.data().unique().sort().each( function ( d, j ) {
@@ -342,7 +350,7 @@ $(document).ready( function () {
                 var initComm = commercialPref;
 
                 select.val( initComm );
-                column.search( initComm ).draw();
+                column.search( initComm == 'Tous' ? '' : (!initComm ? '^$' : initComm), true, false ).draw();
 
             });
         },
@@ -414,7 +422,7 @@ $(document).ready( function () {
         timePref = setTimeStep($(this).val());
         min = timePref.min;
         max = timePref.max;
-        console.log('de '+min+' à '+max);
+
         table.draw();
         setConfig();
     });
@@ -465,6 +473,7 @@ $(document).ready( function () {
             tdi.first().removeClass('fa-minus');
             tdi.first().addClass('fa-plus');
             $('#infoArea'+idAffaire).remove();
+            table.draw();
         }
         else {
             row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut, commercial ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+(table.cell(this, 20).data()?table.cell(this, 20).data():'')+'</textarea></div>' + '</div>' ).show();
@@ -571,4 +580,18 @@ $(document).ready( function () {
     
     /*      Auto Update: 5 minute d'inactivité      */
     setInterval(function(){updateTable( table );}, 300000); //300 000ms = 5 minutes
+
+    $(document).keydown(function(event){
+        if( $('#delAffaireModal').is(":hidden") &&
+            $('#addAffaireModal').is(":hidden") &&
+            !$('#searchbox').is(':focus') &&
+            !$('textarea').is(':focus')
+        ){
+            if (event.which == 39){
+                $('#DataTables_Table_0_next').click();
+            }else if (event.which == 37){
+                $('#DataTables_Table_0_previous').click();
+            }
+        }
+    })
 });

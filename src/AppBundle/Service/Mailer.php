@@ -122,13 +122,47 @@ class Mailer
 		return $client->FindItem($requestID);
 	}
 
+    /**
+     *  Recherche les Identifiants des Mails de la boite en paramètre
+     *
+     *  @return : jamesiarmes\PhpEws\Type\ItemIdType
+     */
+    public function getFolderMailId( $folderName )
+    {
+        $client = $this->connectConfig();
+
+        $folder = $this->findFolder( $folderName );
+
+        $requestID = new FindItemType();
+        
+        $requestID->ItemShape = new ItemResponseShapeType();
+        $requestID->ItemShape->BaseShape = 'IdOnly';
+        $requestID->ParentFolderIds = new NonEmptyArrayOfBaseFolderIdsType();
+        $requestID->ParentFolderIds->FolderId = $this->findFolder( $folderName )[0]->FolderId;
+        /*$requestID->ParentFolderIds->DistinguishedFolderId->ChangeKey = $folder[0]->FolderId->ChangeKey;
+        $requestID->ParentFolderIds->DistinguishedFolderId->Id = $folder[0]->FolderId->Id;*/
+
+        $requestID->Traversal = 'Shallow';
+
+        //  Classement Chronologique
+        $requestID->SortOrder = new NonEmptyArrayOfFieldOrdersType();
+        $requestID->SortOrder->FieldOrder = array();
+        $order = new FieldOrderType();
+        $order->FieldURI = new PathToUnindexedFieldType();
+        $order->FieldURI->FieldURI = 'item:DateTimeReceived'; 
+        $order->Order = 'Descending'; 
+        $requestID->SortOrder->FieldOrder[] = $order;
+
+        return $client->FindItem($requestID);
+    }
+
 	/**
      *	Recherche le contenu des mails passés en paramètre.
      *
      *	@param $responseID : liste des jamesiarmes\PhpEws\Type\ItemIdType des mails à chercher.
      *	@return : jamesiarmes\PhpEws\Type\ItemType
      */
-	public function getInboxMail( $responseID )
+	public function getBodyMail( $responseID )
 	{
      	$client = $this->connectConfig();
 

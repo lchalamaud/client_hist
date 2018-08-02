@@ -74,6 +74,10 @@
     line-height: 24px;
 }
 
+.checkboxFilter table tbody tr td img{
+    margin-right: 5px;
+}
+
 .rightBanner{
     margin-right: 13px;
     float: right;
@@ -88,7 +92,7 @@
 }
 #searchbox{
     height: 20px;
-    background-color: #646468;
+    background-color: #5d5d6d;
     border-radius: 2px;
     color: white;
     margin-right: 20px;
