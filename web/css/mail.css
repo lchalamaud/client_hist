@@ -3,12 +3,12 @@
 	border-top: none;
 	border-radius: 7px;
 	width: 90%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 15px;
+	margin: 25px auto;
 	background-color: white;
 	padding-bottom: 20px;
 	padding-top: 0;
+	z-index: 1;
+	position: relative;
 }
 
 #content h1{
