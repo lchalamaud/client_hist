@@ -15,12 +15,12 @@ class Affaire
 	protected $civilite;
 
 	/**
-	 * @ORM\Column(name="nom", type="string", length=31)
+	 * @ORM\Column(name="nom", type="string", length=64)
 	 */
 	protected $nom;
 
 	/**
-	 * @ORM\Column(name="societe", type="string", length=63)
+	 * @ORM\Column(name="societe", type="string", length=128)
 	 */
 	protected $societe;
 
@@ -30,7 +30,7 @@ class Affaire
 	protected $telephone;
 
 	/**
-	 * @ORM\Column(name="email", type="string", length=64)
+	 * @ORM\Column(name="email", type="string", length=128)
 	 */
 	protected $email;
 
@@ -45,12 +45,12 @@ class Affaire
 	protected $complement;
 
 	/**
-	 * @ORM\Column(name="cp", type="integer", length=5, nullable=true)
+	 * @ORM\Column(name="cp", type="integer", length=10, nullable=true)
 	 */
 	protected $cp;
 
 	/**
-	 * @ORM\Column(name="ville", type="string", length=63, nullable=true)
+	 * @ORM\Column(name="ville", type="string", length=64, nullable=true)
 	 */
 	protected $ville;
 
@@ -75,7 +75,7 @@ class Affaire
 	protected $system_Type;
 
 	/**
-	 * @ORM\Column(name="nb_controller", type="integer", length=3, nullable=true)
+	 * @ORM\Column(name="nb_controller", type="integer", length=6, nullable=true)
 	 */
 	protected $nb_Controller;
 

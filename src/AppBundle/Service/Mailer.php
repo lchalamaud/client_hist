@@ -40,14 +40,10 @@ use jamesiarmes\PhpEws\Enumeration\UnindexedFieldURIType;
 
 class Mailer
 {	
-    const HOST = "mail.nextmedia.fr";
-    const USERNAME = "quizzbox\\applicontact";
-    const PASSWORD = "NextMedia63";
-    const VERSION = "";
-    /*const HOST = "exchange.server.com";
+    const HOST = "exchange.server.com";
     const USERNAME = "domainne\\username";
     const PASSWORD = "p******d";
-    const VERSION = "";*/
+    const VERSION = "";
     
     /**
      *	Configure les options de connection au serveur Exchange

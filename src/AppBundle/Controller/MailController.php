@@ -31,7 +31,7 @@ class MailController extends Controller
 
 	/**
 	 * @Route("/mail/", name="mail")
-	 * @Security("has_role('ROLE_ADMIN')")
+	 * @Security("has_role('ROLE_USER')")
 	 */
 	public function readMail()
 	{	

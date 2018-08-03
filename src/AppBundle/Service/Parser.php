@@ -17,12 +17,18 @@ class Parser
 	public function preFilter($mail){
 		$subject = $mail->Subject;
 		$token = explode(" - ", $subject);
+		$isTR = strpos('z'.$subject, "TR:") + strpos('z'.$subject, "FW:") + strpos('z'.$subject, "FWD:"); // 'z'. permet de ne jamais avoir 0 si TR: est le premier mot
+		$isRE = strpos('z'.$subject, "RE:");
+		if( $isTR != 1 && $isRE != 1){
+			$isDemand = stripos('z'.$subject, "Demande");
 
-		if( sizeof( $token ) > 1 || strpos( $subject , " Demande internet provenance mobile" )){
-			return true;
-		}else{
-			return false;
+			if( $isDemand && (sizeof( $token ) > 1 || strpos( $subject , " Demande internet provenance mobile" ))){
+				return true;
+			}
 		}
+
+		return false;
+		
 	}
 
 
@@ -109,9 +115,10 @@ class Parser
 				break;
 		}
 		$affaire->setSociete($this->parseLine($token[2]));
-		if( $this->parseLine($token[3]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[3]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[4]));
@@ -176,9 +183,10 @@ class Parser
 		}
 		
 		$affaire->setSociete($this->parseLine($token[1]));
-		if( $this->parseLine($token[2]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[2]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[3]));
@@ -242,9 +250,10 @@ class Parser
 		}
 		
 		$affaire->setSociete($this->parseLine($token[1]));
-		if( $this->parseLine($token[2]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[2]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[3]));

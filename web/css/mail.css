@@ -78,7 +78,6 @@
 #onglet{
 	padding: 0;
 	margin: 0;
-	border-bottom: 2px solid #F58233;
 	display: flex;
     flex-direction: row;
     align-items: center;
@@ -88,8 +87,8 @@
 #onglet li{
    	font-size: 27px;
 	border: 2px solid #F58233;
-	background-color: #1F212D;
-	color: #F58233;
+	background-color: #b8bbd6;
+	color: #f98836;
 	padding: 12px 18px;
 	border-radius: 7px 7px 0 0;
 	text-align: center;
@@ -99,14 +98,15 @@
 
 #onglet li:hover{
 	cursor: pointer;
-	background-color: #43454f;
+	background-color: #424459;
+	color: #F58233;
 }
 
 #onglet .active{
-	border-bottom: 2px solid #F58233;
-	background-color: #F58233;
-	color: #1F212D;
+	border-bottom: 2px solid #1F212D;
+	background-color: #1F212D;
+	color: #F58233;
 }
 #onglet .active:hover{
-	background-color: #F58233;
+	background-color: #1F212D;
 }

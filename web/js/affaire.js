@@ -268,26 +268,26 @@ $(document).ready( function () {
                 "render": function ( data, type, row, meta ){
                     switch (data){
                         case 'En Cours':
-                            img = '<img src="/images/blue.jpg" class="colorSquare">'
+                            color = '#0061C0';
                             break;
                         case 'Oublié':
-                            img = '<img src="/images/yellow.jpg" class="colorSquare">'
+                            color = '#FDF264';
                             break;
                         case 'Signé':
-                            img = '<img src="/images/green.jpg" class="colorSquare">'
+                            color = '#2DB330';
                             break;
                         case 'Sign EC':
-                            img = '<img src="/images/green_2.jpg" class="colorSquare">'
+                            color = '#229E55';
                             break;
                         case 'Suspendu':
-                            img = '<img src="/images/orange.jpg" class="colorSquare">'
+                            color = '#FF7B3B';
                             break;
                         case 'Fin':
-                            img = '<img src="/images/red.jpg" class="colorSquare">'
+                            color = '#D81415';
                             break;
                     }
 
-                    return img;
+                    return '<span class="colorSquare blockColorSquare" style="background-color:'+ color +';"></span>';
                     
                 },                
             },
