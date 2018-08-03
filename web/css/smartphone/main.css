@@ -8,12 +8,17 @@ body {
     width: 15px;
     height: 15px;
     border-radius: 2px;
-    border: 1px solid grey;
 }
 
 .blockColorSquare{
+    border: 1px solid grey;
     display: block;
 }
+
+.stateColorSquare{
+    display: inline-block;
+}
+
 
 .button{
 	display: none;

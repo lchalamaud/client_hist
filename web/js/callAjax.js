@@ -60,6 +60,17 @@ function setCommercial( table, idAffaire, trData, commercial, color ){
             $('#selectComm'+idAffaire).closest('td').prev().empty().append(color);
 
             $('#selectComm'+idAffaire).closest('td').empty().append(commercial);
+            var $commExist = 0;
+            $('#commercialSelect select option').each(function(){
+                if($(this).html() == commercial){
+                    $commExist = 1;
+                    return false;
+                }
+            })
+            if(!$commExist){
+                $('#commercialSelect select').append('<option val="'+ commercial +'">'+ commercial +'</option>');
+            }
+            
         },
         error: function(){
             $('#selectComm'+idAffaire).closest('td').next().addClass('clickAssign');

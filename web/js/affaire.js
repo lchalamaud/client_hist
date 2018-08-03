@@ -473,7 +473,6 @@ $(document).ready( function () {
             tdi.first().removeClass('fa-minus');
             tdi.first().addClass('fa-plus');
             $('#infoArea'+idAffaire).remove();
-            table.draw();
         }
         else {
             row.child( '<div class=\'slider\'>'+tacheFormat( idAffaire, debut, commercial ) + infoFormat(row.data()) + '<div class="infoText" id="infoArea'+ idAffaire +'"><textarea>'+(table.cell(this, 20).data()?table.cell(this, 20).data():'')+'</textarea></div>' + '</div>' ).show();

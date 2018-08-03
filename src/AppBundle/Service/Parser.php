@@ -17,10 +17,17 @@ class Parser
 	public function preFilter($mail){
 		$subject = $mail->Subject;
 		$token = explode(" - ", $subject);
-		$isTR = strpos('z'.$subject, "TR:") + strpos('z'.$subject, "FW:") + strpos('z'.$subject, "FWD:"); // 'z'. permet de ne jamais avoir 0 si TR: est le premier mot
-		$isRE = strpos('z'.$subject, "RE:");
-		if( $isTR != 1 && $isRE != 1){
-			$isDemand = stripos('z'.$subject, "Demande");
+		$isTR =
+			stripos('z'.$subject, "TR:") +
+			stripos('z'.$subject, "TR :") +
+			stripos('z'.$subject, "FW:") +
+			stripos('z'.$subject, "FW :") +
+			stripos('z'.$subject, "FWD:") +
+			stripos('z'.$subject, "FWD :"); // 'z'. permet de ne jamais avoir 0 si TR: est le premier mot
+		$isRE = stripos('z'.$subject, "RE:") + stripos('z'.$subject, "RE :");
+		$isLU = stripos('z'.$subject, "LU:") + stripos('z'.$subject, "LU :");
+		if( !$isTR && !$isRE && !$isLU ){
+			$isDemand = strpos('z'.$subject, "Demande");
 
 			if( $isDemand && (sizeof( $token ) > 1 || strpos( $subject , " Demande internet provenance mobile" ))){
 				return true;
@@ -41,6 +48,11 @@ class Parser
 	public function parser($mail){
 		$subject = $mail->Subject;
 		$token = explode(" - ", $subject);
+
+		if( sizeof($token) > 2){
+			$token[0] = $token[0].' - '.$token[1];
+			$token[1] = $token[2];
+		}
 
 		if( sizeof($token) > 1){
 			if( $token[1] === "Demande devis site web Allemand" ){
@@ -69,7 +81,6 @@ class Parser
 		}elseif(strpos( $subject , " Demande internet provenance mobile" )){
 			return $this->frContactMobileParser($mail);
 		}
-		
 	}
 
 	/**
@@ -145,7 +156,8 @@ class Parser
 				break;
 		}
 		//Nb systeme...
-		$affaire->setNbController($this->parseLine($token[12]));
+		$nbController = $this->parseLine($token[12]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setProvenance($this->parseLine($token[13]));
 		$affaire->setCommentaire($this->parseLine($token[14]));
 
@@ -212,7 +224,8 @@ class Parser
 		}
 
 		//Nb systeme...
-		$affaire->setNbController($this->parseLine($token[11]));
+		$nbController = $this->parseLine($token[11]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setProvenance($this->parseLine($token[12]));
 		$affaire->setCommentaire($this->parseLine($token[13]));
 
@@ -277,7 +290,8 @@ class Parser
 				$affaire->setSystemType($this->parseLine($token[9]));
 				break;
 		}
-		$affaire->setNbController($this->parseLine($token[10]));
+		$nbController = $this->parseLine($token[10]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setProvenance($this->parseLine($token[11]));
 		$affaire->setCommentaire($this->parseLine($token[12]));
 
@@ -314,9 +328,10 @@ class Parser
 		}
 		
 		$affaire->setSociete($this->parseLine($token[2]));
-		if( $this->parseLine($token[3]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[3]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[4]));
@@ -339,7 +354,8 @@ class Parser
 				$affaire->setSystemType($this->parseLine($token[9]));
 				break;
 		}
-		$affaire->setNbController($this->parseLine($token[10]));
+		$nbController = $this->parseLine($token[10]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setCommentaire($this->parseLine($token[11]));
 
 		$affaire->setDebut(new \DateTime(substr( str_replace("T", " ", $mail->DateTimeReceived), 0, 19)));
@@ -375,9 +391,10 @@ class Parser
 		}
 		
 		$affaire->setSociete($this->parseLine($token[2]));
-		if( $this->parseLine($token[3]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[3]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[4]));
@@ -400,7 +417,8 @@ class Parser
 				$affaire->setSystemType($this->parseLine($token[9]));
 				break;
 		}
-		$affaire->setNbController($this->parseLine($token[10]));
+		$nbController = $this->parseLine($token[10]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setCommentaire($this->parseLine($token[11]));
 
 		$affaire->setDebut(new \DateTime(substr( str_replace("T", " ", $mail->DateTimeReceived), 0, 19)));
@@ -436,9 +454,10 @@ class Parser
 		}
 		
 		$affaire->setSociete($this->parseLine($token[2]));
-		if( $this->parseLine($token[3]) == 'Monsieur'){
+		$civilite = $this->parseLine($token[3]);
+		if( $civilite == 'Monsieur'){
 			$affaire->setCivilite('M.');
-		}else{
+		}elseif( $civilite == 'Madame'){
 			$affaire->setCivilite('Mme');
 		}
 		$affaire->setNom($this->parseLine($token[4]));
@@ -462,7 +481,8 @@ class Parser
 				$affaire->setSystemType($this->parseLine($token[10]));
 				break;
 		}
-		$affaire->setNbController($this->parseLine($token[11]));
+		$nbController = $this->parseLine($token[11]);
+		$affaire->setNbController( $nbController < 999999 ? $nbController : -1 );
 		$affaire->setCommentaire($this->parseLine($token[12]));
 
 		$affaire->setDebut(new \DateTime(substr( str_replace("T", " ", $mail->DateTimeReceived), 0, 19)));

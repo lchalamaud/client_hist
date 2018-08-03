@@ -3,7 +3,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
 <link rel="stylesheet" type="text/css" media="screen and (max-width: 850px)" href="{{ asset('css/smartphone/table.css') }}">
-<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.css') }}">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 850px)" href="{{ asset('css/table.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/modal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/addermodal.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/delmodal.css') }}">
@@ -273,7 +273,7 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('js/affaire.js') }}"></script>
+	<script src="{{ asset('js/affaire.min.js') }}"></script>
 	<script src="{{ asset('js/modal.min.js') }}"></script>
 	<script src="{{ asset('js/callAjax.min.js') }}"></script>
 	<script src="{{ asset('js/preference.min.js') }}"></script>

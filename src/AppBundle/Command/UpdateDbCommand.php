@@ -76,7 +76,7 @@ class UpdateDbCommand extends ContainerAwareCommand
                     $nbAffaire++;
                 }else{
                     $otherIds->ItemId[] = $itemRspMessage->Items->Message[0]->ItemId;
-                }
+                }      
             }
             $em->flush();
             $output->writeln($nbAffaire.' nouvelle'.($nbAffaire>1?'s':'').' affaire'.($nbAffaire>1?'s':'').' créée'.($nbAffaire>1?'s.':'.'));
